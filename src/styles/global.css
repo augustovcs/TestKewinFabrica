@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #0082C3;
+  --color-brand-orange: #FF9100;
+  --color-brand-dark: #1E4E8C;
+  --color-conquista-green: #00A750;
+  --color-conquista-pink: #E30066;
+  --color-surface-light: #F7F7F7;
+  --color-surface-dark: #516279;
+  
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-white text-gray-800 antialiased selection:bg-brand-orange selection:text-white;
+  }
+}
+
+.wave-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+  z-index: 10;
+}
+
+.wave-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
+}
+
+.wave-divider .shape-fill {
+  fill: #FFFFFF;
+}
+
+.wave-divider-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: 10;
+}
+
+.wave-divider-top svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 60px;
+}
+
+.wave-divider-top .shape-fill {
+  fill: #FFFFFF;
+}

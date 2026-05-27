@@ -1,0 +1,32 @@
+---
+// Stats Component
+const stats = [
+  { label: "Anos de Mercado", value: "25+", suffix: "" },
+  { label: "Litros Processados/Dia", value: "50", suffix: "k" },
+  { label: "Produtos no Portfólio", value: "40", suffix: "+" },
+  { label: "Famílias Atendidas", value: "100", suffix: "k+" }
+];
+---
+
+<section id="numeros" class="py-20 bg-brand-dark text-white relative">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center mb-16">
+      <h2 class="text-brand-orange font-bold tracking-wider uppercase text-sm mb-3">Conleite em Números</h2>
+      <h3 class="text-3xl md:text-4xl font-extrabold text-white">Nossa grandeza vem do campo</h3>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center divide-x divide-gray-600/50">
+      {stats.map((stat) => (
+        <div class="px-4">
+          <div class="text-4xl md:text-5xl font-extrabold text-brand-orange mb-2 flex justify-center items-baseline">
+            {stat.value}
+            <span class="text-2xl md:text-3xl ml-1">{stat.suffix}</span>
+          </div>
+          <div class="text-gray-300 font-medium text-sm md:text-base uppercase tracking-wider">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+
+  </div>
+</section>

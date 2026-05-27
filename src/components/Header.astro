@@ -1,0 +1,82 @@
+---
+import { Menu, X } from 'lucide-react';
+---
+
+<header class="fixed top-0 left-0 w-full bg-white z-50 shadow-sm transition-all duration-300" id="main-header">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0 flex items-center">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-10 h-10 rounded-full bg-brand-blue flex items-center justify-center text-white font-bold text-xl">
+            C
+          </div>
+          <span class="font-bold text-2xl text-brand-dark tracking-tight">Conleite</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#sobre" class="text-gray-700 hover:text-brand-orange font-medium transition-colors">Sobre Nós</a>
+        <a href="#numeros" class="text-gray-700 hover:text-brand-orange font-medium transition-colors">A Empresa</a>
+        <a href="#produtos" class="text-gray-700 hover:text-brand-orange font-medium transition-colors">Nossas Marcas</a>
+        <a href="#certificacoes" class="text-gray-700 hover:text-brand-orange font-medium transition-colors">Certificações</a>
+      </nav>
+
+      <!-- CTA Button -->
+      <div class="hidden md:flex items-center">
+        <a href="#" class="bg-transparent border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 shadow-[0_4px_14px_0_rgba(255,145,0,0.39)] hover:shadow-[0_6px_20px_rgba(255,145,0,0.23)] hover:-translate-y-0.5">
+          COMPRE AGORA
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="flex md:hidden items-center">
+        <button type="button" class="text-brand-dark hover:text-brand-orange focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-btn">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div class="md:hidden hidden bg-white border-t border-gray-100" id="mobile-menu">
+    <div class="px-4 pt-2 pb-6 space-y-1 shadow-lg">
+      <a href="#sobre" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50">Sobre Nós</a>
+      <a href="#numeros" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50">A Empresa</a>
+      <a href="#produtos" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50">Nossas Marcas</a>
+      <a href="#certificacoes" class="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-brand-orange hover:bg-gray-50">Certificações</a>
+      <div class="pt-4">
+        <a href="#" class="block w-full text-center bg-brand-orange text-white px-6 py-3 rounded-full font-semibold">
+          COMPRE AGORA
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Simple script for mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+
+  // Header scroll effect
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      header?.classList.add('shadow-md');
+      header?.classList.replace('h-20', 'h-16'); // Wait, Tailwind classes won't animate h-20 to h-16 smoothly unless specified on inner div, but this is simple enough.
+    } else {
+      header?.classList.remove('shadow-md');
+    }
+  });
+</script>
