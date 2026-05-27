@@ -24,15 +24,17 @@ import WaveDivider from '../components/WaveDivider.astro';
 		
 		<!-- Stats with wave transitions -->
 		<div class="relative">
-			<WaveDivider position="top" fillColor="#FFFFFF" className="rotate-180 -scale-x-100 z-10" />
+			<WaveDivider position="top" fillColor="#0F2B4A" className="rotate-180 -scale-x-100 z-10" />
 			<Stats />
+			<WaveDivider position="bottom" fillColor="#F5F7FA" className="z-10" />
 		</div>
 		
 		<!-- Products -->
 		<div class="relative">
+			<WaveDivider position="top" fillColor="#F5F7FA" className="z-10" />
 			<ProductCarousel client:visible />
+			<WaveDivider position="bottom" fillColor="#FFFFFF" className="z-10" />
 		</div>
-		
 		<!-- Certifications Section -->
 		<section id="certificacoes" class="py-28 bg-white relative overflow-hidden">
 			<!-- Subtle background -->
