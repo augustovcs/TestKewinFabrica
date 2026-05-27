@@ -12,49 +12,69 @@ import WaveDivider from '../components/WaveDivider.astro';
 <Layout title="Início">
 	<Header />
 	
-	<main class="pt-20">
+	<main>
+		<!-- Hero - Full screen, no top padding since header is transparent -->
 		<div class="relative">
 			<Hero client:load />
-			<WaveDivider position="bottom" fillColor="#F7F7F7" className="z-20" />
+			<WaveDivider position="bottom" fillColor="#FFFFFF" className="z-20" />
 		</div>
 		
+		<!-- About Section -->
 		<About client:visible />
 		
+		<!-- Stats with wave transitions -->
 		<div class="relative">
-			<WaveDivider position="top" fillColor="#F7F7F7" className="rotate-180 -scale-x-100 z-10" />
+			<WaveDivider position="top" fillColor="#FFFFFF" className="rotate-180 -scale-x-100 z-10" />
+			<Stats />
+		</div>
+		
+		<!-- Products -->
+		<div class="relative">
 			<ProductCarousel client:visible />
 		</div>
 		
-		<Stats />
-		
-		<section id="certificacoes" class="py-24 bg-white relative">
-			<WaveDivider position="top" fillColor="#1E4E8C" className="rotate-180 -scale-x-100 z-10 -mt-1" />
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
+		<!-- Certifications Section -->
+		<section id="certificacoes" class="py-28 bg-white relative overflow-hidden">
+			<!-- Subtle background -->
+			<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-brand-blue/[0.02] pointer-events-none"></div>
+			
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
 				<div class="text-center mb-16">
-					<h2 class="text-brand-orange font-bold tracking-wider uppercase text-sm mb-3">Nossas Certificações</h2>
-					<h3 class="text-3xl md:text-4xl font-extrabold text-brand-dark">Garantia de Qualidade</h3>
+					<div class="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-conquista-green/5 text-conquista-green text-sm font-semibold mb-6 border border-conquista-green/10">
+						<span class="w-1.5 h-1.5 rounded-full bg-conquista-green"></span>
+						CERTIFICAÇÕES
+					</div>
+					<h2 class="text-4xl md:text-5xl font-extrabold text-surface-dark leading-tight">
+						Garantia de<br /><span class="text-brand-blue">Qualidade</span>
+					</h2>
 				</div>
+				
 				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
-						<div class="w-20 h-20 mx-auto bg-white rounded-full border-4 border-brand-blue flex items-center justify-center mb-6 text-brand-blue">
+					<!-- SIF -->
+					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-brand-blue/5 transition-all duration-500 hover:-translate-y-2">
+						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-brand-blue/20 flex items-center justify-center mb-6 text-brand-blue group-hover:scale-110 group-hover:border-brand-blue/40 group-hover:shadow-lg group-hover:shadow-brand-blue/10 transition-all duration-300">
 							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
 						</div>
-						<h4 class="font-bold text-xl mb-3">Inspeção Federal (SIF)</h4>
-						<p class="text-gray-600 text-sm">Garantimos a qualidade rigorosa exigida pelo Ministério da Agricultura em todas as etapas.</p>
+						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-brand-blue transition-colors duration-300">Inspeção Federal (SIF)</h4>
+						<p class="text-gray-500 text-sm leading-relaxed">Garantimos a qualidade rigorosa exigida pelo Ministério da Agricultura em todas as etapas de produção.</p>
 					</div>
-					<div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
-						<div class="w-20 h-20 mx-auto bg-white rounded-full border-4 border-brand-orange flex items-center justify-center mb-6 text-brand-orange">
+					
+					<!-- Lab -->
+					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-brand-orange/5 transition-all duration-500 hover:-translate-y-2">
+						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-brand-orange/20 flex items-center justify-center mb-6 text-brand-orange group-hover:scale-110 group-hover:border-brand-orange/40 group-hover:shadow-lg group-hover:shadow-brand-orange/10 transition-all duration-300">
 							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
 						</div>
-						<h4 class="font-bold text-xl mb-3">Laboratório Próprio</h4>
-						<p class="text-gray-600 text-sm">Testes diários rigorosos para assegurar o mais alto padrão de pureza do nosso leite.</p>
+						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-brand-orange transition-colors duration-300">Laboratório Próprio</h4>
+						<p class="text-gray-500 text-sm leading-relaxed">Testes diários rigorosos para assegurar o mais alto padrão de pureza e sabor do nosso leite.</p>
 					</div>
-					<div class="bg-gray-50 p-8 rounded-2xl border border-gray-100 text-center hover:shadow-xl transition-shadow duration-300">
-						<div class="w-20 h-20 mx-auto bg-white rounded-full border-4 border-conquista-green flex items-center justify-center mb-6 text-conquista-green">
+					
+					<!-- Sustainability -->
+					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-conquista-green/5 transition-all duration-500 hover:-translate-y-2">
+						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-conquista-green/20 flex items-center justify-center mb-6 text-conquista-green group-hover:scale-110 group-hover:border-conquista-green/40 group-hover:shadow-lg group-hover:shadow-conquista-green/10 transition-all duration-300">
 							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
 						</div>
-						<h4 class="font-bold text-xl mb-3">Sustentabilidade</h4>
-						<p class="text-gray-600 text-sm">Compromisso com o meio ambiente no tratamento de efluentes e eficiência energética.</p>
+						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-conquista-green transition-colors duration-300">Sustentabilidade</h4>
+						<p class="text-gray-500 text-sm leading-relaxed">Compromisso com o meio ambiente no tratamento de efluentes e máxima eficiência energética.</p>
 					</div>
 				</div>
 			</div>
@@ -64,7 +84,3 @@ import WaveDivider from '../components/WaveDivider.astro';
 	
 	<Footer />
 </Layout>
-
-<style>
-	/* Any additional minor tweaks can go here */
-</style>

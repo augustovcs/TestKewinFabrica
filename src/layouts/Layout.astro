@@ -3,25 +3,33 @@ import '../styles/global.css';
 
 interface Props {
 	title: string;
+	description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = 'Conleite - Desde 1999, levando o melhor do campo para a sua mesa com qualidade, confiança e o verdadeiro sabor do leite.' } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="pt-BR">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Conleite - Alimentando a vida com qualidade e confiança." />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#0082C3" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>{title} | Família Conleite</title>
+		<title>{title} | Conleite — Do Campo à Sua Mesa</title>
 		
+		<!-- Premium Typography -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+		<!-- Open Graph -->
+		<meta property="og:title" content={`${title} | Conleite`} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
 	</head>
-	<body class="bg-surface-light overflow-x-hidden">
+	<body class="bg-white overflow-x-hidden">
 		<slot />
 	</body>
 </html>
