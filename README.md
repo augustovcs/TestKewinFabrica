@@ -1,0 +1,9 @@
+# TestKewinFabrica
+
+This is a web project built with Astro, React, and Tailwind CSS.
+
+## Getting Started
+
+1. Install dependencies: `npm install`
+2. Start development server: `npm run dev`
+3. Build for production: `npm run build`
