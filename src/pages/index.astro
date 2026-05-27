@@ -21,12 +21,10 @@ import WaveDivider from '../components/WaveDivider.astro';
 		
 		<!-- About Section -->
 		<About client:visible />
-		<div class="relative">
-			<WaveDivider position="bottom" fillColor="#0F2B4A" className="z-10" />
-		</div>
 
 		<!-- Stats with wave transitions -->
 		<div class="relative">
+			<WaveDivider position="top" fillColor="#FFFFFF" className="z-10" />
 			<Stats />
 			<WaveDivider position="bottom" fillColor="#F5F7FA" className="z-10" />
 		</div>
