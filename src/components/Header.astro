@@ -26,43 +26,42 @@ const links = [
   <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-[68px]">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2.5 group" id="logo-link">
+      <a href="/" class="flex items-center gap-2.5 group">
         <span
           id="logo-mark"
           class:list={[
-            "w-9 h-9 rounded-xl flex items-center justify-center font-display font-bold text-lg transition-colors duration-300",
-            transparent ? "bg-white/15 text-white ring-1 ring-white/25" : "bg-brand-blue text-white",
+            "w-9 h-9 rounded-[3px] flex items-center justify-center font-display font-extrabold text-lg transition-colors duration-300",
+            transparent ? "bg-white/15 text-white ring-1 ring-white/25" : "bg-brand-green text-white",
           ]}>C</span>
         <span
           id="logo-text"
           class:list={[
-            "font-display font-bold text-xl tracking-tight transition-colors duration-300",
+            "font-display font-extrabold text-xl tracking-tight transition-colors duration-300",
             transparent ? "text-white" : "text-ink",
           ]}>Conleite</span>
       </a>
 
       <!-- Desktop nav -->
-      <nav class="hidden md:flex items-center gap-1" id="desktop-nav">
+      <nav class="hidden md:flex items-center gap-1">
         {links.map((l) => (
           <a
             href={l.href}
             data-nav
             data-active={isActive(l.href) ? "true" : "false"}
             class:list={[
-              "nav-link px-3.5 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
+              "nav-link px-3.5 py-2 text-sm font-semibold rounded-[3px] transition-colors duration-200",
               transparent ? "text-white/85 hover:text-white hover:bg-white/10" : "text-muted hover:text-ink hover:bg-milk",
-              isActive(l.href) && (transparent ? "text-white" : "text-ink"),
+              isActive(l.href) && (transparent ? "text-white" : "text-brand-green"),
             ]}
           >{l.label}</a>
         ))}
       </nav>
 
       <!-- CTA -->
-      <div class="hidden md:flex items-center gap-3">
+      <div class="hidden md:flex items-center">
         <a
           href="/catalogo"
-          id="cta-button"
-          class="bg-brand-orange text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-orange-dark transition-colors duration-200"
+          class="bg-brand-pink text-white px-5 py-2.5 rounded-[3px] font-semibold text-sm hover:bg-brand-pink-dark transition-colors duration-200"
         >Ver produtos</a>
       </div>
 
@@ -74,7 +73,7 @@ const links = [
         aria-expanded="false"
         aria-label="Abrir menu"
         class:list={[
-          "md:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors",
+          "md:hidden w-10 h-10 flex items-center justify-center rounded-[3px] transition-colors",
           transparent ? "text-white hover:bg-white/10" : "text-ink hover:bg-milk",
         ]}
       >
@@ -88,9 +87,9 @@ const links = [
   <div id="mobile-menu" class="md:hidden hidden border-t border-line bg-white">
     <div class="px-5 py-4 space-y-1">
       {links.map((l) => (
-        <a href={l.href} class="block px-4 py-3 rounded-xl text-base font-medium text-ink hover:bg-milk transition-colors">{l.label}</a>
+        <a href={l.href} class="block px-4 py-3 rounded-[3px] text-base font-semibold text-ink hover:bg-milk transition-colors">{l.label}</a>
       ))}
-      <a href="/catalogo" class="block mt-2 text-center bg-brand-orange text-white px-5 py-3 rounded-full font-semibold">Ver produtos</a>
+      <a href="/catalogo" class="block mt-2 text-center bg-brand-pink text-white px-5 py-3 rounded-[3px] font-semibold">Ver produtos</a>
     </div>
   </div>
 </header>
@@ -119,7 +118,7 @@ const links = [
       logoMark?.classList.toggle("text-white", !on);
       logoMark?.classList.toggle("ring-1", !on);
       logoMark?.classList.toggle("ring-white/25", !on);
-      logoMark?.classList.toggle("bg-brand-blue", on);
+      logoMark?.classList.toggle("bg-brand-green", on);
 
       logoText?.classList.toggle("text-white", !on);
       logoText?.classList.toggle("text-ink", on);
@@ -136,7 +135,7 @@ const links = [
         l.classList.toggle("hover:bg-milk", on);
         if (l.dataset.active === "true") {
           l.classList.toggle("text-white", !on);
-          l.classList.toggle("text-ink", on);
+          l.classList.toggle("text-brand-green", on);
         }
       });
     };

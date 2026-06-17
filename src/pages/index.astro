@@ -25,12 +25,13 @@ const values = [
   },
 ];
 
-const accentText = {
+const accentText: Record<string, string> = {
+  green: "text-brand-green",
+  pink: "text-brand-pink-dark",
   blue: "text-brand-blue",
-  orange: "text-brand-orange-dark",
-  green: "text-conquista-green",
-  pink: "text-conquista-pink",
-} as const;
+  red: "text-brand-red",
+  yellow: "text-amber-600",
+};
 ---
 
 <Layout title="Início">
@@ -43,18 +44,18 @@ const accentText = {
     <section class="bg-white py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         <div class="max-w-2xl mb-14">
-          <span class="text-sm font-semibold text-brand-blue uppercase tracking-wide">Por que Conleite</span>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">
+          <span class="eyebrow">Por que Conleite</span>
+          <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">
             Leite de verdade começa antes da prateleira.
           </h2>
         </div>
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-3 gap-5">
           {values.map((v) => (
-            <div class="rounded-2xl border border-line p-8 hover:border-brand-blue/30 hover:shadow-lg hover:shadow-brand-blue/5 transition-all duration-300">
-              <div class="w-12 h-12 rounded-xl bg-brand-blue-tint flex items-center justify-center text-brand-blue mb-6">
+            <div class="card p-8 hover:border-brand-green/40 transition-colors duration-300">
+              <div class="w-12 h-12 rounded-[3px] bg-brand-green-tint flex items-center justify-center text-brand-green mb-6">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={v.icon} /></svg>
               </div>
-              <h3 class="font-display text-xl font-bold text-ink mb-2">{v.title}</h3>
+              <h3 class="font-display text-xl font-extrabold text-ink mb-2">{v.title}</h3>
               <p class="text-muted leading-relaxed">{v.body}</p>
             </div>
           ))}
@@ -67,12 +68,12 @@ const accentText = {
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div class="max-w-xl">
-            <span class="text-sm font-semibold text-brand-orange-dark uppercase tracking-wide">Catálogo</span>
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">
+            <span class="eyebrow">Catálogo</span>
+            <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">
               Alguns dos nossos destaques
             </h2>
           </div>
-          <a href="/catalogo" class="inline-flex items-center gap-2 font-semibold text-brand-blue hover:gap-3 transition-all">
+          <a href="/catalogo" class="inline-flex items-center gap-2 font-bold text-brand-green hover:gap-3 transition-all">
             Ver catálogo completo
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
           </a>
@@ -80,13 +81,13 @@ const accentText = {
 
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
           {featured.map((p) => (
-            <a href={`/catalogo#${p.id}`} class="group bg-white rounded-2xl overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 transition-all duration-300 hover:-translate-y-1">
+            <a href={`/catalogo#${p.id}`} class="group card overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300 hover:-translate-y-1">
               <div class="aspect-[4/3] overflow-hidden">
                 <img src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
               </div>
               <div class="p-5">
-                <span class={`text-xs font-semibold uppercase tracking-wide ${accentText[p.accent]}`}>{p.brand}</span>
-                <h3 class="font-display font-bold text-ink mt-1.5 leading-snug">{p.name}</h3>
+                <span class={`text-xs font-bold uppercase tracking-wide ${accentText[p.accent]}`}>{p.brand}</span>
+                <h3 class="font-display font-extrabold text-ink mt-1.5 leading-snug">{p.name}</h3>
               </div>
             </a>
           ))}
@@ -94,9 +95,11 @@ const accentText = {
       </div>
     </section>
 
-    <!-- Stats band (signature contrast) -->
-    <section class="bg-night py-20">
-      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <!-- Stats band — dominant green -->
+    <section class="relative bg-brand-green-deep grain py-20 overflow-hidden">
+      <div class="absolute -top-24 right-10 w-96 h-96 rounded-full bg-brand-lime/15 blur-[110px] pointer-events-none"></div>
+      <div class="absolute -bottom-24 left-10 w-96 h-96 rounded-full bg-brand-pink/15 blur-[110px] pointer-events-none"></div>
+      <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {[
             { v: "25+", l: "anos de mercado" },
@@ -105,8 +108,8 @@ const accentText = {
             { v: "100k", l: "famílias atendidas" },
           ].map((s) => (
             <div>
-              <div class="font-display text-4xl md:text-5xl font-bold text-white">{s.v}</div>
-              <div class="text-white/55 text-sm mt-2">{s.l}</div>
+              <div class="font-display text-5xl md:text-6xl font-extrabold text-white">{s.v}</div>
+              <div class="text-white/65 text-sm mt-2 uppercase tracking-wide">{s.l}</div>
             </div>
           ))}
         </div>

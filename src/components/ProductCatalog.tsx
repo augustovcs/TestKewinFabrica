@@ -56,10 +56,10 @@ export default function ProductCatalog() {
             <button
               key={t}
               onClick={() => setFilter(t)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+              className={`px-4 py-2 rounded-[3px] text-sm font-semibold transition-colors ${
                 active
-                  ? "bg-ink text-white"
-                  : "bg-white text-muted border border-line hover:text-ink hover:border-ink/30"
+                  ? "bg-brand-green text-white"
+                  : "bg-white text-muted border border-line hover:text-ink hover:border-brand-green/40"
               }`}
             >
               {t}
@@ -82,7 +82,7 @@ export default function ProductCatalog() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.35, ease }}
                 onClick={() => setSelected(p)}
-                className="group text-left bg-white rounded-2xl overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300"
+                className="group text-left bg-white rounded-[4px] overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="aspect-[4/3] overflow-hidden relative">
                   <img
@@ -91,19 +91,19 @@ export default function ProductCatalog() {
                     loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className={`absolute top-3 left-3 text-[11px] font-semibold uppercase tracking-wide text-white px-2.5 py-1 rounded-full ${a.bg}`}>
+                  <span className={`absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-[2px] ${a.bg}`}>
                     {p.category}
                   </span>
                 </div>
                 <div className="p-5">
-                  <span className={`text-xs font-semibold uppercase tracking-wide ${a.text}`}>
+                  <span className={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
                     {p.brand}
                   </span>
-                  <h3 className="font-display font-bold text-lg text-ink mt-1.5 leading-snug">
+                  <h3 className="font-display font-extrabold text-lg text-ink mt-1.5 leading-snug">
                     {p.name}
                   </h3>
                   <p className="text-muted text-sm mt-2 leading-relaxed">{p.tagline}</p>
-                  <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink mt-4 group-hover:gap-2.5 transition-all">
+                  <span className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-green mt-4 group-hover:gap-2.5 transition-all">
                     Ver detalhes
                     <ArrowRight className="w-4 h-4" />
                   </span>
@@ -134,7 +134,7 @@ export default function ProductCatalog() {
               exit={{ opacity: 0, y: 30, scale: 0.98 }}
               transition={{ duration: 0.35, ease }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl shadow-2xl"
+              className="bg-white w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-[10px] sm:rounded-[6px] shadow-2xl"
             >
               <ModalContent product={selected} onClose={close} />
             </motion.div>
@@ -155,7 +155,7 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         <button
           onClick={onClose}
           aria-label="Fechar"
-          className="absolute top-4 right-4 md:hidden w-9 h-9 rounded-full bg-white/90 text-ink flex items-center justify-center hover:bg-white transition-colors"
+          className="absolute top-4 right-4 md:hidden w-9 h-9 rounded-[3px] bg-white/90 text-ink flex items-center justify-center hover:bg-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -166,15 +166,15 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         <button
           onClick={onClose}
           aria-label="Fechar"
-          className="absolute top-5 right-5 hidden md:flex w-9 h-9 rounded-full bg-milk text-muted items-center justify-center hover:bg-line hover:text-ink transition-colors"
+          className="absolute top-5 right-5 hidden md:flex w-9 h-9 rounded-[3px] bg-milk text-muted items-center justify-center hover:bg-line hover:text-ink transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <span className={`text-xs font-semibold uppercase tracking-wide ${a.text}`}>
+        <span className={`text-xs font-bold uppercase tracking-wide ${a.text}`}>
           {product.brand}
         </span>
-        <h2 className="font-display text-2xl font-bold text-ink mt-1.5 leading-tight pr-8">
+        <h2 className="font-display text-2xl font-extrabold text-ink mt-1.5 leading-tight pr-8">
           {product.name}
         </h2>
         <p className="text-muted leading-relaxed mt-3">{product.description}</p>
@@ -182,7 +182,7 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         {/* Badges */}
         <div className="flex flex-wrap gap-2 mt-5">
           {product.badges.map((b) => (
-            <span key={b} className={`text-xs font-semibold px-3 py-1.5 rounded-full ${a.soft} ${a.text}`}>
+            <span key={b} className={`text-xs font-semibold px-3 py-1.5 rounded-[3px] ${a.soft} ${a.text}`}>
               {b}
             </span>
           ))}
@@ -202,7 +202,7 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         </div>
 
         {/* Tabela nutricional — assinatura do catálogo */}
-        <div className="mt-7 border-2 border-ink rounded-xl overflow-hidden">
+        <div className="mt-7 border-2 border-ink rounded-[4px] overflow-hidden">
           <div className="bg-ink text-white px-4 py-2.5">
             <div className="font-display font-bold text-sm tracking-wide">INFORMAÇÃO NUTRICIONAL</div>
             <div className="text-white/60 text-xs">Porção de {product.servingSize}</div>
@@ -229,14 +229,6 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
             *Valores diários de referência (2.000 kcal). Valores ilustrativos.
           </p>
         </div>
-
-        <a
-          href="mailto:contato@conleite.com.br"
-          className="mt-7 inline-flex items-center justify-center w-full gap-2 bg-brand-orange text-white px-6 py-3.5 rounded-full font-semibold hover:bg-brand-orange-dark transition-colors"
-        >
-          Onde encontrar
-          <ArrowRight className="w-4 h-4" />
-        </a>
       </div>
     </div>
   );

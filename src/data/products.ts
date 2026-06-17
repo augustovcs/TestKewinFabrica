@@ -24,7 +24,7 @@ export interface Product {
   description: string;
   image: string;
   /** cor de destaque por linha de produto */
-  accent: "blue" | "orange" | "green" | "pink";
+  accent: "green" | "pink" | "blue" | "red" | "yellow";
   /** selos / atributos */
   badges: string[];
   /** modos de uso / sugestões */
@@ -45,7 +45,7 @@ export const products: Product[] = [
     description:
       "Nosso leite integral preserva o sabor encorpado e cremoso de sempre. Coletado de produtores parceiros da região e processado em até 24 horas, mantém as vitaminas e o cálcio que sustentam a rotina da família.",
     image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?q=80&w=900&auto=format&fit=crop",
-    accent: "blue",
+    accent: "red",
     badges: ["SIF", "Fonte de cálcio", "Embalagem 1L"],
     uses: ["Café da manhã", "Vitaminas e shakes", "Receitas e mingaus"],
     servingSize: "200 ml (1 copo)",
@@ -69,6 +69,7 @@ export const products: Product[] = [
       "Para quem busca equilíbrio sem abrir mão do leite de verdade. Zero gordura, mantendo as proteínas e o cálcio. Sabor suave, ideal para o dia a dia de quem cuida da alimentação.",
     image: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0?q=80&w=900&auto=format&fit=crop",
     accent: "blue",
+    // (desnatado — código azul, mantido)
     badges: ["SIF", "0% gordura", "Embalagem 1L"],
     uses: ["Dietas equilibradas", "Café e cappuccino", "Pós-treino"],
     servingSize: "200 ml (1 copo)",
@@ -91,7 +92,7 @@ export const products: Product[] = [
     description:
       "O equilíbrio perfeito entre a leveza do desnatado e a cremosidade do integral. Indicado para toda a família que quer reduzir gordura sem perder o sabor de um bom leite.",
     image: "https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=900&auto=format&fit=crop",
-    accent: "blue",
+    accent: "green",
     badges: ["SIF", "1% gordura", "Embalagem 1L"],
     uses: ["Toda a família", "Café da manhã", "Receitas leves"],
     servingSize: "200 ml (1 copo)",
@@ -160,7 +161,7 @@ export const products: Product[] = [
     description:
       "A queridinha da lancheira: bebida láctea sabor chocolate, prática para levar a qualquer lugar. Sabor que conquista a criançada e dá aquele gás na correria do dia.",
     image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?q=80&w=900&auto=format&fit=crop",
-    accent: "orange",
+    accent: "pink",
     badges: ["SIF", "Prática 200ml", "Fonte de cálcio"],
     uses: ["Lancheira escolar", "Lanche rápido", "Geladinha"],
     servingSize: "200 ml (1 embalagem)",
@@ -183,7 +184,7 @@ export const products: Product[] = [
     description:
       "Produzida a partir do creme fresco do nosso leite, com o ponto certo de sal. Aquele aroma e sabor que transformam o pão da manhã num momento especial.",
     image: "https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?q=80&w=900&auto=format&fit=crop",
-    accent: "orange",
+    accent: "yellow",
     badges: ["SIF", "Pote 200g", "Creme fresco"],
     uses: ["Pão na chapa", "Bolos e massas", "Finalização de pratos"],
     servingSize: "10 g (1 colher de chá)",
@@ -206,6 +207,7 @@ export const products: Product[] = [
       "Creme de leite homogêneo e estável, ideal para dar liga e cremosidade a doces, molhos e estrogonofes. Da nossa cozinha para a sua.",
     image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?q=80&w=900&auto=format&fit=crop",
     accent: "blue",
+    // (creme de leite — código azul)
     badges: ["SIF", "Caixinha 200g", "Pronto para uso"],
     uses: ["Estrogonofe", "Molhos cremosos", "Sobremesas"],
     servingSize: "30 g (1 colher de sopa)",
@@ -222,10 +224,11 @@ export const products: Product[] = [
 
 export const accentClasses: Record<
   Product["accent"],
-  { text: string; bg: string; soft: string; ring: string }
+  { text: string; bg: string; soft: string }
 > = {
-  blue: { text: "text-brand-blue", bg: "bg-brand-blue", soft: "bg-brand-blue-tint", ring: "ring-brand-blue/20" },
-  orange: { text: "text-brand-orange-dark", bg: "bg-brand-orange", soft: "bg-brand-orange-tint", ring: "ring-brand-orange/20" },
-  green: { text: "text-conquista-green", bg: "bg-conquista-green", soft: "bg-conquista-green/10", ring: "ring-conquista-green/20" },
-  pink: { text: "text-conquista-pink", bg: "bg-conquista-pink", soft: "bg-conquista-pink/10", ring: "ring-conquista-pink/20" },
+  green:  { text: "text-brand-green",     bg: "bg-brand-green",  soft: "bg-brand-green-tint" },
+  pink:   { text: "text-brand-pink-dark", bg: "bg-brand-pink",   soft: "bg-brand-pink-tint" },
+  blue:   { text: "text-brand-blue",      bg: "bg-brand-blue",   soft: "bg-brand-blue/10" },
+  red:    { text: "text-brand-red",       bg: "bg-brand-red",    soft: "bg-brand-red/10" },
+  yellow: { text: "text-amber-600",       bg: "bg-brand-yellow", soft: "bg-amber-100" },
 };
