@@ -1,88 +1,118 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Hero from '../components/Hero';
-import About from '../components/About';
-import ProductCarousel from '../components/ProductCarousel';
-import Stats from '../components/Stats.astro';
-import WaveDivider from '../components/WaveDivider.astro';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Hero from "../components/Hero";
+import { products } from "../data/products";
+
+const featured = products.slice(0, 4);
+
+const values = [
+  {
+    title: "Produtores da região",
+    body: "Parceria direta com fazendas vizinhas. O leite sai do pasto e chega à fábrica em poucas horas.",
+    icon: "M3.06 11H5a2 2 0 0 1 2 2v1a2 2 0 0 0 2 2 2 2 0 0 1 2 2v2.95M8 3.94V5.5A2.5 2.5 0 0 0 10.5 8h.5a2 2 0 0 1 2 2 2 2 0 1 0 4 0 2 2 0 0 1 2-2h1.06M15 20.49V18a2 2 0 0 1 2-2h3.06M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  },
+  {
+    title: "Inspeção e laboratório",
+    body: "Selo SIF e laboratório próprio com testes diários. Cada lote é conferido antes de seguir viagem.",
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
+  },
+  {
+    title: "Sabor que se repete",
+    body: "Padrão constante há mais de 25 anos. O leite que você lembra da infância, do mesmo jeito.",
+    icon: "M4.318 6.318a4.5 4.5 0 0 0 0 6.364L12 20.364l7.682-7.682a4.5 4.5 0 0 0-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 0 0-6.364 0Z",
+  },
+];
+
+const accentText = {
+  blue: "text-brand-blue",
+  orange: "text-brand-orange-dark",
+  green: "text-conquista-green",
+  pink: "text-conquista-pink",
+} as const;
 ---
 
 <Layout title="Início">
-	<Header />
-	
-	<main>
-		<!-- Hero - Full screen, no top padding since header is transparent -->
-		<div class="relative">
-			<Hero client:load />
-			<WaveDivider position="bottom" fillColor="#FFFFFF" className="z-20" />
-		</div>
-		
-		<!-- About Section -->
-		<About client:visible />
+  <Header transparent />
 
-		<!-- Stats with wave transitions -->
-		<div class="relative">
-			<WaveDivider position="top" fillColor="#FFFFFF" className="z-10" />
-			<Stats />
-			<WaveDivider position="bottom" fillColor="#F5F7FA" className="z-10" />
-		</div>
-		
-		<!-- Products -->
-		<div class="relative">
-			<WaveDivider position="top" fillColor="#F5F7FA" className="z-10" />
-			<ProductCarousel client:visible />
-			<WaveDivider position="bottom" fillColor="#FFFFFF" className="z-10" />
-		</div>
-		<!-- Certifications Section -->
-		<section id="certificacoes" class="py-28 bg-white relative overflow-hidden">
-			<!-- Subtle background -->
-			<div class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] rounded-full bg-brand-blue/[0.02] pointer-events-none"></div>
-			
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-				<div class="text-center mb-16">
-					<div class="inline-flex items-center gap-2 py-2 px-5 rounded-full bg-conquista-green/5 text-conquista-green text-sm font-semibold mb-6 border border-conquista-green/10">
-						<span class="w-1.5 h-1.5 rounded-full bg-conquista-green"></span>
-						CERTIFICAÇÕES
-					</div>
-					<h2 class="text-4xl md:text-5xl font-extrabold text-surface-dark leading-tight">
-						Garantia de<br /><span class="text-brand-blue">Qualidade</span>
-					</h2>
-				</div>
-				
-				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-					<!-- SIF -->
-					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-brand-blue/5 transition-all duration-500 hover:-translate-y-2">
-						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-brand-blue/20 flex items-center justify-center mb-6 text-brand-blue group-hover:scale-110 group-hover:border-brand-blue/40 group-hover:shadow-lg group-hover:shadow-brand-blue/10 transition-all duration-300">
-							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-						</div>
-						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-brand-blue transition-colors duration-300">Inspeção Federal (SIF)</h4>
-						<p class="text-gray-500 text-sm leading-relaxed">Garantimos a qualidade rigorosa exigida pelo Ministério da Agricultura em todas as etapas de produção.</p>
-					</div>
-					
-					<!-- Lab -->
-					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-brand-orange/5 transition-all duration-500 hover:-translate-y-2">
-						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-brand-orange/20 flex items-center justify-center mb-6 text-brand-orange group-hover:scale-110 group-hover:border-brand-orange/40 group-hover:shadow-lg group-hover:shadow-brand-orange/10 transition-all duration-300">
-							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
-						</div>
-						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-brand-orange transition-colors duration-300">Laboratório Próprio</h4>
-						<p class="text-gray-500 text-sm leading-relaxed">Testes diários rigorosos para assegurar o mais alto padrão de pureza e sabor do nosso leite.</p>
-					</div>
-					
-					<!-- Sustainability -->
-					<div class="group bg-surface-light p-8 rounded-3xl border border-gray-100 text-center hover:shadow-2xl hover:shadow-conquista-green/5 transition-all duration-500 hover:-translate-y-2">
-						<div class="w-20 h-20 mx-auto bg-white rounded-2xl border-2 border-conquista-green/20 flex items-center justify-center mb-6 text-conquista-green group-hover:scale-110 group-hover:border-conquista-green/40 group-hover:shadow-lg group-hover:shadow-conquista-green/10 transition-all duration-300">
-							<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-						</div>
-						<h4 class="font-bold text-xl mb-3 text-surface-dark group-hover:text-conquista-green transition-colors duration-300">Sustentabilidade</h4>
-						<p class="text-gray-500 text-sm leading-relaxed">Compromisso com o meio ambiente no tratamento de efluentes e máxima eficiência energética.</p>
-					</div>
-				</div>
-			</div>
-		</section>
-		
-	</main>
-	
-	<Footer />
+  <main>
+    <Hero client:load />
+
+    <!-- Values -->
+    <section class="bg-white py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-14">
+          <span class="text-sm font-semibold text-brand-blue uppercase tracking-wide">Por que Conleite</span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">
+            Leite de verdade começa antes da prateleira.
+          </h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {values.map((v) => (
+            <div class="rounded-2xl border border-line p-8 hover:border-brand-blue/30 hover:shadow-lg hover:shadow-brand-blue/5 transition-all duration-300">
+              <div class="w-12 h-12 rounded-xl bg-brand-blue-tint flex items-center justify-center text-brand-blue mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={v.icon} /></svg>
+              </div>
+              <h3 class="font-display text-xl font-bold text-ink mb-2">{v.title}</h3>
+              <p class="text-muted leading-relaxed">{v.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured products -->
+    <section class="bg-milk py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div class="max-w-xl">
+            <span class="text-sm font-semibold text-brand-orange-dark uppercase tracking-wide">Catálogo</span>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">
+              Alguns dos nossos destaques
+            </h2>
+          </div>
+          <a href="/catalogo" class="inline-flex items-center gap-2 font-semibold text-brand-blue hover:gap-3 transition-all">
+            Ver catálogo completo
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
+          {featured.map((p) => (
+            <a href={`/catalogo#${p.id}`} class="group bg-white rounded-2xl overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 transition-all duration-300 hover:-translate-y-1">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+              </div>
+              <div class="p-5">
+                <span class={`text-xs font-semibold uppercase tracking-wide ${accentText[p.accent]}`}>{p.brand}</span>
+                <h3 class="font-display font-bold text-ink mt-1.5 leading-snug">{p.name}</h3>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats band (signature contrast) -->
+    <section class="bg-night py-20">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { v: "25+", l: "anos de mercado" },
+            { v: "50k", l: "litros por dia" },
+            { v: "40+", l: "produtos no portfólio" },
+            { v: "100k", l: "famílias atendidas" },
+          ].map((s) => (
+            <div>
+              <div class="font-display text-4xl md:text-5xl font-bold text-white">{s.v}</div>
+              <div class="text-white/55 text-sm mt-2">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
 </Layout>

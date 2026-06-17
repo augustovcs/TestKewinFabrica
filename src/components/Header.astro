@@ -1,156 +1,160 @@
 ---
+interface Props {
+  /** quando true, o header começa transparente sobre o hero (apenas na home) */
+  transparent?: boolean;
+}
+const { transparent = false } = Astro.props;
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+
+const links = [
+  { href: "/", label: "Início" },
+  { href: "/sobre", label: "A Empresa" },
+  { href: "/catalogo", label: "Catálogo" },
+];
 ---
 
-<header class="fixed top-0 left-0 w-full z-50 transition-all duration-500" id="main-header">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-20 transition-all duration-500" id="header-inner">
-      
+<header
+  id="main-header"
+  data-transparent={transparent ? "true" : "false"}
+  class:list={[
+    "fixed top-0 left-0 w-full z-50 transition-all duration-300",
+    transparent ? "bg-transparent" : "bg-white/90 backdrop-blur-md border-b border-line",
+  ]}
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-[68px]">
       <!-- Logo -->
-      <div class="flex-shrink-0 flex items-center">
-        <a href="/" class="flex items-center gap-3 group" id="logo-link">
-          <div class="relative w-11 h-11 rounded-full bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center text-white font-bold text-xl transition-all duration-300 group-hover:scale-110 group-hover:bg-brand-orange" id="logo-circle">
-            C
-          </div>
-          <div class="flex flex-col" id="logo-text-container">
-            <span class="font-bold text-2xl text-white tracking-tight transition-colors duration-300" id="logo-text">Conleite</span>
-            <span class="text-[10px] text-white/60 uppercase tracking-[0.2em] font-medium leading-none transition-colors duration-300" id="logo-subtitle">laticínios</span>
-          </div>
-        </a>
-      </div>
+      <a href="/" class="flex items-center gap-2.5 group" id="logo-link">
+        <span
+          id="logo-mark"
+          class:list={[
+            "w-9 h-9 rounded-xl flex items-center justify-center font-display font-bold text-lg transition-colors duration-300",
+            transparent ? "bg-white/15 text-white ring-1 ring-white/25" : "bg-brand-blue text-white",
+          ]}>C</span>
+        <span
+          id="logo-text"
+          class:list={[
+            "font-display font-bold text-xl tracking-tight transition-colors duration-300",
+            transparent ? "text-white" : "text-ink",
+          ]}>Conleite</span>
+      </a>
 
-      <!-- Desktop Navigation -->
+      <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-1" id="desktop-nav">
-        <a href="#sobre" class="nav-link relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-all duration-300 rounded-full hover:bg-white/10" id="nav-sobre">
-          Sobre Nós
-        </a>
-        <a href="#numeros" class="nav-link relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-all duration-300 rounded-full hover:bg-white/10" id="nav-empresa">
-          A Empresa
-        </a>
-        <a href="#produtos" class="nav-link relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-all duration-300 rounded-full hover:bg-white/10" id="nav-marcas">
-          Nossas Marcas
-        </a>
-        <a href="#certificacoes" class="nav-link relative px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-all duration-300 rounded-full hover:bg-white/10" id="nav-cert">
-          Certificações
-        </a>
+        {links.map((l) => (
+          <a
+            href={l.href}
+            data-nav
+            data-active={isActive(l.href) ? "true" : "false"}
+            class:list={[
+              "nav-link px-3.5 py-2 text-sm font-medium rounded-lg transition-colors duration-200",
+              transparent ? "text-white/85 hover:text-white hover:bg-white/10" : "text-muted hover:text-ink hover:bg-milk",
+              isActive(l.href) && (transparent ? "text-white" : "text-ink"),
+            ]}
+          >{l.label}</a>
+        ))}
       </nav>
 
-      <!-- CTA Button -->
-      <div class="hidden md:flex items-center" id="cta-container">
-        <a href="#contato" class="relative overflow-hidden bg-brand-orange text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all duration-300 hover:shadow-[0_8px_25px_rgba(255,145,0,0.5)] hover:-translate-y-0.5 group" id="cta-button">
-          <span class="relative z-10">FALE CONOSCO</span>
-          <div class="absolute inset-0 bg-gradient-to-r from-brand-orange-dark to-brand-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </a>
+      <!-- CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <a
+          href="/catalogo"
+          id="cta-button"
+          class="bg-brand-orange text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-orange-dark transition-colors duration-200"
+        >Ver produtos</a>
       </div>
 
-      <!-- Mobile menu button -->
-      <div class="flex md:hidden items-center">
-        <button type="button" class="relative w-10 h-10 flex items-center justify-center text-white hover:text-brand-orange focus:outline-none rounded-full hover:bg-white/10 transition-all duration-300" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-btn">
-          <svg class="h-6 w-6 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="menu-icon">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <svg class="h-6 w-6 absolute transition-transform duration-300 opacity-0 scale-75" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="close-icon">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
+      <!-- Mobile toggle -->
+      <button
+        type="button"
+        id="mobile-menu-btn"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Abrir menu"
+        class:list={[
+          "md:hidden w-10 h-10 flex items-center justify-center rounded-lg transition-colors",
+          transparent ? "text-white hover:bg-white/10" : "text-ink hover:bg-milk",
+        ]}
+      >
+        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" /></svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12" /></svg>
+      </button>
     </div>
   </div>
 
-  <!-- Mobile Menu (Hidden by default) -->
-  <div class="md:hidden overflow-hidden transition-all duration-500 max-h-0 opacity-0" id="mobile-menu">
-    <div class="px-4 pt-2 pb-6 space-y-1 glass mx-4 mb-4 rounded-2xl">
-      <a href="#sobre" class="block px-4 py-3 rounded-xl text-base font-medium text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300">Sobre Nós</a>
-      <a href="#numeros" class="block px-4 py-3 rounded-xl text-base font-medium text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300">A Empresa</a>
-      <a href="#produtos" class="block px-4 py-3 rounded-xl text-base font-medium text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300">Nossas Marcas</a>
-      <a href="#certificacoes" class="block px-4 py-3 rounded-xl text-base font-medium text-white/80 hover:text-white hover:bg-white/10 transition-all duration-300">Certificações</a>
-      <div class="pt-4 px-4">
-        <a href="#contato" class="block w-full text-center bg-brand-orange text-white px-6 py-3 rounded-full font-semibold shadow-lg">
-          FALE CONOSCO
-        </a>
-      </div>
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-line bg-white">
+    <div class="px-5 py-4 space-y-1">
+      {links.map((l) => (
+        <a href={l.href} class="block px-4 py-3 rounded-xl text-base font-medium text-ink hover:bg-milk transition-colors">{l.label}</a>
+      ))}
+      <a href="/catalogo" class="block mt-2 text-center bg-brand-orange text-white px-5 py-3 rounded-full font-semibold">Ver produtos</a>
     </div>
   </div>
 </header>
 
 <script>
-  const header = document.getElementById('main-header');
-  const logoCircle = document.getElementById('logo-circle');
-  const logoText = document.getElementById('logo-text');
-  const logoSubtitle = document.getElementById('logo-subtitle');
-  const navLinks = document.querySelectorAll('.nav-link');
-  const ctaButton = document.getElementById('cta-button');
-  let isScrolled = false;
+  const header = document.getElementById("main-header");
+  const startsTransparent = header?.dataset.transparent === "true";
 
-  function updateHeader() {
-    const scrolled = window.scrollY > 60;
-    if (scrolled === isScrolled) return;
-    isScrolled = scrolled;
+  if (startsTransparent && header) {
+    const logoMark = document.getElementById("logo-mark");
+    const logoText = document.getElementById("logo-text");
+    const navLinks = document.querySelectorAll<HTMLElement>("[data-nav]");
+    const toggle = document.getElementById("mobile-menu-btn");
+    let solid = false;
 
-    if (scrolled) {
-      header?.classList.add('bg-white/95', 'backdrop-blur-xl', 'shadow-lg', 'shadow-black/5');
-      logoCircle?.classList.remove('bg-white/20', 'border-white/30', 'text-white');
-      logoCircle?.classList.add('bg-brand-blue', 'border-brand-blue', 'text-white');
-      logoText?.classList.remove('text-white');
-      logoText?.classList.add('text-surface-dark');
-      logoSubtitle?.classList.remove('text-white/60');
-      logoSubtitle?.classList.add('text-gray-400');
-      navLinks.forEach(link => {
-        link.classList.remove('text-white/80', 'hover:text-white', 'hover:bg-white/10');
-        link.classList.add('text-gray-600', 'hover:text-brand-blue', 'hover:bg-brand-blue/5');
+    const setSolid = (on: boolean) => {
+      if (on === solid) return;
+      solid = on;
+      header.classList.toggle("bg-transparent", !on);
+      header.classList.toggle("bg-white/90", on);
+      header.classList.toggle("backdrop-blur-md", on);
+      header.classList.toggle("border-b", on);
+      header.classList.toggle("border-line", on);
+
+      logoMark?.classList.toggle("bg-white/15", !on);
+      logoMark?.classList.toggle("text-white", !on);
+      logoMark?.classList.toggle("ring-1", !on);
+      logoMark?.classList.toggle("ring-white/25", !on);
+      logoMark?.classList.toggle("bg-brand-blue", on);
+
+      logoText?.classList.toggle("text-white", !on);
+      logoText?.classList.toggle("text-ink", on);
+
+      toggle?.classList.toggle("text-white", !on);
+      toggle?.classList.toggle("text-ink", on);
+
+      navLinks.forEach((l) => {
+        l.classList.toggle("text-white/85", !on);
+        l.classList.toggle("hover:text-white", !on);
+        l.classList.toggle("hover:bg-white/10", !on);
+        l.classList.toggle("text-muted", on);
+        l.classList.toggle("hover:text-ink", on);
+        l.classList.toggle("hover:bg-milk", on);
+        if (l.dataset.active === "true") {
+          l.classList.toggle("text-white", !on);
+          l.classList.toggle("text-ink", on);
+        }
       });
-    } else {
-      header?.classList.remove('bg-white/95', 'backdrop-blur-xl', 'shadow-lg', 'shadow-black/5');
-      logoCircle?.classList.add('bg-white/20', 'border-white/30', 'text-white');
-      logoCircle?.classList.remove('bg-brand-blue', 'border-brand-blue');
-      logoText?.classList.add('text-white');
-      logoText?.classList.remove('text-surface-dark');
-      logoSubtitle?.classList.add('text-white/60');
-      logoSubtitle?.classList.remove('text-gray-400');
-      navLinks.forEach(link => {
-        link.classList.add('text-white/80', 'hover:text-white', 'hover:bg-white/10');
-        link.classList.remove('text-gray-600', 'hover:text-brand-blue', 'hover:bg-brand-blue/5');
-      });
-    }
+    };
+
+    const onScroll = () => setSolid(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
   }
-
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  updateHeader();
 
   // Mobile menu toggle
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-  let menuOpen = false;
-
-  if (btn && menu) {
-    btn.addEventListener('click', () => {
-      menuOpen = !menuOpen;
-      if (menuOpen) {
-        menu.style.maxHeight = menu.scrollHeight + 'px';
-        menu.classList.remove('opacity-0');
-        menu.classList.add('opacity-100');
-        menuIcon?.classList.add('opacity-0', 'scale-75');
-        closeIcon?.classList.remove('opacity-0', 'scale-75');
-      } else {
-        menu.style.maxHeight = '0';
-        menu.classList.add('opacity-0');
-        menu.classList.remove('opacity-100');
-        menuIcon?.classList.remove('opacity-0', 'scale-75');
-        closeIcon?.classList.add('opacity-0', 'scale-75');
-      }
-    });
-
-    // Close on link click
-    menu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        menuOpen = false;
-        menu.style.maxHeight = '0';
-        menu.classList.add('opacity-0');
-        menu.classList.remove('opacity-100');
-        menuIcon?.classList.remove('opacity-0', 'scale-75');
-        closeIcon?.classList.add('opacity-0', 'scale-75');
-      });
-    });
-  }
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+  btn?.addEventListener("click", () => {
+    const open = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+    menuIcon?.classList.toggle("hidden", open);
+    closeIcon?.classList.toggle("hidden", !open);
+  });
 </script>

@@ -1,0 +1,146 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+const timeline = [
+  { year: "1999", title: "O começo", body: "A Conleite nasce em Vitória da Conquista com uma pequena linha de pasteurização e parceria com fazendas vizinhas." },
+  { year: "2008", title: "Nova fábrica", body: "Inauguração da unidade ampliada, com processamento UHT e capacidade para atender toda a região." },
+  { year: "2015", title: "Selo SIF", body: "Conquista da Inspeção Federal e implantação do laboratório próprio para controle diário de qualidade." },
+  { year: "2019", title: "Marca Conquista", body: "Lançamento da linha Laticínios Conquista — iogurtes e bebidas lácteas para o dia a dia das famílias." },
+  { year: "Hoje", title: "40+ produtos", body: "Mais de 50 mil litros processados por dia e um portfólio que cresce sem perder o sabor de sempre." },
+];
+
+const principles = [
+  { title: "Cuidado", body: "Tratar o alimento da família como se fosse o nosso. Esse é o ponto de partida de toda decisão." },
+  { title: "Origem", body: "Valorizar o produtor local. Quando a região prospera, o leite que chega é melhor." },
+  { title: "Constância", body: "Qualidade não é evento, é hábito. O mesmo padrão todos os dias, em cada lote." },
+];
+
+const certs = [
+  { title: "Inspeção Federal (SIF)", body: "Produção fiscalizada pelo Ministério da Agricultura em todas as etapas." },
+  { title: "Laboratório próprio", body: "Análises diárias de pureza, gordura e segurança antes de qualquer lote sair." },
+  { title: "Sustentabilidade", body: "Tratamento de efluentes e eficiência energética como parte do processo." },
+];
+---
+
+<Layout title="A Empresa">
+  <Header />
+
+  <main class="pt-[68px]">
+    <!-- Intro -->
+    <section class="bg-white py-20 md:py-28">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-14 items-center">
+          <div>
+            <span class="text-sm font-semibold text-brand-blue uppercase tracking-wide">Quem somos</span>
+            <h1 class="font-display text-4xl md:text-6xl font-bold text-ink mt-4 leading-[1.02]">
+              Uma laticínios com<br />sotaque do <span class="text-brand-blue">campo</span>.
+            </h1>
+            <p class="text-lg text-muted leading-relaxed mt-6 max-w-xl">
+              Há mais de 25 anos, a Conleite faz uma coisa só — e faz bem: levar
+              leite e derivados de qualidade da nossa região para a mesa das
+              famílias. Sem atalhos, sem perder o jeito de quem conhece cada
+              produtor pelo nome.
+            </p>
+            <div class="flex flex-wrap gap-3 mt-8">
+              <a href="/catalogo" class="bg-brand-orange text-white px-7 py-3.5 rounded-full font-semibold hover:bg-brand-orange-dark transition-colors">Ver catálogo</a>
+              <a href="#historia" class="px-7 py-3.5 rounded-full font-semibold text-ink border border-line hover:border-brand-blue/40 hover:text-brand-blue transition-colors">Nossa história</a>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-2xl shadow-brand-blue/10">
+              <img src="https://images.unsplash.com/photo-1628088062854-d1870b4553da?q=80&w=1100&auto=format&fit=crop" alt="Fábrica de laticínios Conleite" class="w-full h-full object-cover" loading="eager" />
+            </div>
+            <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 hidden sm:block">
+              <div class="font-display text-4xl font-bold text-brand-orange leading-none">1999</div>
+              <div class="text-muted text-sm mt-1">o ano em que tudo começou</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline -->
+    <section id="historia" class="bg-milk py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-14">
+          <span class="text-sm font-semibold text-brand-orange-dark uppercase tracking-wide">Nossa história</span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">Da pequena linha à fábrica de hoje</h2>
+        </div>
+
+        <ol class="relative border-l-2 border-line ml-3 space-y-10">
+          {timeline.map((t) => (
+            <li class="pl-8 relative">
+              <span class="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-white border-2 border-brand-blue"></span>
+              <div class="font-display text-2xl font-bold text-brand-blue">{t.year}</div>
+              <h3 class="font-display text-xl font-bold text-ink mt-1">{t.title}</h3>
+              <p class="text-muted leading-relaxed mt-1 max-w-2xl">{t.body}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- Principles -->
+    <section class="bg-white py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-14">
+          <span class="text-sm font-semibold text-brand-blue uppercase tracking-wide">No que acreditamos</span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">Três coisas que não abrimos mão</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {principles.map((p, i) => (
+            <div class="rounded-2xl bg-milk p-8">
+              <div class="font-display text-5xl font-bold text-brand-blue/15">{String(i + 1).padStart(2, "0")}</div>
+              <h3 class="font-display text-xl font-bold text-ink mt-2">{p.title}</h3>
+              <p class="text-muted leading-relaxed mt-2">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Numbers band -->
+    <section class="bg-night py-20">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          {[
+            { v: "25+", l: "anos de mercado" },
+            { v: "50k", l: "litros por dia" },
+            { v: "120+", l: "produtores parceiros" },
+            { v: "100k", l: "famílias atendidas" },
+          ].map((s) => (
+            <div>
+              <div class="font-display text-4xl md:text-5xl font-bold text-white">{s.v}</div>
+              <div class="text-white/55 text-sm mt-2">{s.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="bg-white py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-14">
+          <span class="text-sm font-semibold text-conquista-green uppercase tracking-wide">Garantia</span>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-ink mt-3 leading-tight">Qualidade que dá pra conferir</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {certs.map((c) => (
+            <div class="rounded-2xl border border-line p-8 hover:shadow-lg hover:shadow-black/5 transition-shadow">
+              <div class="w-12 h-12 rounded-xl bg-conquista-green/10 flex items-center justify-center text-conquista-green mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+              </div>
+              <h3 class="font-display text-xl font-bold text-ink mb-2">{c.title}</h3>
+              <p class="text-muted leading-relaxed">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

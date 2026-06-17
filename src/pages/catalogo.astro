@@ -1,0 +1,35 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ProductCatalog from "../components/ProductCatalog";
+---
+
+<Layout title="Catálogo">
+  <Header />
+
+  <main class="pt-[68px]">
+    <!-- Page header -->
+    <section class="bg-white pt-16 pb-12 border-b border-line">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <span class="text-sm font-semibold text-brand-orange-dark uppercase tracking-wide">Catálogo</span>
+        <h1 class="font-display text-4xl md:text-6xl font-bold text-ink mt-4 leading-[1.02] max-w-3xl">
+          Tudo o que sai da nossa fábrica
+        </h1>
+        <p class="text-lg text-muted leading-relaxed mt-5 max-w-2xl">
+          Clique em qualquer produto para ver descrição, sugestões de uso e a
+          tabela nutricional completa.
+        </p>
+      </div>
+    </section>
+
+    <!-- Catalog grid + modais -->
+    <section class="bg-milk py-14 min-h-[60vh]">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <ProductCatalog client:load />
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

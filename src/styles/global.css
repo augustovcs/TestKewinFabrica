@@ -1,181 +1,104 @@
 @import "tailwindcss";
 
 @theme {
-  /* === Conleite Brand Palette === */
+  /* === Conleite Brand === */
   --color-brand-blue: #0082C3;
-  --color-brand-blue-light: #3DA8E0;
-  --color-brand-blue-dark: #005A8A;
-  --color-brand-navy: #1E4E8C;
+  --color-brand-blue-dark: #006699;
+  --color-brand-blue-tint: #EAF5FB;
   --color-brand-orange: #FF9100;
-  --color-brand-orange-light: #FFB14D;
   --color-brand-orange-dark: #E07800;
+  --color-brand-orange-tint: #FFF3E2;
 
   /* Sub-brand: Conquista */
   --color-conquista-green: #00A750;
   --color-conquista-pink: #E30066;
 
-  /* Surfaces */
-  --color-surface-cream: #FFF9F0;
-  --color-surface-light: #F5F7FA;
-  --color-surface-dark: #0F2B4A;
-  --color-surface-darker: #091D33;
+  /* === Neutral system (TalkNotes-style calm) === */
+  --color-ink: #0F2233;        /* headings / near-black */
+  --color-ink-soft: #34485B;   /* strong body */
+  --color-muted: #64788C;      /* secondary text */
+  --color-line: #E7EDF2;       /* hairlines */
+  --color-milk: #F5F8FB;       /* cool off-white sections */
+  --color-night: #0B1A28;      /* dark contrast band / footer */
 
-  /* Accents */
-  --color-accent-gold: #FFD700;
-  --color-accent-warm: #FFF3E0;
-
-  /* Font */
-  --font-sans: 'Outfit', system-ui, sans-serif;
-  --font-display: 'Outfit', system-ui, sans-serif;
+  /* === Type === */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply font-sans bg-white text-gray-800 antialiased;
-    selection {
-      @apply bg-brand-orange text-white;
-    }
+    @apply font-sans bg-white text-ink-soft antialiased;
   }
-  
+
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+    letter-spacing: -0.02em;
+  }
+
   ::selection {
-    background: var(--color-brand-orange);
+    background: var(--color-brand-blue);
     color: white;
   }
 }
 
-/* === Smooth Section Dividers === */
-.wave-divider {
+/* === Signature: single soft "milk" wave === */
+.wave {
   position: absolute;
-  bottom: 0;
   left: 0;
   width: 100%;
-  overflow: hidden;
   line-height: 0;
-  transform: rotate(180deg);
-  z-index: 10;
+  pointer-events: none;
+  z-index: 5;
 }
-
-.wave-divider svg {
-  position: relative;
+.wave svg {
   display: block;
-  width: calc(100% + 1.3px);
-  height: 80px;
-}
-
-.wave-divider-top {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  overflow: hidden;
-  line-height: 0;
-  z-index: 10;
+  height: 64px;
 }
+.wave-bottom { bottom: -1px; }
+.wave-top { top: -1px; transform: rotate(180deg); }
 
-.wave-divider-top svg {
-  position: relative;
-  display: block;
-  width: calc(100% + 1.3px);
-  height: 80px;
+/* === Restrained motion === */
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
+.float-slow { animation: floatY 7s ease-in-out infinite; }
 
-/* === Animated Gradient Background === */
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+.reveal { animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradientShift 8s ease infinite;
-}
-
-/* === Float Animation === */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-@keyframes floatSlow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(2deg); }
-}
-
-.animate-float-slow {
-  animation: floatSlow 8s ease-in-out infinite;
-}
-
-/* === Pulse Glow === */
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 130, 195, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(0, 130, 195, 0.6); }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-/* === Parallax helpers === */
-.parallax-slow {
-  will-change: transform;
-}
-
-/* === Glass morphism === */
-.glass {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-}
-
-.glass-light {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-/* === Custom Scrollbar === */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-brand-blue);
+/* === Utility: tidy focus ring === */
+:focus-visible {
+  outline: 2px solid var(--color-brand-blue);
+  outline-offset: 2px;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-navy);
+/* === Minimal scrollbar === */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--color-milk); }
+::-webkit-scrollbar-thumb {
+  background: #CBD5E0;
+  border-radius: 99px;
+  border: 2px solid var(--color-milk);
 }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-blue); }
 
-/* === Shimmer Effect === */
-@keyframes shimmer {
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-.shimmer-text {
-  background: linear-gradient(
-    90deg,
-    var(--color-brand-orange) 0%,
-    var(--color-accent-gold) 50%,
-    var(--color-brand-orange) 100%
-  );
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
+/* === Respect reduced motion === */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
