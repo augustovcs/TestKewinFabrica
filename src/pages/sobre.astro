@@ -2,98 +2,98 @@
 import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { whatsappLink } from "../data/site";
 
-const timeline = [
-  { year: "1999", title: "O começo", body: "A Conleite nasce em Vitória da Conquista com uma pequena linha de pasteurização e parceria com fazendas vizinhas." },
-  { year: "2008", title: "Nova fábrica", body: "Inauguração da unidade ampliada, com processamento UHT e capacidade para atender toda a região." },
-  { year: "2015", title: "Selo SIF", body: "Conquista da Inspeção Federal e implantação do laboratório próprio para controle diário de qualidade." },
-  { year: "2019", title: "Linha de iogurtes", body: "Lançamento da linha de iogurtes e bebidas lácteas para o dia a dia das famílias." },
-  { year: "Hoje", title: "40+ produtos", body: "Mais de 50 mil litros processados por dia e um portfólio que cresce sem perder o sabor de sempre." },
+const wa = whatsappLink();
+
+const story = [
+  { title: "A origem", body: "A Laticínios Conquista nasceu em Vitória da Conquista com um propósito simples: levar leite de qualidade da nossa região para a mesa das famílias baianas." },
+  { title: "O crescimento", body: "Com o tempo, a linha cresceu — do leite pasteurizado às bebidas lácteas fermentadas, ao iogurte natural e à manteiga ConLeite, sempre com o mesmo cuidado." },
+  { title: "Hoje", body: "Um portfólio que acompanha o dia a dia da família, distribuído na região e reconhecido pelo sabor que se repete em cada embalagem." },
 ];
 
 const principles = [
   { title: "Cuidado", body: "Tratar o alimento da família como se fosse o nosso. Esse é o ponto de partida de toda decisão." },
-  { title: "Origem", body: "Valorizar o produtor local. Quando a região prospera, o leite que chega é melhor." },
-  { title: "Constância", body: "Qualidade não é evento, é hábito. O mesmo padrão todos os dias, em cada lote." },
+  { title: "Origem", body: "Valorizar o leite e o produtor da região. Quando a região prospera, o que chega à mesa é melhor." },
+  { title: "Constância", body: "Qualidade não é evento, é hábito. O mesmo padrão em cada lote, em cada produto." },
 ];
 
-const certs = [
-  { title: "Inspeção Federal (SIF)", body: "Produção fiscalizada pelo Ministério da Agricultura em todas as etapas." },
-  { title: "Laboratório próprio", body: "Análises diárias de pureza, gordura e segurança antes de qualquer lote sair." },
-  { title: "Sustentabilidade", body: "Tratamento de efluentes e eficiência energética como parte do processo." },
+const pillars = [
+  { title: "Inspeção Federal", body: "Produção fiscalizada e Indústria Brasileira, conforme as embalagens." },
+  { title: "Duas marcas, uma fábrica", body: "Conquista e ConLeite saem da mesma casa, com o mesmo compromisso." },
+  { title: "Raiz regional", body: "Feito em Vitória da Conquista, para a Bahia e o Nordeste." },
 ];
 ---
 
-<Layout title="A Empresa">
+<Layout
+  title="A Empresa"
+  description="Conheça a Laticínios Conquista: leite, bebida láctea, iogurte e manteiga feitos com cuidado em Vitória da Conquista, BA."
+>
   <Header />
 
   <main class="pt-[68px]">
     <!-- Intro -->
-    <section class="bg-white py-20 md:py-28">
+    <section class="bg-white py-16 md:py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-14 items-center">
-          <div>
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-14 items-center">
+          <div class="reveal">
             <span class="eyebrow">Quem somos</span>
-            <h1 class="font-display text-4xl md:text-6xl font-extrabold text-ink mt-5 leading-[1.0]">
-              Uma laticínios com<br />sotaque do <span class="text-brand-green">campo</span>.
+            <h1 class="font-display text-4xl md:text-[3.4rem] font-extrabold text-ink mt-5 leading-[1.02]">
+              Laticínios com<br />sotaque do <span class="text-brand-green">campo</span>.
             </h1>
             <p class="text-lg text-muted leading-relaxed mt-6 max-w-xl">
-              Há mais de 25 anos, a Conleite faz uma coisa só — e faz bem: levar
-              leite e derivados de qualidade da nossa região para a mesa das
-              famílias. Sem atalhos, sem perder o jeito de quem conhece cada
-              produtor pelo nome.
+              A Laticínios Conquista faz uma coisa só — e faz bem: levar leite e
+              derivados de qualidade da região de Vitória da Conquista para a mesa
+              das famílias. Sem atalhos, com o jeito de quem conhece o campo.
             </p>
             <div class="flex flex-wrap gap-3 mt-8">
-              <a href="/catalogo" class="btn-accent">Ver catálogo</a>
-              <a href="#historia" class="btn-ghost">Nossa história</a>
+              <a href="/catalogo" class="btn-primary">Ver catálogo</a>
+              <a href={wa} target="_blank" rel="noopener" class="btn-ghost">Falar no WhatsApp</a>
             </div>
           </div>
-          <div class="relative">
-            <div class="aspect-[4/5] rounded-[6px] overflow-hidden grain shadow-2xl shadow-brand-green/15">
-              <img src="https://images.unsplash.com/photo-1628088062854-d1870b4553da?q=80&w=1100&auto=format&fit=crop" alt="Fábrica de laticínios Conleite" class="w-full h-full object-cover" loading="eager" />
+          <div class="relative reveal reveal-delay-1">
+            <div class="aspect-[4/3] rounded-[18px] overflow-hidden shadow-2xl shadow-brand-green/15">
+              <img src="/banners/banner-03.webp" alt="Família no café da manhã com produtos Laticínios Conquista" class="w-full h-full object-cover" loading="eager" width="1920" height="672" />
             </div>
-            <div class="absolute -bottom-6 -left-6 bg-white border border-line rounded-[4px] shadow-xl p-6 hidden sm:block">
-              <div class="font-display text-4xl font-extrabold text-brand-pink leading-none">1999</div>
-              <div class="text-muted text-sm mt-1">o ano em que tudo começou</div>
+            <div class="absolute -bottom-6 -left-4 sm:-left-6 bg-white border border-line rounded-[14px] shadow-xl p-6 hidden sm:block">
+              <div class="font-display text-xl font-extrabold text-brand-green leading-none">Vitória da Conquista</div>
+              <div class="text-muted text-sm mt-1.5">Bahia · Brasil</div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Timeline -->
-    <section id="historia" class="bg-milk py-24">
+    <!-- História -->
+    <section id="historia" class="bg-milk py-20 lg:py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mb-14">
+        <div class="max-w-2xl mb-12 reveal">
           <span class="eyebrow">Nossa história</span>
-          <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">Da pequena linha à fábrica de hoje</h2>
+          <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">Do leite da região para a sua mesa</h2>
         </div>
-
-        <ol class="relative border-l-2 border-brand-green/20 ml-3 space-y-10">
-          {timeline.map((t) => (
-            <li class="pl-8 relative">
-              <span class="absolute -left-[9px] top-1.5 w-4 h-4 bg-brand-green ring-4 ring-milk"></span>
-              <div class="font-display text-2xl font-extrabold text-brand-green">{t.year}</div>
-              <h3 class="font-display text-xl font-extrabold text-ink mt-1">{t.title}</h3>
-              <p class="text-muted leading-relaxed mt-1 max-w-2xl">{t.body}</p>
-            </li>
+        <div class="grid md:grid-cols-3 gap-5">
+          {story.map((s, i) => (
+            <div class={`bg-white border border-line rounded-[14px] p-8 reveal reveal-delay-${i}`}>
+              <div class="font-display text-5xl font-extrabold text-brand-lime/40">{String(i + 1).padStart(2, "0")}</div>
+              <h3 class="font-display text-xl font-extrabold text-ink mt-2">{s.title}</h3>
+              <p class="text-muted leading-relaxed mt-2">{s.body}</p>
+            </div>
           ))}
-        </ol>
+        </div>
       </div>
     </section>
 
-    <!-- Principles -->
-    <section class="bg-white py-24">
+    <!-- Princípios -->
+    <section class="bg-white py-20 lg:py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mb-14">
+        <div class="max-w-2xl mb-12 reveal">
           <span class="eyebrow">No que acreditamos</span>
-          <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">Três coisas que não abrimos mão</h2>
+          <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">Três coisas que não abrimos mão</h2>
         </div>
         <div class="grid md:grid-cols-3 gap-5">
           {principles.map((p, i) => (
-            <div class="bg-milk rounded-[4px] p-8">
-              <div class="font-display text-5xl font-extrabold text-brand-pink/25">{String(i + 1).padStart(2, "0")}</div>
-              <h3 class="font-display text-xl font-extrabold text-ink mt-2">{p.title}</h3>
+            <div class={`card p-8 hover:border-brand-green/40 transition-colors reveal reveal-delay-${i}`}>
+              <h3 class="font-display text-xl font-extrabold text-ink">{p.title}</h3>
               <p class="text-muted leading-relaxed mt-2">{p.body}</p>
             </div>
           ))}
@@ -101,43 +101,33 @@ const certs = [
       </div>
     </section>
 
-    <!-- Numbers band — dominant green -->
-    <section class="relative bg-brand-green-deep grain py-20 overflow-hidden">
+    <!-- Pilares — faixa verde -->
+    <section class="relative bg-brand-green grain py-16 lg:py-20 overflow-hidden">
       <div class="absolute -top-24 left-1/4 w-96 h-96 rounded-full bg-brand-lime/15 blur-[110px] pointer-events-none"></div>
       <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { v: "25+", l: "anos de mercado" },
-            { v: "50k", l: "litros por dia" },
-            { v: "120+", l: "produtores parceiros" },
-            { v: "100k", l: "famílias atendidas" },
-          ].map((s) => (
-            <div>
-              <div class="font-display text-5xl md:text-6xl font-extrabold text-white">{s.v}</div>
-              <div class="text-white/65 text-sm mt-2 uppercase tracking-wide">{s.l}</div>
+        <div class="grid md:grid-cols-3 gap-8 md:gap-10">
+          {pillars.map((p) => (
+            <div class="text-white reveal">
+              <div class="w-11 h-11 rounded-[10px] bg-white/12 flex items-center justify-center text-brand-lime mb-5">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+              </div>
+              <h3 class="font-display text-xl font-extrabold">{p.title}</h3>
+              <p class="text-white/70 leading-relaxed mt-2">{p.body}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
 
-    <!-- Certifications -->
-    <section class="bg-white py-24">
+    <!-- CTA final -->
+    <section class="bg-white py-20 lg:py-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mb-14">
-          <span class="eyebrow">Garantia</span>
-          <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">Qualidade que dá pra conferir</h2>
-        </div>
-        <div class="grid md:grid-cols-3 gap-5">
-          {certs.map((c) => (
-            <div class="card p-8 hover:border-brand-green/40 transition-colors">
-              <div class="w-12 h-12 rounded-[3px] bg-brand-green-tint flex items-center justify-center text-brand-green mb-6">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
-              </div>
-              <h3 class="font-display text-xl font-extrabold text-ink mb-2">{c.title}</h3>
-              <p class="text-muted leading-relaxed">{c.body}</p>
-            </div>
-          ))}
+        <div class="bg-milk rounded-[18px] px-8 py-12 md:px-14 md:py-14 text-center reveal">
+          <h2 class="font-display text-2xl md:text-4xl font-extrabold text-ink leading-tight max-w-2xl mx-auto">
+            Quer levar a Conquista para o seu ponto de venda?
+          </h2>
+          <p class="text-muted text-lg mt-4 max-w-xl mx-auto">Fale com a gente sobre pedidos, parcerias e distribuição.</p>
+          <a href={wa} target="_blank" rel="noopener" class="btn-primary mt-8">Falar no WhatsApp</a>
         </div>
       </div>
     </section>

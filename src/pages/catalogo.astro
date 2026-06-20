@@ -3,9 +3,27 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ProductCatalog from "../components/ProductCatalog";
+import { products } from "../data/products";
+import { site } from "../data/site";
+
+// Structured data — um Product por item do catálogo
+const productLd = products.map((p) => ({
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: p.name,
+  category: p.category,
+  description: p.description,
+  image: new URL(p.image, site.url).href,
+  brand: { "@type": "Brand", name: p.brand },
+  url: `${site.url}/catalogo#${p.id}`,
+}));
 ---
 
-<Layout title="Catálogo">
+<Layout
+  title="Catálogo"
+  description="Conheça o catálogo da Laticínios Conquista: leite pasteurizado, bebida láctea fermentada, iogurte natural e manteiga ConLeite."
+  jsonLd={productLd}
+>
   <Header />
 
   <main class="pt-[68px]">
@@ -17,8 +35,9 @@ import ProductCatalog from "../components/ProductCatalog";
           Tudo o que sai da nossa fábrica
         </h1>
         <p class="text-lg text-muted leading-relaxed mt-5 max-w-2xl">
-          Clique em qualquer produto para ver descrição, sugestões de uso e a
-          tabela nutricional completa.
+          Leite, bebida láctea, iogurte e manteiga das marcas Conquista e ConLeite.
+          Clique em qualquer produto para ver descrição, sugestões de uso e a tabela
+          nutricional.
         </p>
       </div>
     </section>

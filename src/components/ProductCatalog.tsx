@@ -56,7 +56,7 @@ export default function ProductCatalog() {
             <button
               key={t}
               onClick={() => setFilter(t)}
-              className={`px-4 py-2 rounded-[3px] text-sm font-semibold transition-colors ${
+              className={`px-4 py-2 rounded-[8px] text-sm font-semibold transition-colors ${
                 active
                   ? "bg-brand-green text-white"
                   : "bg-white text-muted border border-line hover:text-ink hover:border-brand-green/40"
@@ -82,16 +82,18 @@ export default function ProductCatalog() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.35, ease }}
                 onClick={() => setSelected(p)}
-                className="group text-left bg-white rounded-[4px] overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300"
+                className="group text-left bg-white rounded-[12px] overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300"
               >
-                <div className="aspect-[4/3] overflow-hidden relative">
+                <div className="product-media aspect-square overflow-hidden relative">
                   <img
                     src={p.image}
                     alt={p.name}
                     loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    width={900}
+                    height={900}
+                    className="relative z-[1] w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span className={`absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-[2px] ${a.bg}`}>
+                  <span className={`absolute z-[3] top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-[6px] ${a.bg}`}>
                     {p.category}
                   </span>
                 </div>
@@ -134,7 +136,7 @@ export default function ProductCatalog() {
               exit={{ opacity: 0, y: 30, scale: 0.98 }}
               transition={{ duration: 0.35, ease }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-[10px] sm:rounded-[6px] shadow-2xl"
+              className="bg-white w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-[18px] sm:rounded-[18px] shadow-2xl"
             >
               <ModalContent product={selected} onClose={close} />
             </motion.div>
@@ -150,12 +152,12 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
   return (
     <div className="grid md:grid-cols-2">
       {/* Imagem */}
-      <div className="relative h-56 md:h-full min-h-[240px]">
-        <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+      <div className="product-media relative h-56 md:h-full min-h-[240px]">
+        <img src={product.image} alt={product.name} className="relative z-[1] w-full h-full object-cover" />
         <button
           onClick={onClose}
           aria-label="Fechar"
-          className="absolute top-4 right-4 md:hidden w-9 h-9 rounded-[3px] bg-white/90 text-ink flex items-center justify-center hover:bg-white transition-colors"
+          className="absolute z-[3] top-4 right-4 md:hidden w-9 h-9 rounded-[8px] bg-white/90 text-ink flex items-center justify-center hover:bg-white transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -166,7 +168,7 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         <button
           onClick={onClose}
           aria-label="Fechar"
-          className="absolute top-5 right-5 hidden md:flex w-9 h-9 rounded-[3px] bg-milk text-muted items-center justify-center hover:bg-line hover:text-ink transition-colors"
+          className="absolute top-5 right-5 hidden md:flex w-9 h-9 rounded-[8px] bg-milk text-muted items-center justify-center hover:bg-line hover:text-ink transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -182,7 +184,7 @@ function ModalContent({ product, onClose }: { product: Product; onClose: () => v
         {/* Badges */}
         <div className="flex flex-wrap gap-2 mt-5">
           {product.badges.map((b) => (
-            <span key={b} className={`text-xs font-semibold px-3 py-1.5 rounded-[3px] ${a.soft} ${a.text}`}>
+            <span key={b} className={`text-xs font-semibold px-3 py-1.5 rounded-[8px] ${a.soft} ${a.text}`}>
               {b}
             </span>
           ))}

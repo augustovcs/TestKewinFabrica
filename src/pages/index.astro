@@ -3,57 +3,141 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Hero from "../components/Hero";
-import { products } from "../data/products";
+import { products, accentClasses, categories } from "../data/products";
+import { site, fullAddress, whatsappLink } from "../data/site";
 
 const featured = products.slice(0, 4);
+const wa = whatsappLink();
+
+const lineCards = [
+  { cat: "Leites", desc: "Pasteurizado integral e desnatado", accent: "red", icon: "M9 3h6l-1 4v0a3 3 0 003 3v8a3 3 0 01-3 3H10a3 3 0 01-3-3v-8a3 3 0 003-3v0L9 3z" },
+  { cat: "Bebida Láctea", desc: "Morango, coco e mais sabores", accent: "pink", icon: "M7 4h10l-1 16a2 2 0 01-2 2H10a2 2 0 01-2-2L7 4zM6 4h12" },
+  { cat: "Iogurtes", desc: "Natural desnatado ConLeite", accent: "blue", icon: "M6 8h12l-.7 11a2 2 0 01-2 1.9H8.7a2 2 0 01-2-1.9L6 8zM5 8l1-3h12l1 3" },
+  { cat: "Derivados", desc: "Manteiga de primeira qualidade", accent: "amber", icon: "M4 9h16v9a2 2 0 01-2 2H6a2 2 0 01-2-2V9zM3 9l2-4h14l2 4" },
+] as const;
 
 const values = [
   {
-    title: "Produtores da região",
-    body: "Parceria direta com fazendas vizinhas. O leite sai do pasto e chega à fábrica em poucas horas.",
+    title: "Origem regional",
+    body: "Leite de produtores da nossa região, processado pertinho de quem consome. Quando a região prospera, o que chega à mesa é melhor.",
     icon: "M3.06 11H5a2 2 0 0 1 2 2v1a2 2 0 0 0 2 2 2 2 0 0 1 2 2v2.95M8 3.94V5.5A2.5 2.5 0 0 0 10.5 8h.5a2 2 0 0 1 2 2 2 2 0 1 0 4 0 2 2 0 0 1 2-2h1.06M15 20.49V18a2 2 0 0 1 2-2h3.06M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
   },
   {
-    title: "Inspeção e laboratório",
-    body: "Selo SIF e laboratório próprio com testes diários. Cada lote é conferido antes de seguir viagem.",
+    title: "Inspeção Federal",
+    body: "Produção fiscalizada e controle de qualidade em todas as etapas. Cada lote é conferido antes de seguir para o ponto de venda.",
     icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
   },
   {
     title: "Sabor que se repete",
-    body: "Padrão constante há mais de 25 anos. O leite que você lembra da infância, do mesmo jeito.",
+    body: "O mesmo padrão em cada embalagem. Aquele gosto de leite de verdade que a família reconhece e confia.",
     icon: "M4.318 6.318a4.5 4.5 0 0 0 0 6.364L12 20.364l7.682-7.682a4.5 4.5 0 0 0-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 0 0-6.364 0Z",
   },
 ];
 
+const contactItems = [
+  { label: "Endereço", value: `${fullAddress} · CEP ${site.address.zip}`, href: site.mapsEmbed.replace("&output=embed", ""), icon: "M17.657 16.657L13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" },
+  { label: "Telefone / WhatsApp", value: site.phones.map((p) => p.label).join("  ·  "), href: wa, icon: "M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" },
+  { label: "E-mail", value: site.email, href: `mailto:${site.email}`, icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+];
+
 const accentText: Record<string, string> = {
-  green: "text-brand-green",
+  red: "text-line-integral",
   pink: "text-brand-pink-dark",
-  blue: "text-brand-blue",
-  red: "text-brand-red",
-  yellow: "text-amber-600",
+  blue: "text-line-desnatado",
+  green: "text-brand-green",
+  amber: "text-[#8a6a10]",
+};
+const accentSoft: Record<string, string> = {
+  red: "bg-line-integral/10",
+  pink: "bg-brand-pink-tint",
+  blue: "bg-line-desnatado/10",
+  green: "bg-brand-green-tint",
+  amber: "bg-line-manteiga/20",
 };
 ---
 
 <Layout title="Início">
-  <Header transparent />
+  <Header />
 
   <main>
     <Hero client:load />
 
-    <!-- Values -->
-    <section class="bg-white py-24">
+    <!-- Linhas / categorias -->
+    <section class="bg-white pt-6 pb-20 lg:pb-24">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="max-w-2xl mb-14">
-          <span class="eyebrow">Por que Conleite</span>
-          <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">
+        <div class="max-w-2xl mb-12 reveal">
+          <span class="eyebrow">Nossas linhas</span>
+          <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+            Tudo o que sai da nossa fábrica
+          </h2>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+          {lineCards.map((l, i) => (
+            <a
+              href="/catalogo"
+              class={`group card p-6 lg:p-7 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5 transition-all duration-300 reveal reveal-delay-${i}`}
+            >
+              <div class={`w-12 h-12 rounded-[10px] ${accentSoft[l.accent]} ${accentText[l.accent]} flex items-center justify-center mb-5`}>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d={l.icon} /></svg>
+              </div>
+              <h3 class="font-display text-lg font-extrabold text-ink">{l.cat}</h3>
+              <p class="text-muted text-sm mt-1.5 leading-relaxed">{l.desc}</p>
+              <span class={`inline-flex items-center gap-1.5 text-sm font-bold ${accentText[l.accent]} mt-4 group-hover:gap-2.5 transition-all`}>
+                Ver produtos
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Destaques de produtos -->
+    <section class="bg-milk py-20 lg:py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 reveal">
+          <div class="max-w-xl">
+            <span class="eyebrow">Destaques</span>
+            <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+              Os queridinhos da família
+            </h2>
+          </div>
+          <a href="/catalogo" class="inline-flex items-center gap-2 font-bold text-brand-green hover:gap-3 transition-all">
+            Ver catálogo completo
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+          {featured.map((p, i) => (
+            <a href={`/catalogo#${p.id}`} class={`group card overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300 hover:-translate-y-1 reveal reveal-delay-${i}`}>
+              <div class="product-media aspect-square overflow-hidden">
+                <img src={p.image} alt={p.name} class="relative z-[1] w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" width="900" height="900" />
+              </div>
+              <div class="p-5">
+                <span class={`text-xs font-bold uppercase tracking-wide ${accentClasses[p.accent].text}`}>{p.brand}</span>
+                <h3 class="font-display font-extrabold text-ink mt-1.5 leading-snug">{p.name}</h3>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Por que Conquista (valores) -->
+    <section class="bg-white py-20 lg:py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12 reveal">
+          <span class="eyebrow">Por que Conquista</span>
+          <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
             Leite de verdade começa antes da prateleira.
           </h2>
         </div>
         <div class="grid md:grid-cols-3 gap-5">
-          {values.map((v) => (
-            <div class="card p-8 hover:border-brand-green/40 transition-colors duration-300">
-              <div class="w-12 h-12 rounded-[3px] bg-brand-green-tint flex items-center justify-center text-brand-green mb-6">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={v.icon} /></svg>
+          {values.map((v, i) => (
+            <div class={`card p-8 hover:border-brand-green/40 transition-colors duration-300 reveal reveal-delay-${i}`}>
+              <div class="w-12 h-12 rounded-[10px] bg-brand-green-tint flex items-center justify-center text-brand-green mb-6">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d={v.icon} /></svg>
               </div>
               <h3 class="font-display text-xl font-extrabold text-ink mb-2">{v.title}</h3>
               <p class="text-muted leading-relaxed">{v.body}</p>
@@ -63,58 +147,75 @@ const accentText: Record<string, string> = {
       </div>
     </section>
 
-    <!-- Featured products -->
-    <section class="bg-milk py-24">
+    <!-- Faixa editorial (banner real "Qualidade que se põe à mesa") -->
+    <section class="relative" aria-label="Qualidade que se põe à mesa">
+      <div class="relative h-[280px] sm:h-[360px] lg:h-[420px] overflow-hidden">
+        <img src="/banners/banner-06.webp" alt="Mesa de café da manhã com produtos Laticínios Conquista" class="w-full h-full object-cover" loading="lazy" width="1920" height="672" />
+        <div class="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-brand-green-ink/10"></div>
+      </div>
+    </section>
+
+    <!-- Fale Conosco -->
+    <section id="contato" class="bg-milk py-20 lg:py-24 scroll-mt-20">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div class="max-w-xl">
-            <span class="eyebrow">Catálogo</span>
-            <h2 class="font-display text-4xl md:text-5xl font-extrabold text-ink mt-4 leading-[1.05]">
-              Alguns dos nossos destaques
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-stretch">
+          <!-- Texto + contatos -->
+          <div class="reveal">
+            <span class="eyebrow">Fale conosco</span>
+            <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+              Vamos levar o melhor do campo até você?
             </h2>
-          </div>
-          <a href="/catalogo" class="inline-flex items-center gap-2 font-bold text-brand-green hover:gap-3 transition-all">
-            Ver catálogo completo
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
-          </a>
-        </div>
+            <p class="text-lg text-muted leading-relaxed mt-5 max-w-lg">
+              Fale com a Laticínios Conquista sobre produtos, pedidos, parcerias e
+              distribuição. Atendemos toda a região de Vitória da Conquista.
+            </p>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-5">
-          {featured.map((p) => (
-            <a href={`/catalogo#${p.id}`} class="group card overflow-hidden hover:shadow-xl hover:shadow-black/5 transition-all duration-300 hover:-translate-y-1">
-              <div class="aspect-[4/3] overflow-hidden">
-                <img src={p.image} alt={p.name} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-              </div>
-              <div class="p-5">
-                <span class={`text-xs font-bold uppercase tracking-wide ${accentText[p.accent]}`}>{p.brand}</span>
-                <h3 class="font-display font-extrabold text-ink mt-1.5 leading-snug">{p.name}</h3>
-              </div>
+            <ul class="mt-9 space-y-5">
+              {contactItems.map((c) => (
+                <li>
+                  <a href={c.href} target="_blank" rel="noopener" class="group flex items-start gap-4">
+                    <span class="flex-shrink-0 w-11 h-11 rounded-[10px] bg-white border border-line text-brand-green flex items-center justify-center group-hover:bg-brand-green group-hover:text-white transition-colors">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d={c.icon} /></svg>
+                    </span>
+                    <span>
+                      <span class="block text-xs font-bold uppercase tracking-wide text-muted">{c.label}</span>
+                      <span class="block text-ink font-semibold leading-snug mt-0.5 group-hover:text-brand-green transition-colors">{c.value}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a href={wa} target="_blank" rel="noopener" class="btn-primary mt-9">
+              <svg fill="currentColor" viewBox="0 0 24 24" class="w-5 h-5"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.98 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.45-4.44 9.88-9.88 9.88" /></svg>
+              Chamar no WhatsApp
             </a>
-          ))}
+          </div>
+
+          <!-- Mapa -->
+          <div class="reveal reveal-delay-1 min-h-[320px] lg:min-h-0">
+            <div class="h-full rounded-[16px] overflow-hidden border border-line shadow-sm">
+              <iframe
+                title={`Localização — ${site.brand}`}
+                src={site.mapsEmbed}
+                class="w-full h-full min-h-[320px]"
+                style="border:0"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Stats band — dominant green -->
-    <section class="relative bg-brand-green-deep grain py-20 overflow-hidden">
-      <div class="absolute -top-24 right-10 w-96 h-96 rounded-full bg-brand-lime/15 blur-[110px] pointer-events-none"></div>
-      <div class="absolute -bottom-24 left-10 w-96 h-96 rounded-full bg-brand-pink/15 blur-[110px] pointer-events-none"></div>
-      <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-          {[
-            { v: "25+", l: "anos de mercado" },
-            { v: "50k", l: "litros por dia" },
-            { v: "40+", l: "produtos no portfólio" },
-            { v: "100k", l: "famílias atendidas" },
-          ].map((s) => (
-            <div>
-              <div class="font-display text-5xl md:text-6xl font-extrabold text-white">{s.v}</div>
-              <div class="text-white/65 text-sm mt-2 uppercase tracking-wide">{s.l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <!-- Wave para o rodapé escuro -->
+    <div class="-mb-px bg-milk">
+      <svg viewBox="0 0 1440 80" class="w-full h-[50px] sm:h-[80px]" preserveAspectRatio="none" aria-hidden="true">
+        <path fill="#163225" d="M0,50 C240,10 480,10 720,40 C960,70 1200,70 1440,35 L1440,80 L0,80 Z" />
+      </svg>
+    </div>
   </main>
 
   <Footer />
