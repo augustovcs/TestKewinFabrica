@@ -25,31 +25,30 @@ interface Post {
   img: string;
   permalink: string;
   isVideo?: boolean;
-  likes?: number;
-  comments?: number;
-  shares?: number;
+  likes?: number | null;
+  comments?: number | null;
+  shares?: number | null;
 }
 
 interface Props {
   feedId?: string;
   handle: string;
   instagram: string;
-  fallback: string[]; // imagens locais p/ placeholder
+  posts: Post[]; // snapshot real dos últimos posts (hardcoded, sem auth)
   socials: { label: string; href: string; path: string }[];
 }
 
-const nf = (n?: number) => (n == null ? null : n >= 1000 ? (n / 1000).toFixed(1).replace(".0", "") + "k" : String(n));
+const nf = (n?: number | null) => (n == null ? null : n >= 1000 ? (n / 1000).toFixed(1).replace(".0", "") + "k" : String(n));
 
-export default function SocialFeed({ feedId, handle, instagram, fallback, socials }: Props) {
-  const [posts, setPosts] = useState<Post[]>([]);
+export default function SocialFeed({ feedId, handle, instagram, posts: initial, socials }: Props) {
+  const [posts, setPosts] = useState<Post[]>(initial);
   const track = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  // Buscar posts reais via Behold.io (feed JSON). Sem feedId → placeholders.
+  // Behold.io (opcional): se configurado, sobrepõe o snapshot com feed ao vivo.
   useEffect(() => {
+    if (!feedId) return;
     let alive = true;
-    const placeholders: Post[] = fallback.map((img, i) => ({ id: "ph" + i, img, permalink: instagram, isVideo: i % 3 === 1 }));
-    if (!feedId) { setPosts(placeholders); return; }
     fetch(`https://feeds.behold.so/${feedId}`)
       .then((r) => r.json())
       .then((data) => {
@@ -63,9 +62,9 @@ export default function SocialFeed({ feedId, handle, instagram, fallback, social
           likes: it.likeCount ?? it.likesCount,
           comments: it.commentsCount ?? it.commentCount,
         }));
-        setPosts(mapped.length ? mapped : placeholders);
+        if (mapped.length) setPosts(mapped);
       })
-      .catch(() => alive && setPosts(placeholders));
+      .catch(() => {});
     return () => { alive = false; };
   }, [feedId]);
 
