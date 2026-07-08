@@ -100,7 +100,7 @@ export default function SocialFeed({ feedId, handle, instagram, posts: initial, 
 
       <div className="relative z-10 grid lg:grid-cols-[35%_65%] gap-10 lg:gap-12 items-stretch">
         {/* Esquerda: split topo (título) / base (descrição + sociais) */}
-        <div className="flex flex-col justify-between min-h-[360px]">
+        <div className="flex flex-col justify-between min-h-[420px] lg:min-h-[540px]">
           <div>
             <span className="eyebrow">Redes sociais</span>
             <h2 className="font-display text-4xl md:text-[3rem] font-extrabold text-brand-green mt-4 leading-[0.98]">
@@ -125,7 +125,7 @@ export default function SocialFeed({ feedId, handle, instagram, posts: initial, 
 
         {/* Direita: carrossel (3 visíveis, laterais cortadas) */}
         <div className="self-center min-w-0">
-          <div ref={track} className="flex gap-4 overflow-hidden" style={{ paddingLeft: "calc(50% - 115px)", paddingRight: "calc(50% - 115px)" }}>
+          <div ref={track} className="flex gap-5 overflow-hidden" style={{ paddingLeft: "calc(50% - 165px)", paddingRight: "calc(50% - 165px)" }}>
             {posts.map((p, i) => (
               <a
                 ref={(n) => (cards.current[i] = n)}
@@ -133,24 +133,24 @@ export default function SocialFeed({ feedId, handle, instagram, posts: initial, 
                 href={p.permalink}
                 target="_blank"
                 rel="noopener"
-                className="group shrink-0 w-[200px] sm:w-[230px] my-6 rounded-[18px] overflow-hidden relative bg-brand-green-ink shadow-xl shadow-black/10 will-change-transform"
+                className="group shrink-0 w-[290px] sm:w-[330px] my-6 rounded-[22px] overflow-hidden relative bg-brand-green-ink shadow-2xl shadow-black/15 will-change-transform"
                 style={{ aspectRatio: "9 / 16", transition: "transform .4s cubic-bezier(.22,1,.36,1)" }}
               >
                 <img src={p.img} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
 
                 {/* header overlay: avatar + @handle + logo IG */}
-                <div className="absolute top-0 inset-x-0 p-2.5 flex items-center gap-2 bg-gradient-to-b from-black/45 to-transparent">
-                  <span className="w-6 h-6 rounded-full bg-brand-green ring-2 ring-white/80 flex items-center justify-center text-white text-[10px] font-extrabold">C</span>
-                  <span className="text-white text-[11px] font-semibold drop-shadow truncate">@{handle}</span>
-                  <IgIcon className="w-4 h-4 text-white ml-auto shrink-0" />
+                <div className="absolute top-0 inset-x-0 p-3.5 flex items-center gap-2.5 bg-gradient-to-b from-black/45 to-transparent">
+                  <span className="w-8 h-8 rounded-full bg-brand-green ring-2 ring-white/80 flex items-center justify-center text-white text-xs font-extrabold">C</span>
+                  <span className="text-white text-sm font-semibold drop-shadow truncate">@{handle}</span>
+                  <IgIcon className="w-5 h-5 text-white ml-auto shrink-0" />
                 </div>
 
                 {/* bottom overlay: gradiente + curtidas (heart) no canto inferior direito */}
                 <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                 {nf(p.likes) && (
-                  <div className="absolute bottom-2.5 right-3 flex items-center gap-1 text-white">
-                    <HeartIcon className="w-4 h-4 drop-shadow" />
-                    <span className="text-xs font-semibold drop-shadow">{nf(p.likes)}</span>
+                  <div className="absolute bottom-3.5 right-4 flex items-center gap-1.5 text-white">
+                    <HeartIcon className="w-5 h-5 drop-shadow" />
+                    <span className="text-sm font-semibold drop-shadow">{nf(p.likes)}</span>
                   </div>
                 )}
               </a>
