@@ -30,8 +30,14 @@ export const site = {
   },
   /** links a confirmar com a empresa */
   social: {
-    instagram: "#",
+    handle: "laticiniosconquista",
+    instagram: "https://www.instagram.com/laticiniosconquista/",
     facebook: "#",
+    tiktok: "#",
+    youtube: "#",
+    /** ID do feed Behold.io (https://behold.so) p/ puxar posts reais do Instagram.
+     *  Vazio = usa cards placeholder até configurar. */
+    beholdFeedId: "",
   },
   /** Google Maps embed centrado na cidade (a refinar com o endereço exato) */
   mapsEmbed:

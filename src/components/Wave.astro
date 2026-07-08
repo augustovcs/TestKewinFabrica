@@ -1,0 +1,35 @@
+---
+// Onda líquida ANIMADA reutilizável (estilo Batavo — a borda "anda" devagar).
+// Duas camadas em velocidades diferentes = superfície de leite em movimento.
+interface Props {
+  fill?: string;        // cor da onda (a área abaixo da crista)
+  flip?: boolean;       // inverte verticalmente (onda apontando p/ cima)
+  speed?: number;       // segundos por ciclo (camada da frente)
+  class?: string;
+}
+const { fill = "#163225", flip = false, speed = 16, class: cls = "" } = Astro.props;
+// path com 4 meias-ondas (t) sobre 2880 de largura → translateX(-50%) faz loop sem emenda
+const d = "M0,50 q180,46 360,0 t360,0 t360,0 t360,0 t360,0 t360,0 t360,0 t360,0 L2880,100 L0,100 Z";
+---
+<div class:list={["wave", flip && "wave-flip", cls]} aria-hidden="true">
+  <svg class="wave-back" viewBox="0 0 2880 100" preserveAspectRatio="none" style={`--sp:${speed * 1.5}s`}>
+    <path fill={fill} opacity="0.4" d={d} />
+  </svg>
+  <svg class="wave-front" viewBox="0 0 2880 100" preserveAspectRatio="none" style={`--sp:${speed}s`}>
+    <path fill={fill} d={d} />
+  </svg>
+</div>
+
+<style>
+  .wave { position: relative; line-height: 0; overflow: hidden; height: 44px; }
+  @media (min-width: 640px) { .wave { height: 70px; } }
+  .wave svg { position: absolute; inset: 0; width: 200%; height: 100%; display: block; }
+  .wave-back  { animation: waveMove var(--sp, 26s) linear infinite reverse; }
+  .wave-front { animation: waveMove var(--sp, 16s) linear infinite; }
+  .wave-flip { transform: scaleY(-1); }
+  @keyframes waveMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .wave svg { animation: none; width: 100%; }
+    .wave-back { display: none; }
+  }
+</style>

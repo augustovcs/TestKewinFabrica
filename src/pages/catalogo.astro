@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import ProductCatalog from "../components/ProductCatalog";
+import Wave from "../components/Wave.astro";
 import { products } from "../data/products";
 import { site } from "../data/site";
 
@@ -27,23 +28,28 @@ const productLd = products.map((p) => ({
   <Header />
 
   <main class="pt-[68px]">
-    <!-- Page header -->
-    <section class="bg-white pt-16 pb-12 border-b border-line">
-      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
-        <span class="eyebrow">Catálogo</span>
-        <h1 class="font-display text-4xl md:text-6xl font-extrabold text-ink mt-5 leading-[1.0] max-w-3xl">
-          Tudo o que sai da nossa fábrica
+    <!-- Page header — faixa verde estilo Batavo -->
+    <section class="relative bg-brand-green-ink grain overflow-hidden pt-16 pb-24">
+      <div class="absolute -top-20 -left-16 w-[34rem] h-[34rem] rounded-full bg-brand-lime/15 blur-[120px] blob pointer-events-none"></div>
+      <div class="absolute -bottom-16 right-1/4 w-[28rem] h-[28rem] rounded-full bg-brand-pink/15 blur-[120px] blob pointer-events-none"></div>
+      <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <span class="eyebrow eyebrow-light">Catálogo</span>
+        <h1 class="font-display text-4xl md:text-6xl mt-5 leading-[0.98] max-w-3xl">
+          <span class="block font-light text-white/70">Tudo o que sai</span>
+          <span class="block font-extrabold text-brand-lime">da nossa fábrica</span>
         </h1>
-        <p class="text-lg text-muted leading-relaxed mt-5 max-w-2xl">
+        <p class="text-lg text-white/70 leading-relaxed mt-5 max-w-2xl">
           Leite, bebida láctea, iogurte e manteiga das marcas Conquista e ConLeite.
           Clique em qualquer produto para ver descrição, sugestões de uso e a tabela
           nutricional.
         </p>
       </div>
+      <!-- wave ANIMADA para o grid claro -->
+      <div class="absolute bottom-0 left-0 right-0 -mb-px"><Wave fill="#f5f8f2" speed={7} /></div>
     </section>
 
     <!-- Catalog grid + modais -->
-    <section class="bg-milk py-14 min-h-[60vh]">
+    <section class="bg-milk pb-16 min-h-[60vh]">
       <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
         <ProductCatalog client:load />
       </div>

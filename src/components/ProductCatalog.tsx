@@ -8,8 +8,17 @@ import {
   type Product,
   type Category,
 } from "../data/products";
+import { spring } from "../lib/motion";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+// Mundo color-coded — tile por categoria + cor da aba ativa
+const catStyle: Record<Category, { tile: string; tab: string }> = {
+  "Leites":        { tile: "from-brand-green-tint to-white", tab: "bg-brand-green text-white" },
+  "Bebida Láctea": { tile: "from-brand-pink-tint to-white",  tab: "bg-brand-pink text-white" },
+  "Iogurtes":      { tile: "from-brand-lime-tint to-white",  tab: "bg-brand-lime text-brand-green-ink" },
+  "Derivados":     { tile: "from-line-manteiga/20 to-white", tab: "bg-line-manteiga text-[#5c4708]" },
+};
 
 export default function ProductCatalog() {
   const [filter, setFilter] = useState<Category | "Todos">("Todos");
@@ -48,22 +57,22 @@ export default function ProductCatalog() {
 
   return (
     <>
-      {/* Filtros */}
+      {/* Filtros color-coded */}
       <div className="flex flex-wrap gap-2 mb-10">
         {tabs.map((t) => {
           const active = t === filter;
+          const activeCls = t === "Todos" ? "bg-brand-green text-white" : catStyle[t as Category].tab;
           return (
-            <button
+            <motion.button
               key={t}
+              whileTap={{ scale: 0.94 }}
               onClick={() => setFilter(t)}
-              className={`px-4 py-2 rounded-[8px] text-sm font-semibold transition-colors ${
-                active
-                  ? "bg-brand-green text-white"
-                  : "bg-white text-muted border border-line hover:text-ink hover:border-brand-green/40"
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                active ? activeCls : "bg-white text-muted border border-line hover:text-ink hover:border-brand-green/40"
               }`}
             >
               {t}
-            </button>
+            </motion.button>
           );
         })}
       </div>
@@ -80,20 +89,22 @@ export default function ProductCatalog() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
+                whileHover={{ y: -10, rotate: -1, transition: spring }}
+                whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.35, ease }}
                 onClick={() => setSelected(p)}
-                className="group text-left bg-white rounded-[12px] overflow-hidden border border-line hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300"
+                className="group text-left bg-white rounded-[18px] overflow-hidden border border-line hover:border-transparent hover:shadow-2xl hover:shadow-black/10"
               >
-                <div className="product-media aspect-square overflow-hidden relative">
+                <div className={`aspect-square overflow-hidden relative bg-gradient-to-br ${catStyle[p.category].tile}`}>
                   <img
                     src={p.image}
                     alt={p.name}
                     loading="lazy"
                     width={900}
                     height={900}
-                    className="relative z-[1] w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="relative z-[1] w-full h-full object-cover group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-500"
                   />
-                  <span className={`absolute z-[3] top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-[6px] ${a.bg}`}>
+                  <span className={`absolute z-[3] top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-full ${a.bg}`}>
                     {p.category}
                   </span>
                 </div>
