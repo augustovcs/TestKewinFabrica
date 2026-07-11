@@ -5,11 +5,7 @@ import Windmill from "./Windmill.astro";
 
 const bg = "/banners/banner-06.webp";
 
-const trust = [
-  { label: "Produção Regional", icon: "M17.657 16.657L13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" },
-  { label: "Qualidade Garantida", icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" },
-  { label: "Distribuição Própria", icon: "M8 16.5V6a2 2 0 012-2h4a2 2 0 012 2v10.5M3 16.5h18M5 20h14M5 16.5l1.5-5h11l1.5 5" },
-];
+const trust = ["Produção Regional", "Qualidade Garantida", "Distribuição Própria"];
 ---
 
 <section class="relative overflow-hidden min-h-[92svh] flex items-end" id="hero">
@@ -24,9 +20,10 @@ const trust = [
       />
     </div>
     <!-- overlay em gradiente (tons da marca, mais forte na base para leitura + profundidade) -->
-    <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(9,20,14,.97) 0%, rgba(10,24,17,.85) 26%, rgba(13,30,21,.45) 58%, rgba(14,34,24,.18) 100%);"></div>
+    <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(7,16,11,1) 0%, rgba(8,19,13,.92) 22%, rgba(12,28,20,.5) 56%, rgba(14,34,24,.16) 100%);"></div>
     <div class="absolute inset-0" style="background: radial-gradient(120% 90% at 15% 10%, rgba(153,191,23,.16), transparent 60%);"></div>
-    <div class="absolute inset-0" style="box-shadow: inset 0 0 140px rgba(0,0,0,.55);"></div>
+    <!-- vinheta de profundidade (bordas escurecidas) -->
+    <div class="absolute inset-0" style="box-shadow: inset 0 -120px 160px rgba(0,0,0,.6), inset 0 0 160px rgba(0,0,0,.5);"></div>
   </div>
 
   <div class="relative w-full max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 pt-[130px] pb-16 sm:pb-20">
@@ -36,8 +33,8 @@ const trust = [
         Laticínios Conquista · Vitória da Conquista, BA
       </span>
 
-      <h1 class="reveal reveal-delay-1 font-display text-5xl sm:text-6xl lg:text-[4.2rem] font-extrabold text-white mt-6 leading-[1.02] tracking-tight text-balance" style="text-shadow: 0 4px 28px rgba(0,0,0,.35);">
-        Qualidade que nasce no campo e chega à sua mesa.
+      <h1 class="reveal reveal-delay-1 font-display text-5xl sm:text-6xl lg:text-[4.6rem] font-extrabold text-white mt-6 leading-[1.0] tracking-[-0.035em] text-balance" style="text-shadow: 0 6px 34px rgba(0,0,0,.5);">
+        Qualidade que nasce no campo e chega <span class="text-brand-lime">à sua mesa</span>.
       </h1>
 
       <p class="reveal reveal-delay-2 text-lg text-white/80 leading-relaxed mt-5 max-w-lg">
@@ -55,12 +52,14 @@ const trust = [
         </a>
       </div>
 
-      <!-- Indicadores de confiança -->
-      <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-x-7 gap-y-3 mt-10 pt-8 border-t border-white/15">
+      <!-- Selos de confiança -->
+      <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-3 mt-10 pt-8 border-t border-white/15">
         {trust.map((t) => (
-          <span class="inline-flex items-center gap-2 text-sm font-semibold text-white/85">
-            <svg class="w-4.5 h-4.5 text-brand-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={t.icon} /></svg>
-            {t.label}
+          <span class="inline-flex items-center gap-2 text-sm font-semibold text-white bg-white/10 border border-white/15 backdrop-blur-md rounded-full pl-2 pr-4 py-1.5">
+            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-lime text-brand-green-ink">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" /></svg>
+            </span>
+            {t}
           </span>
         ))}
       </div>

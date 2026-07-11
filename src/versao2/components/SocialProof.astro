@@ -11,22 +11,27 @@ const partners = [
 ];
 ---
 
-<section class="bg-white py-20 lg:py-24">
+<section class="bg-white py-20 lg:py-24 border-t border-line">
   <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
     <div class="max-w-2xl mb-12 reveal">
       <span class="eyebrow">Prova social</span>
       <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
         Quem confia na Laticínios Conquista.
       </h2>
+      <p class="text-muted leading-relaxed mt-4 text-lg">
+        Do pequeno mercado de bairro ao distribuidor regional — nossos produtos
+        chegam à mesa das famílias por uma rede de parceiros que cresce a cada ano.
+      </p>
     </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
       {partners.map((p, i) => (
-        <div class={`card p-8 text-center flex flex-col items-center hover:-translate-y-1 hover:border-brand-green/40 transition-all duration-300 reveal reveal-delay-${i}`} style="transition-timing-function: var(--ease-spring);">
-          <div class="w-14 h-14 rounded-full bg-brand-green-tint flex items-center justify-center text-brand-green mb-5">
-            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d={p.icon} /></svg>
+        <div class={`group card p-8 text-center flex flex-col items-center relative overflow-hidden hover:-translate-y-1.5 hover:border-brand-green/40 hover:shadow-xl hover:shadow-brand-green/5 transition-all duration-300 reveal reveal-delay-${i}`} style="transition-timing-function: var(--ease-spring);">
+          <span class="absolute inset-x-0 top-0 h-1 bg-brand-lime scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300"></span>
+          <div class="w-16 h-16 rounded-2xl bg-brand-green-tint flex items-center justify-center text-brand-green mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d={p.icon} /></svg>
           </div>
-          <h3 class="font-display font-extrabold text-ink">{p.label}</h3>
+          <h3 class="font-display font-extrabold text-ink text-lg">{p.label}</h3>
         </div>
       ))}
     </div>
