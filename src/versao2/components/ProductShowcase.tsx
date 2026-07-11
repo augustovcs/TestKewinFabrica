@@ -19,9 +19,11 @@ export default function ProductShowcase() {
   // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam)
   useEffect(() => {
     const layout = () => {
-      const w = wrap.current, tk = track.current, a = cards.current[index];
-      if (!w || !tk || !a) return;
-      tk.style.transform = `translateX(${w.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2)}px)`;
+      const w = wrap.current, tk = track.current, a = cards.current[index], first = cards.current[0];
+      if (!w || !tk || !a || !first) return;
+      // centro do card ativo relativo ao INÍCIO do track (diferença cancela o offsetParent)
+      const activeCenter = a.offsetLeft - first.offsetLeft + a.offsetWidth / 2;
+      tk.style.transform = `translateX(${w.clientWidth / 2 - activeCenter}px)`;
       cards.current.forEach((c, i) => {
         if (!c) return;
         const t = Math.max(0, 1 - Math.abs(i - index) * 0.55);
