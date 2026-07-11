@@ -1,0 +1,30 @@
+---
+// Depoimentos — layout pronto; conteúdo é PLACEHOLDER (ver src/data/testimonials.ts).
+import { testimonials } from "../data/testimonials";
+---
+
+<section class="bg-milk py-20 lg:py-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-12 reveal">
+      <span class="eyebrow">Depoimentos</span>
+      <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+        Quem trabalha com a gente confia no resultado.
+      </h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+      {testimonials.map((t, i) => (
+        <div class={`card p-8 flex flex-col reveal reveal-delay-${i}`}>
+          <svg class="w-8 h-8 text-brand-lime/60 mb-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9.3 6C6.4 7.6 5 9.9 5 12.8c.5-.3 1.1-.4 1.8-.4 1.9 0 3.4 1.4 3.4 3.3 0 2-1.6 3.6-3.6 3.6C4.1 19.3 3 17 3 14.2 3 10 5.3 6.6 9.3 4l1 2Zm9.5 0c-2.9 1.6-4.3 3.9-4.3 6.8.5-.3 1.1-.4 1.8-.4 1.9 0 3.4 1.4 3.4 3.3 0 2-1.6 3.6-3.6 3.6-2.5 0-3.6-2.3-3.6-5.1 0-4.2 2.3-7.6 6.3-10.2l1 2Z" />
+          </svg>
+          <p class="text-ink-soft leading-relaxed flex-1">{t.quote}</p>
+          <div class="mt-6 pt-5 border-t border-line">
+            <p class="font-display font-extrabold text-ink">{t.name}</p>
+            <p class="text-muted text-sm mt-0.5">{t.company}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

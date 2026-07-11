@@ -1,0 +1,109 @@
+---
+// Hero Premium — imagem de fundo full-bleed, overlay em gradiente,
+// headline forte, 2 CTAs e indicadores de confiança. Parallax suave.
+import Windmill from "./Windmill.astro";
+
+const bg = "/banners/banner-06.webp";
+
+const trust = [
+  { label: "Produção Regional", icon: "M17.657 16.657L13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" },
+  { label: "Qualidade Garantida", icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" },
+  { label: "Distribuição Própria", icon: "M8 16.5V6a2 2 0 012-2h4a2 2 0 012 2v10.5M3 16.5h18M5 20h14M5 16.5l1.5-5h11l1.5 5" },
+];
+---
+
+<section class="relative overflow-hidden min-h-[92svh] flex items-end" id="hero">
+  <!-- Fundo: parallax no wrapper + zoom lento (Ken Burns) na imagem -->
+  <div class="absolute inset-0 -z-10 overflow-hidden">
+    <div data-hero-parallax class="absolute inset-0 w-full h-[120%] -top-[10%] will-change-transform">
+      <img
+        src={bg}
+        alt="Laticínios Conquista — produção regional"
+        class="hero-kenburns w-full h-full object-cover object-center"
+        fetchpriority="high"
+      />
+    </div>
+    <!-- overlay em gradiente (tons da marca, mais forte na base para leitura + profundidade) -->
+    <div class="absolute inset-0" style="background: linear-gradient(0deg, rgba(9,20,14,.97) 0%, rgba(10,24,17,.85) 26%, rgba(13,30,21,.45) 58%, rgba(14,34,24,.18) 100%);"></div>
+    <div class="absolute inset-0" style="background: radial-gradient(120% 90% at 15% 10%, rgba(153,191,23,.16), transparent 60%);"></div>
+    <div class="absolute inset-0" style="box-shadow: inset 0 0 140px rgba(0,0,0,.55);"></div>
+  </div>
+
+  <div class="relative w-full max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 pt-[130px] pb-16 sm:pb-20">
+    <div class="max-w-2xl">
+      <span class="reveal inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-white/85 bg-white/10 border border-white/15 backdrop-blur-md rounded-full px-4 py-2">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-lime"></span>
+        Laticínios Conquista · Vitória da Conquista, BA
+      </span>
+
+      <h1 class="reveal reveal-delay-1 font-display text-5xl sm:text-6xl lg:text-[4.2rem] font-extrabold text-white mt-6 leading-[1.02] tracking-tight text-balance" style="text-shadow: 0 4px 28px rgba(0,0,0,.35);">
+        Qualidade que nasce no campo e chega à sua mesa.
+      </h1>
+
+      <p class="reveal reveal-delay-2 text-lg text-white/80 leading-relaxed mt-5 max-w-lg">
+        Leite e derivados produzidos com qualidade, tradição e compromisso
+        com cada família.
+      </p>
+
+      <div class="reveal reveal-delay-3 flex flex-wrap items-center gap-4 mt-9">
+        <a href="#contato" class="inline-flex items-center gap-2 bg-white text-brand-green-ink font-semibold px-7 py-3.5 rounded-full hover:bg-brand-lime hover:-translate-y-1 hover:shadow-xl hover:shadow-black/20 transition-all duration-200" style="transition-timing-function: var(--ease-spring);">
+          Solicitar Orçamento
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+        </a>
+        <a href="/versao2/catalogo" class="inline-flex items-center gap-2 text-white font-semibold px-7 py-3.5 rounded-full border border-white/30 bg-white/5 backdrop-blur-md hover:bg-white/15 hover:-translate-y-1 transition-all duration-200" style="transition-timing-function: var(--ease-spring);">
+          Ver Produtos
+        </a>
+      </div>
+
+      <!-- Indicadores de confiança -->
+      <div class="reveal reveal-delay-4 flex flex-wrap items-center gap-x-7 gap-y-3 mt-10 pt-8 border-t border-white/15">
+        {trust.map((t) => (
+          <span class="inline-flex items-center gap-2 text-sm font-semibold text-white/85">
+            <svg class="w-4.5 h-4.5 text-brand-lime" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={t.icon} /></svg>
+            {t.label}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <div class="flex justify-center pt-14">
+      <Windmill />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-kenburns {
+    animation: hero-zoom 22s ease-in-out infinite alternate;
+  }
+  @keyframes hero-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.09); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-kenburns { animation: none; }
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>("[data-hero-parallax]");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (wrap && !reduce) {
+    let ticking = false;
+    const update = () => {
+      const y = Math.min(window.scrollY, 900) * 0.18;
+      wrap.style.transform = `translateY(${y}px)`;
+      ticking = false;
+    };
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
+</script>

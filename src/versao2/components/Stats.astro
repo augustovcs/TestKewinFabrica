@@ -1,0 +1,54 @@
+---
+// Números da empresa — contador anima ao entrar na tela.
+import { stats } from "../data/stats";
+---
+
+<section class="relative bg-brand-green grain overflow-hidden py-16 lg:py-20">
+  <div class="pointer-events-none absolute -top-20 left-1/5 w-80 h-80 rounded-full bg-brand-lime/15 blur-[100px] blob" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute -bottom-24 right-1/6 w-96 h-96 rounded-full bg-brand-pink/10 blur-[110px] blob" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+      {stats.map((s, i) => (
+        <div class={`text-center lg:text-left reveal reveal-delay-${i} bg-white/5 border border-white/10 backdrop-blur-sm rounded-[18px] p-6 shadow-lg shadow-black/10`}>
+          <div class="font-display text-4xl sm:text-5xl font-extrabold text-white leading-none">
+            <span>+</span><span class="stat-num" data-target={s.value}>0</span>
+          </div>
+          <p class="text-white/70 text-sm sm:text-base font-semibold mt-3">{s.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const nums = document.querySelectorAll<HTMLElement>(".stat-num");
+  if (nums.length) {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animate = (el: HTMLElement) => {
+      const target = Number(el.dataset.target || "0");
+      if (reduce) { el.textContent = target.toLocaleString("pt-BR"); return; }
+      const duration = 1400;
+      const start = performance.now();
+      const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+      const step = (now: number) => {
+        const p = Math.min(1, (now - start) / duration);
+        el.textContent = Math.round(target * ease(p)).toLocaleString("pt-BR");
+        if (p < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            animate(e.target as HTMLElement);
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.4 }
+    );
+    nums.forEach((el) => io.observe(el));
+  }
+</script>

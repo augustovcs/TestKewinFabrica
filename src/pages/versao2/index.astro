@@ -1,0 +1,113 @@
+---
+import Layout from "../../versao2/layouts/Layout.astro";
+import Header from "../../versao2/components/Header.astro";
+import Footer from "../../versao2/components/Footer.astro";
+import Hero from "../../versao2/components/Hero.astro";
+import Stats from "../../versao2/components/Stats.astro";
+import SocialProof from "../../versao2/components/SocialProof.astro";
+import ProductShowcase from "../../versao2/components/ProductShowcase";
+import Timeline from "../../versao2/components/Timeline.astro";
+import Gallery from "../../versao2/components/Gallery.astro";
+import Testimonials from "../../versao2/components/Testimonials.astro";
+import CtaFinal from "../../versao2/components/CtaFinal.astro";
+import ResellCta from "../../versao2/components/ResellCta.astro";
+import SocialFeed from "../../versao2/components/SocialFeed";
+import { instagramPosts } from "../../versao2/data/instagram";
+import { site } from "../../versao2/data/site";
+
+// Redes sociais (usadas dentro da seção Galeria)
+const socialLinks = [
+  { label: "TikTok", href: site.social.tiktok, path: "M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 1 1-2.59-2.59c.27 0 .53.04.78.12V9.66a5.7 5.7 0 0 0-.78-.06 5.69 5.69 0 1 0 5.69 5.69V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3a4.29 4.29 0 0 1-3.25-1.48Z" },
+  { label: "Instagram", href: site.social.instagram, path: "M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92C8.42 2.17 8.8 2.16 12 2.16Zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z" },
+  { label: "YouTube", href: site.social.youtube, path: "M23.5 6.2a3 3 0 0 0-2.11-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.52A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.13c1.89.52 9.39.52 9.39.52s7.5 0 9.39-.52a3 3 0 0 0 2.11-2.13A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8ZM9.6 15.6V8.4l6.2 3.6Z" },
+  { label: "Facebook", href: site.social.facebook, path: "M24 12.07C24 5.44 18.63.07 12 .07S0 5.44 0 12.07c0 5.99 4.39 10.95 10.13 11.85v-8.38H7.08v-3.47h3.05V9.43c0-3.01 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.95h-1.51c-1.49 0-1.96.93-1.96 1.87v2.25h3.33l-.53 3.47h-2.8v8.38C19.61 23.02 24 18.06 24 12.07Z" },
+];
+
+// Diferenciais
+const values = [
+  { title: "Qualidade certificada", body: "Padrão de qualidade auditado em todas as etapas — do recebimento do leite à embalagem final.", icon: "M9 12l2 2 4-4m6 2a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" },
+  { title: "Produção regional", body: "Leite de produtores da nossa região, processado pertinho de quem consome. Quando a região prospera, o que chega à mesa é melhor.", icon: "M17.657 16.657L13.414 20.9a2 2 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" },
+  { title: "Logística eficiente", body: "Distribuição própria da fábrica ao ponto de venda, mantendo a cadeia fria e o produto sempre fresquinho.", icon: "M8 16.5V6a2 2 0 012-2h4a2 2 0 012 2v10.5M3 16.5h18M5 20h14M5 16.5l1.5-5h11l1.5 5" },
+  { title: "Controle sanitário", body: "Produção sob Inspeção Federal, com fiscalização e controle sanitário rigoroso em cada lote.", icon: "M12 2 4 5v6c0 5.25 3.5 9.74 8 11 4.5-1.26 8-5.75 8-11V5l-8-3Z" },
+];
+---
+
+<Layout title="Início">
+  <Header />
+
+  <main>
+    <Hero />
+
+    <Stats />
+
+    <SocialProof />
+
+    <!-- Produtos em destaque -->
+    <section class="bg-milk py-20 lg:py-28 overflow-x-clip">
+      <div class="grid lg:grid-cols-[38%_1fr] gap-10 lg:gap-6 items-center">
+        <div class="pl-5 sm:pl-8 lg:pl-[max(2rem,calc((100vw-1152px)/2))] pr-5 reveal reveal-left">
+          <span class="eyebrow">Produtos em destaque</span>
+          <h2 class="font-display text-5xl md:text-7xl leading-[0.9] tracking-tight mt-4">
+            <span class="block font-light text-muted">Os queridinhos</span>
+            <span class="block font-extrabold text-brand-pink">da família</span>
+          </h2>
+          <a href="/versao2/catalogo" class="inline-flex items-center gap-2 font-bold text-brand-green hover:gap-3 transition-all mt-8 text-lg">
+            Ver catálogo completo
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+        <div class="min-w-0 reveal reveal-delay-1">
+          <ProductShowcase client:visible />
+        </div>
+      </div>
+    </section>
+
+    <!-- Diferenciais -->
+    <section class="bg-white py-20 lg:py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12 reveal">
+          <span class="eyebrow">Diferenciais</span>
+          <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+            Leite de verdade começa antes da prateleira.
+          </h2>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {values.map((v, i) => (
+            <div class={`group card p-8 hover:border-brand-green/40 hover:-translate-y-1 transition-all duration-300 reveal reveal-delay-${i}`} style="transition-timing-function: var(--ease-spring);">
+              <div class="w-14 h-14 rounded-[14px] bg-brand-green-tint flex items-center justify-center text-brand-green mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-6">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d={v.icon} /></svg>
+              </div>
+              <h3 class="font-display text-xl font-extrabold text-ink mb-2">{v.title}</h3>
+              <p class="text-muted leading-relaxed">{v.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <Timeline />
+
+    <Gallery />
+
+    <!-- Redes sociais (posts reais do Instagram) -->
+    <section class="bg-white pt-24 lg:pt-32 pb-56 lg:pb-72 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+        <SocialFeed
+          client:visible
+          feedId={site.social.beholdFeedId}
+          handle={site.social.handle}
+          instagram={site.social.instagram}
+          posts={instagramPosts}
+          socials={socialLinks}
+        />
+      </div>
+    </section>
+
+    <Testimonials />
+
+    <CtaFinal />
+  </main>
+
+  <ResellCta />
+  <Footer />
+</Layout>

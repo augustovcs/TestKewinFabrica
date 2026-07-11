@@ -1,0 +1,47 @@
+---
+// Nossa História — timeline com 4 marcos, alinhada ao conteúdo de /sobre.
+const milestones = [
+  {
+    step: "Fundação",
+    body: "Nasce em Vitória da Conquista a Laticínios Conquista, com um propósito simples: levar leite de qualidade da nossa região para a mesa das famílias baianas.",
+  },
+  {
+    step: "Expansão",
+    body: "A linha cresce — do leite pasteurizado às bebidas lácteas fermentadas, ao iogurte natural e à manteiga ConLeite — sempre com o mesmo cuidado do início.",
+  },
+  {
+    step: "Modernização",
+    body: "Produção sob Inspeção Federal e controle de qualidade em cada etapa. Duas marcas, Conquista e ConLeite, saindo da mesma casa.",
+  },
+  {
+    step: "Presente",
+    body: "Um portfólio completo que acompanha o dia a dia da família, distribuído pela região e reconhecido pelo sabor que se repete em cada embalagem.",
+  },
+];
+---
+
+<section id="historia" class="bg-white py-20 lg:py-28">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-16 reveal">
+      <span class="eyebrow">Nossa história</span>
+      <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+        Do leite da região para a sua mesa.
+      </h2>
+    </div>
+
+    <div class="relative">
+      <!-- linha conectora -->
+      <div class="hidden md:block absolute top-6 left-0 right-0 h-[2px] bg-line" aria-hidden="true"></div>
+
+      <div class="grid md:grid-cols-4 gap-10 md:gap-6">
+        {milestones.map((m, i) => (
+          <div class={`relative reveal reveal-delay-${i}`}>
+            <div class="relative z-10 w-3.5 h-3.5 rounded-full bg-brand-green ring-4 ring-brand-lime/25 mb-6"></div>
+            <h3 class="font-display text-xl font-extrabold text-ink">{m.step}</h3>
+            <p class="text-muted leading-relaxed mt-2">{m.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

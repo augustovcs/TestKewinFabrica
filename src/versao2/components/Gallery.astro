@@ -1,0 +1,91 @@
+---
+// Galeria da empresa — grid masonry com lightbox (sem libs externas).
+// Observação: não há fotos do chão de fábrica disponíveis no projeto;
+// use fotos reais de produção/planta se quiser essa cena específica.
+const photos = [
+  { src: "/banners/banner-04.webp", alt: "Produtos Laticínios Conquista", caption: "Produtos", tall: true },
+  { src: "/instagram/DZhgvpgDfrW.jpg", alt: "Queijo mussarela Conquista", caption: "Portfólio" },
+  { src: "/banners/banner-02.webp", alt: "Manteiga ConLeite", caption: "Derivados" },
+  { src: "/instagram/DZ91bZQgX0p.jpg", alt: "Linha de leite Conquista", caption: "Do dia a dia", tall: true },
+  { src: "/banners/banner-06.webp", alt: "Laticínios Conquista", caption: "Qualidade de sempre", tall: true },
+  { src: "/banners/banner-05.webp", alt: "Produtos Laticínios Conquista", caption: "Distribuição regional" },
+];
+---
+
+<section class="bg-milk py-20 lg:py-28">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-12 reveal">
+      <span class="eyebrow">Galeria</span>
+      <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+        De pertinho da nossa produção.
+      </h2>
+    </div>
+
+    <div class="columns-2 lg:columns-3 gap-5 [column-fill:balance]" id="gallery-grid">
+      {photos.map((p, i) => (
+        <button
+          type="button"
+          data-lightbox-trigger
+          data-src={p.src}
+          data-caption={p.caption}
+          class={`group relative block w-full mb-5 break-inside-avoid overflow-hidden rounded-[18px] shadow-sm hover:shadow-2xl transition-shadow duration-300 reveal reveal-delay-${i % 4} cursor-zoom-in`}
+        >
+          <img
+            src={p.src}
+            alt={p.alt}
+            loading="lazy"
+            class={`w-full object-cover transition-transform duration-500 group-hover:scale-[1.06] ${p.tall ? "aspect-[3/4]" : "aspect-square"}`}
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-brand-green-ink/75 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <span class="absolute left-4 bottom-4 text-white text-sm font-semibold opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition-all duration-300">
+            {p.caption}
+          </span>
+          <span class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 text-brand-green-ink flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Zm0-11v6m-3-3h6" /></svg>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-brand-green-ink/95 backdrop-blur-sm p-5" role="dialog" aria-modal="true" aria-label="Visualização de imagem">
+  <button id="lightbox-close" type="button" aria-label="Fechar" class="absolute top-5 right-5 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12" /></svg>
+  </button>
+  <figure class="max-w-4xl w-full">
+    <img id="lightbox-img" src="" alt="" class="w-full max-h-[80svh] object-contain rounded-[10px] shadow-2xl" />
+    <figcaption id="lightbox-caption" class="text-white/80 text-center text-sm font-semibold mt-4"></figcaption>
+  </figure>
+</div>
+
+<script>
+  const lightbox = document.getElementById("lightbox");
+  const lbImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+  const lbCaption = document.getElementById("lightbox-caption");
+  const closeBtn = document.getElementById("lightbox-close");
+
+  const open = (src: string, caption: string) => {
+    if (!lightbox || !lbImg || !lbCaption) return;
+    lbImg.src = src;
+    lbImg.alt = caption;
+    lbCaption.textContent = caption;
+    lightbox.classList.remove("hidden");
+    lightbox.classList.add("flex");
+    document.body.style.overflow = "hidden";
+  };
+  const close = () => {
+    if (!lightbox) return;
+    lightbox.classList.add("hidden");
+    lightbox.classList.remove("flex");
+    document.body.style.overflow = "";
+  };
+
+  document.querySelectorAll<HTMLElement>("[data-lightbox-trigger]").forEach((btn) => {
+    btn.addEventListener("click", () => open(btn.dataset.src || "", btn.dataset.caption || ""));
+  });
+  closeBtn?.addEventListener("click", close);
+  lightbox?.addEventListener("click", (e) => { if (e.target === lightbox) close(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+</script>

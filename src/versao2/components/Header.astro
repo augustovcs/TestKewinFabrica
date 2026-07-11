@@ -1,0 +1,182 @@
+---
+import { site, whatsappLink } from "../data/site";
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/versao2" ? path === "/versao2" : path.startsWith(href);
+
+const links = [
+  { href: "/versao2", label: "Início" },
+  { href: "/versao2/sobre", label: "A Empresa" },
+  { href: "/versao2/catalogo", label: "Catálogo" },
+];
+
+// Mundo de categorias color-coded (estilo Batavo "Produtos →")
+const cats = [
+  { label: "Leites", desc: "Integral e desnatado", dot: "bg-brand-green", text: "group-hover/cat:text-brand-green" },
+  { label: "Bebida Láctea", desc: "Morango, coco e ameixa", dot: "bg-brand-pink", text: "group-hover/cat:text-brand-pink-dark" },
+  { label: "Iogurtes", desc: "Natural desnatado", dot: "bg-brand-lime", text: "group-hover/cat:text-brand-lime-deep" },
+  { label: "Derivados", desc: "Manteiga ConLeite", dot: "bg-line-manteiga", text: "group-hover/cat:text-[#8a6a10]" },
+];
+const wa = whatsappLink();
+---
+
+<header
+  id="main-header"
+  class="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-line transition-shadow duration-300"
+>
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div id="header-inner" class="flex justify-between items-center h-[68px] transition-[height] duration-300">
+      <!-- Logo -->
+      <a href="/versao2" class="flex items-center group" aria-label={`${site.brand} — início`}>
+        <img
+          id="header-logo"
+          src="/logo.webp"
+          alt={site.brand}
+          width="232"
+          height="80"
+          class="h-9 sm:h-10 w-auto transition-all duration-300 group-hover:-translate-y-0.5 group-hover:rotate-[-2deg]"
+        />
+      </a>
+
+      <!-- Cluster à direita: nav + CTA -->
+      <div class="hidden md:flex items-center gap-6">
+      <!-- Desktop nav -->
+      <nav class="flex items-center gap-1">
+        <!-- Início -->
+        <a href="/versao2" class:list={["nav-link", isActive("/versao2") && "is-active"]}>
+          <span>Início</span>
+        </a>
+
+        <!-- Produtos (mega-menu) -->
+        <div class="relative group/menu">
+          <a href="/versao2/catalogo" class:list={["nav-link inline-flex items-center gap-1", isActive("/versao2/catalogo") && "is-active"]}>
+            <span>Produtos</span>
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover/menu:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6 9 6 6 6-6" /></svg>
+          </a>
+          <!-- dropdown -->
+          <div class="absolute left-1/2 -translate-x-1/2 top-full pt-3 w-[22rem] opacity-0 invisible translate-y-2 group-hover/menu:opacity-100 group-hover/menu:visible group-hover/menu:translate-y-0 transition-all duration-200 pointer-events-none group-hover/menu:pointer-events-auto">
+            <div class="bg-white rounded-[16px] border border-line shadow-2xl shadow-black/10 p-2.5">
+              {cats.map((c) => (
+                <a href="/versao2/catalogo" class="group/cat flex items-center gap-3 px-3 py-3 rounded-[11px] hover:bg-milk transition-colors">
+                  <span class={`w-2.5 h-2.5 rounded-full ${c.dot} transition-transform group-hover/cat:scale-125`}></span>
+                  <span class="flex-1">
+                    <span class={`block font-display font-extrabold text-ink text-[15px] leading-none transition-colors ${c.text}`}>{c.label}</span>
+                    <span class="block text-muted text-xs mt-1">{c.desc}</span>
+                  </span>
+                  <svg class="w-4 h-4 text-muted -translate-x-1 opacity-0 group-hover/cat:opacity-100 group-hover/cat:translate-x-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- A Empresa -->
+        <a href="/versao2/sobre" class:list={["nav-link", isActive("/versao2/sobre") && "is-active"]}>
+          <span>A Empresa</span>
+        </a>
+      </nav>
+
+        <!-- CTA -->
+        <a
+          href={wa}
+          target="_blank"
+          rel="noopener"
+          class="inline-flex items-center gap-2 bg-brand-green text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-green-deep hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-green/30 transition-transform duration-200"
+          style="transition-timing-function: var(--ease-spring);"
+        >
+          <svg fill="currentColor" viewBox="0 0 24 24" class="w-4 h-4"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.27-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.98 2.9a9.83 9.83 0 0 1 2.9 6.99c0 5.45-4.44 9.88-9.88 9.88" /></svg>
+          Fale conosco
+        </a>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button
+        type="button"
+        id="mobile-menu-btn"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        aria-label="Abrir menu"
+        class="md:hidden w-10 h-10 flex items-center justify-center rounded-[8px] text-ink hover:bg-milk transition-colors"
+      >
+        <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h16M4 12h16M4 17h16" /></svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 18 6M6 6l12 12" /></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden border-t border-line bg-white">
+    <div class="px-5 py-4 space-y-1">
+      {links.map((l) => (
+        <a href={l.href} class="block px-4 py-3 rounded-[10px] text-base font-semibold text-ink hover:bg-milk transition-colors">{l.label}</a>
+      ))}
+      <div class="pt-2 mt-1 border-t border-line">
+        <span class="block px-4 pt-2 pb-1 text-xs font-bold uppercase tracking-wider text-muted">Nossas linhas</span>
+        {cats.map((c) => (
+          <a href="/versao2/catalogo" class="flex items-center gap-3 px-4 py-2.5 rounded-[10px] hover:bg-milk transition-colors">
+            <span class={`w-2.5 h-2.5 rounded-full ${c.dot}`}></span>
+            <span class="font-semibold text-ink text-[15px]">{c.label}</span>
+          </a>
+        ))}
+      </div>
+      <a href={wa} target="_blank" rel="noopener" class="block mt-3 text-center bg-brand-green text-white px-5 py-3 rounded-full font-semibold">Fale conosco no WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav-link {
+    position: relative;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 8px;
+    color: var(--color-muted);
+    transition: color 0.2s ease;
+  }
+  .nav-link:hover { color: var(--color-ink); }
+  .nav-link.is-active { color: var(--color-brand-green); }
+  /* sublinhado animado */
+  .nav-link > span { position: relative; }
+  .nav-link > span::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    height: 3px; border-radius: 999px;
+    background: var(--color-brand-pink);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-spring);
+  }
+  .nav-link:hover > span::after,
+  .nav-link.is-active > span::after { transform: scaleX(1); }
+
+  /* Navbar reduz ao rolar */
+  #main-header.is-scrolled #header-inner { height: 56px; }
+  #main-header.is-scrolled #header-logo { height: 1.75rem; }
+</style>
+
+<script>
+  // Sombra + encolhe ao rolar
+  const header = document.getElementById("main-header");
+  const onScroll = () => {
+    const scrolled = window.scrollY > 8;
+    header?.classList.toggle("shadow-md", scrolled);
+    header?.classList.toggle("is-scrolled", scrolled);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  // Menu mobile
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+  btn?.addEventListener("click", () => {
+    const open = menu?.classList.toggle("hidden") === false;
+    btn.setAttribute("aria-expanded", String(open));
+    menuIcon?.classList.toggle("hidden", open);
+    closeIcon?.classList.toggle("hidden", !open);
+  });
+</script>

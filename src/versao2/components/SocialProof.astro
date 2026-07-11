@@ -1,0 +1,34 @@
+---
+// Prova social — categorias de parceiros/clientes.
+// Observação: sem logos reais de clientes cedidos ainda; usar categorias
+// genéricas por enquanto. Trocar por logos reais (com autorização) quando
+// a Laticínios Conquista disponibilizar.
+const partners = [
+  { label: "Mercados", icon: "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.3 4.6A1 1 0 0 0 5.6 19H17M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm8 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" },
+  { label: "Padarias", icon: "M4 13a8 8 0 0 1 16 0M4 13v6a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-6M4 13H2m18 0h2M9 21v-4a3 3 0 0 1 6 0v4" },
+  { label: "Distribuidores", icon: "M3 16.5V6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v10.5M3 16.5h11M3 16.5H2M14 16.5h7M17 8h2.5a1 1 0 0 1 .9.55l1.6 3.2v4.75h-2M7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm10 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" },
+  { label: "Parceiros regionais", icon: "M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m5-2.13a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm6 2a4 4 0 1 0-4-4M7 10a4 4 0 1 1 4-4" },
+];
+---
+
+<section class="bg-white py-20 lg:py-24">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mb-12 reveal">
+      <span class="eyebrow">Prova social</span>
+      <h2 class="font-display text-3xl md:text-[2.7rem] font-extrabold text-ink mt-4 leading-[1.05]">
+        Quem confia na Laticínios Conquista.
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {partners.map((p, i) => (
+        <div class={`card p-8 text-center flex flex-col items-center hover:-translate-y-1 hover:border-brand-green/40 transition-all duration-300 reveal reveal-delay-${i}`} style="transition-timing-function: var(--ease-spring);">
+          <div class="w-14 h-14 rounded-full bg-brand-green-tint flex items-center justify-center text-brand-green mb-5">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d={p.icon} /></svg>
+          </div>
+          <h3 class="font-display font-extrabold text-ink">{p.label}</h3>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

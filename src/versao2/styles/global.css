@@ -1,0 +1,194 @@
+@import "tailwindcss";
+
+@theme {
+  /* ===== Laticínios Conquista — verdes base + magenta de assinatura ===== */
+  /* Verdes (brief) */
+  --color-brand-green: #366d4b;        /* verde escuro — primário/estrutura */
+  --color-brand-green-deep: #28523a;   /* superfícies profundas */
+  --color-brand-green-ink: #163225;    /* seções mais escuras */
+  --color-brand-green-tint: #e9f1ea;   /* wash suave */
+  --color-brand-lime: #99bf17;         /* verde claro — energia/realce */
+  --color-brand-lime-deep: #7da00f;    /* lime para hover/contraste */
+  --color-brand-lime-tint: #f1f6dc;
+
+  /* Magenta — acento de assinatura (uso pontual) */
+  --color-brand-pink: #e6007e;
+  --color-brand-pink-dark: #b80064;
+  --color-brand-pink-tint: #fce4f1;
+
+  /* Linhas de produto (acentos sutis) */
+  --color-line-integral: #d81e2c;      /* leite integral / morango */
+  --color-line-desnatado: #1b53b3;     /* leite desnatado / natural */
+  --color-line-coco: #4f8a3d;          /* coco */
+  --color-line-manteiga: #f1b41f;      /* manteiga */
+
+  /* ===== Neutros — leite/creme quente + tinta esverdeada ===== */
+  --color-ink: #16261d;        /* títulos / quase-preto esverdeado */
+  --color-ink-soft: #31453a;   /* corpo forte */
+  --color-muted: #5f7367;      /* texto secundário */
+  --color-line: #e1e9e1;       /* fios/hairlines */
+  --color-milk: #f5f8f2;       /* off-white fresco */
+  --color-cream: #fbf7ee;      /* creme quente */
+  --color-night: #102018;      /* fundo escuro atmosférico */
+
+  --font-sans: 'Hanken Grotesk', system-ui, -apple-system, sans-serif;
+  --font-display: 'Bricolage Grotesque', 'Hanken Grotesk', system-ui, sans-serif;
+  --font-editorial: 'Fraunces', 'Bricolage Grotesque', Georgia, serif;
+
+  --radius: 12px;       /* cards/botões — pegada amigável */
+  --radius-sm: 6px;     /* chips/inputs */
+  --radius-lg: 22px;    /* tiles grandes estilo Batavo */
+
+  /* Easings de assinatura */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* overshoot springy */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply font-sans bg-white text-ink-soft antialiased; }
+  main { overflow-x: clip; }   /* impede sangria horizontal de reveals/animações */
+
+  h1, h2, h3, h4 {
+    @apply font-display text-ink;
+    letter-spacing: -0.02em;
+  }
+  h1 { letter-spacing: -0.035em; }
+
+  ::selection { background: var(--color-brand-pink); color: white; }
+}
+
+@layer components {
+  /* Eyebrow — barra magenta + texto verde */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.18em] text-brand-green;
+  }
+  .eyebrow::before { content: ""; @apply inline-block w-7 h-[3px] rounded-full bg-brand-pink; }
+  .eyebrow-light { @apply text-brand-lime; }
+  .eyebrow-light::before { @apply bg-brand-pink; }
+
+  /* Botões — arredondados, com leve elevação springy no hover */
+  .btn-primary, .btn-accent, .btn-lime, .btn-ghost, .btn-ghost-light {
+    @apply inline-flex items-center justify-center gap-2 font-semibold px-7 py-3.5;
+    border-radius: 999px;
+    transition: transform .25s var(--ease-spring), background-color .2s ease, box-shadow .25s ease, color .2s ease;
+  }
+  .btn-primary { @apply bg-brand-green text-white hover:bg-brand-green-deep hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-green/30; }
+  .btn-accent  { @apply bg-brand-pink text-white hover:bg-brand-pink-dark hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-pink/30; }
+  .btn-lime    { @apply bg-brand-lime text-brand-green-ink hover:bg-brand-lime-deep hover:-translate-y-1 hover:shadow-xl hover:shadow-brand-lime/30; }
+  .btn-ghost   { @apply border border-line text-ink hover:border-brand-green hover:text-brand-green hover:bg-brand-green-tint hover:-translate-y-0.5; }
+  .btn-ghost-light { @apply border border-white/40 text-white hover:bg-white/12 hover:border-white/70 hover:-translate-y-0.5; }
+
+  /* Pill "prepare agora" estilo Batavo */
+  .pill-cta {
+    @apply inline-flex items-center gap-2 font-bold text-sm px-6 py-3 bg-white text-brand-green;
+    border-radius: 999px;
+    transition: transform .3s var(--ease-spring), box-shadow .3s ease;
+  }
+  .pill-cta:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 12px 28px rgba(0,0,0,.15); }
+
+  /* Card */
+  .card { @apply bg-white border border-line shadow-[0_2px_10px_rgba(22,50,37,0.05)]; border-radius: var(--radius); }
+
+  /* Moldura de produto — vinheta suave que disfarça o fundo amador */
+  .product-media { position: relative; isolation: isolate; background: radial-gradient(120% 120% at 50% 35%, var(--color-cream), var(--color-milk)); }
+  .product-media::after {
+    content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    box-shadow: inset 0 0 36px 14px var(--color-milk);
+    border-radius: inherit;
+  }
+
+  /* Tile grande estilo Batavo (fundo colorido + produto flutuando) */
+  .tile { border-radius: var(--radius-lg); position: relative; isolation: isolate; overflow: hidden; }
+}
+
+/* ===================================================================
+   MOTION — assinatura Batavo (traduzida p/ verde/magenta)
+   =================================================================== */
+
+/* --- Onda animada do hero (React, sem style scoped) --- */
+.wave-hero-svg { animation: waveMove 6s linear infinite; }
+@keyframes waveMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* --- Esconder scrollbar (carrosséis horizontais) --- */
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-none::-webkit-scrollbar { display: none; }
+
+/* --- Marquee / ticker infinito --- */
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; align-items: center; gap: 2.5rem; animation: marquee 26s linear infinite; will-change: transform; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-track.reverse { animation-direction: reverse; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* --- Float / bobbing (produtos, doodles) --- */
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes floatYbig { 0%,100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-18px) rotate(1deg); } }
+.float-slow { animation: floatY 8s ease-in-out infinite; }
+.float-a { animation: floatYbig 7s ease-in-out infinite; }
+.float-b { animation: floatYbig 9s ease-in-out infinite; animation-delay: -2s; }
+.float-c { animation: floatY 6s ease-in-out infinite; animation-delay: -1s; }
+
+/* --- Spin lento (moinho/doodle decorativo) --- */
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spinSlow 14s linear infinite; transform-origin: 50% 50%; }
+/* pás do moinho (grupo SVG) — gira em torno do próprio centro */
+.spin-blades { transform-box: fill-box; transform-origin: center; animation: spinSlow 7s linear infinite; }
+
+/* --- Blob morph (fundos atmosféricos) --- */
+@keyframes blobMorph {
+  0%,100% { border-radius: 42% 58% 63% 37% / 42% 45% 55% 58%; transform: translate(0,0) scale(1); }
+  33% { border-radius: 63% 37% 41% 59% / 58% 63% 37% 42%; transform: translate(3%,-3%) scale(1.05); }
+  66% { border-radius: 40% 60% 55% 45% / 55% 40% 60% 45%; transform: translate(-3%,3%) scale(0.97); }
+}
+.blob { animation: blobMorph 18s ease-in-out infinite; will-change: transform, border-radius; }
+
+/* --- Scroll cue (chevron bounce) --- */
+@keyframes bounceY { 0%,100% { transform: translateY(0); opacity: .7; } 50% { transform: translateY(7px); opacity: 1; } }
+.scroll-cue { animation: bounceY 1.8s ease-in-out infinite; }
+
+/* --- Bike/doodle "rolando" (leve balanço) --- */
+@keyframes wobble { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.wobble { animation: wobble 2.6s ease-in-out infinite; }
+
+/* --- Pop de entrada (springy) --- */
+@keyframes pop { 0% { transform: scale(.9); opacity: 0; } 60% { transform: scale(1.03); } 100% { transform: scale(1); opacity: 1; } }
+.pop-in { animation: pop .5s var(--ease-spring) both; }
+
+/* ===== Reveal por scroll (IntersectionObserver no Layout) ===== */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease-smooth), transform .7s var(--ease-smooth); will-change: opacity, transform; }
+.reveal-left { transform: translateX(-34px); }
+.reveal-right { transform: translateX(34px); }
+.reveal-scale { transform: scale(.94); }
+.reveal.is-visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: .08s; }
+.reveal-delay-2 { transition-delay: .16s; }
+.reveal-delay-3 { transition-delay: .24s; }
+.reveal-delay-4 { transition-delay: .32s; }
+
+/* ===== Atmosfera: grão de filme (anti-IA) ===== */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  opacity: 0.5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ===== Foco ===== */
+:focus-visible { outline: 2px solid var(--color-brand-pink); outline-offset: 2px; border-radius: 3px; }
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 11px; }
+::-webkit-scrollbar-track { background: var(--color-milk); }
+::-webkit-scrollbar-thumb { background: var(--color-brand-green); border: 3px solid var(--color-milk); border-radius: 99px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  .marquee-track { animation: none !important; }
+}
