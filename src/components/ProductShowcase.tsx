@@ -53,7 +53,7 @@ export default function ProductShowcase() {
               {/* glow difuso atrás do card ativo */}
               <span
                 aria-hidden
-                className="absolute -inset-[20%] -z-10 rounded-[60px] blur-3xl"
+                className="pointer-events-none absolute -inset-[20%] -z-10 rounded-[60px] blur-3xl"
                 style={{ background: "radial-gradient(closest-side, rgba(255,255,255,.92), rgba(153,191,23,.35) 55%, rgba(255,255,255,0) 78%)", opacity: "var(--glow,0)" }}
               />
 
