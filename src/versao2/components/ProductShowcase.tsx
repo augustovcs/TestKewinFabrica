@@ -14,6 +14,7 @@ export default function ProductShowcase() {
   const track = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
   const [index, setIndex] = useState(1); // começa no 2º card
+  const [paused, setPaused] = useState(false);
 
   // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam)
   useEffect(() => {
@@ -30,21 +31,30 @@ export default function ProductShowcase() {
         c.style.setProperty("--glow", i === index ? "1" : "0");
       });
     };
-    layout();
+    // 1º layout após o paint (garante offsetLeft/Width já medidos)
+    const raf = requestAnimationFrame(layout);
     window.addEventListener("resize", layout);
-    return () => window.removeEventListener("resize", layout);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", layout); };
   }, [index]);
 
-  const go = (d: number) => setIndex((i) => Math.min(products.length - 1, Math.max(0, i + d)));
+  // Autoplay com loop (pausa no hover e respeita prefers-reduced-motion)
+  useEffect(() => {
+    if (paused) return;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % products.length), 3200);
+    return () => clearInterval(id);
+  }, [paused]);
+
+  const go = (d: number) => setIndex((i) => (i + d + products.length) % products.length);
 
   return (
-    <div>
+    <div onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       {/* wrapper corta só na horizontal; vertical transborda (produtos flutuantes sem corte) */}
       <div ref={wrap} className="overflow-x-clip pt-28 pb-6">
         <div ref={track} className="flex gap-4 will-change-transform" style={{ transition: "transform .45s cubic-bezier(.22,1,.36,1)" }}>
           {products.map((p, i) => (
             <a
-              ref={(n) => (cards.current[i] = n)}
+              ref={(n) => { cards.current[i] = n; }}
               key={p.id}
               href={`/catalogo#${p.id}`}
               className="cf-card group shrink-0 w-[320px] relative origin-bottom will-change-transform transition-transform duration-500 hover:-translate-y-2"
@@ -93,7 +103,7 @@ export default function ProductShowcase() {
 
       {/* setas nuas + bicicleta */}
       <div className="flex items-center justify-center gap-8 mt-2">
-        <button onClick={() => go(-1)} aria-label="Anterior" className="text-brand-green hover:text-brand-green-deep transition-transform hover:-translate-x-0.5 disabled:opacity-30" disabled={index === 0}>
+        <button onClick={() => go(-1)} aria-label="Anterior" className="text-brand-green hover:text-brand-green-deep transition-transform hover:-translate-x-0.5">
           <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
         </button>
         <svg className="wobble w-14 h-10 text-brand-green" viewBox="0 0 64 40" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -104,7 +114,7 @@ export default function ProductShowcase() {
           <path d="M38 14 L41 10 L45 10" />
           <path d="M14 28 L20 14 L26 14" />
         </svg>
-        <button onClick={() => go(1)} aria-label="Próximo" className="text-brand-green hover:text-brand-green-deep transition-transform hover:translate-x-0.5 disabled:opacity-30" disabled={index === products.length - 1}>
+        <button onClick={() => go(1)} aria-label="Próximo" className="text-brand-green hover:text-brand-green-deep transition-transform hover:translate-x-0.5">
           <ChevronRight className="w-7 h-7" strokeWidth={2.5} />
         </button>
       </div>
