@@ -54,13 +54,15 @@ export default function ProductShowcase() {
     return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", layout); };
   }, [index]);
 
-  // Autoplay com loop (pausa no hover e respeita prefers-reduced-motion)
+  // Autoplay com loop (pausa no hover e respeita prefers-reduced-motion).
+  // `index` nas deps reinicia a contagem a cada troca — inclusive nas manuais,
+  // senão o autoplay podia avançar logo depois de um clique na seta.
   useEffect(() => {
     if (paused) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % products.length), 3200);
-    return () => clearInterval(id);
-  }, [paused]);
+    const id = setTimeout(() => setIndex((i) => (i + 1) % products.length), 3200);
+    return () => clearTimeout(id);
+  }, [paused, index]);
 
   const go = (d: number) => setIndex((i) => (i + d + products.length) % products.length);
 
