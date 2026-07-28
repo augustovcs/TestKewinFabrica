@@ -62,15 +62,17 @@ export default function SocialFeed({
           </div>
         </div>
 
-        {/* Feed EmbedSocial */}
+        {/* Feed EmbedSocial — a largura de 900px é o que faz o embed usar o
+            layout de 3 cards; abaixo disso ele cai p/ 1 card gigante.
+            A altura precisa sobrar em relação ao conteúdo (~530px) senão o
+            iframe cria barra de rolagem própria; scrolling="no" garante que
+            ela não apareça de jeito nenhum. */}
         <div className="self-center min-w-0">
           <iframe
             src="https://embedsocial.com/api/pro_hashtag/739d07504d0162fb98113b435b0e7b755b7a99d6"
-            width="900"
-            height="1200"
-            frameBorder="0"
-            marginHeight={0}
-            marginWidth={0}
+            className="block w-[900px] max-w-[420px] lg:max-w-none h-[740px] lg:h-[600px] border-0"
+            scrolling="no"
+            loading="lazy"
             title="Feed do Instagram"
           />
         </div>
