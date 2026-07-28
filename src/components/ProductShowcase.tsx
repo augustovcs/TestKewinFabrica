@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { products } from "../data/products";
+
+const EASE = "transform .45s cubic-bezier(.22,1,.36,1)";
+// abaixo desse deslocamento o gesto conta como clique, não como arrasto
+const DRAG_SLOP = 6;
 
 // Cutout transparente (fundo removido) do produto
 const cutout = (img: string) => "/produtos/cutout/" + img.split("/").pop()!.replace(/\.\w+$/, ".png");
@@ -14,40 +18,94 @@ export default function ProductShowcase() {
   const track = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
   const [index, setIndex] = useState(1); // começa no 2º card
+  const drag = useRef<{ startX: number; base: number; dx: number } | null>(null);
+  const dragged = useRef(false); // arrastou? então o clique no card não navega
+
+  // deslocamento do track que deixa o card `i` centralizado
+  const offsetFor = useCallback((i: number) => {
+    const w = wrap.current, a = cards.current[i];
+    return w && a ? w.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2) : 0;
+  }, []);
 
   // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam).
   // A escala vai numa CSS var p/ o hover poder somar um --lift por cima.
+  const layout = useCallback(() => {
+    const tk = track.current;
+    if (!tk) return;
+    tk.style.transition = EASE;
+    tk.style.transform = `translateX(${offsetFor(index)}px)`;
+    cards.current.forEach((c, i) => {
+      if (!c) return;
+      const t = Math.max(0, 1 - Math.abs(i - index) * 0.55);
+      c.style.setProperty("--scale", String(0.84 + 0.26 * t));
+      c.style.zIndex = String(100 - Math.abs(i - index));
+      c.style.opacity = String(0.82 + 0.18 * t);
+      c.style.setProperty("--glow", i === index ? "1" : "0");
+    });
+  }, [index, offsetFor]);
+
   useEffect(() => {
-    const layout = () => {
-      const w = wrap.current, tk = track.current, a = cards.current[index];
-      if (!w || !tk || !a) return;
-      tk.style.transform = `translateX(${w.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2)}px)`;
-      cards.current.forEach((c, i) => {
-        if (!c) return;
-        const t = Math.max(0, 1 - Math.abs(i - index) * 0.55);
-        c.style.setProperty("--scale", String(0.84 + 0.26 * t));
-        c.style.zIndex = String(100 - Math.abs(i - index));
-        c.style.opacity = String(0.82 + 0.18 * t);
-        c.style.setProperty("--glow", i === index ? "1" : "0");
-      });
-    };
     layout();
     window.addEventListener("resize", layout);
     return () => window.removeEventListener("resize", layout);
-  }, [index]);
+  }, [layout]);
 
   const go = (d: number) => setIndex((i) => Math.min(products.length - 1, Math.max(0, i + d)));
+
+  // --- arrastar para o lado (Pointer Events nativos, sem lib de carrossel) ---
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    drag.current = { startX: e.clientX, base: offsetFor(index), dx: 0 };
+    dragged.current = false;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    if (track.current) track.current.style.transition = "none";
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current, tk = track.current;
+    if (!d || !tk) return;
+    d.dx = e.clientX - d.startX;
+    if (Math.abs(d.dx) > DRAG_SLOP) dragged.current = true;
+    tk.style.transform = `translateX(${d.base + d.dx}px)`;
+  };
+
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = drag.current, w = wrap.current;
+    drag.current = null;
+    if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
+    if (!d || !w) return;
+    // encaixa no card mais próximo do centro na posição em que soltou
+    const center = w.clientWidth / 2 - (d.base + d.dx);
+    let nearest = index, best = Infinity;
+    cards.current.forEach((c, i) => {
+      if (!c) return;
+      const dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
+      if (dist < best) { best = dist; nearest = i; }
+    });
+    // se o índice não muda o efeito não roda, então recoloca no lugar aqui
+    if (nearest === index) layout();
+    else setIndex(nearest);
+  };
 
   return (
     <div>
       {/* wrapper corta só na horizontal; vertical transborda (produtos flutuantes sem corte) */}
-      <div ref={wrap} className="overflow-x-clip pt-28 pb-6">
-        <div ref={track} className="flex gap-4 will-change-transform" style={{ transition: "transform .45s cubic-bezier(.22,1,.36,1)" }}>
+      <div
+        ref={wrap}
+        className="overflow-x-clip pt-28 pb-6 cursor-grab active:cursor-grabbing select-none touch-pan-y"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+      >
+        <div ref={track} className="flex gap-4 will-change-transform" style={{ transition: EASE }}>
           {products.map((p, i) => (
             <a
-              ref={(n) => (cards.current[i] = n)}
+              ref={(n) => { cards.current[i] = n; }}
               key={p.id}
               href={`/catalogo#${p.id}`}
+              draggable={false}
+              onClick={(e) => { if (dragged.current) e.preventDefault(); }}
               className="cf-card group shrink-0 w-[300px] relative origin-bottom will-change-transform hover:[--lift:-14px]"
               style={{
                 aspectRatio: "547 / 832",
@@ -78,6 +136,7 @@ export default function ProductShowcase() {
                 src={cutout(p.image)}
                 alt={p.name}
                 loading="lazy"
+                draggable={false}
                 width={520}
                 height={650}
                 className="absolute left-1/2 -translate-x-1/2 -top-[15%] w-[86%] h-[62%] object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]"
