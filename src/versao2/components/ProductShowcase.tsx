@@ -16,7 +16,8 @@ export default function ProductShowcase() {
   const [index, setIndex] = useState(1); // começa no 2º card
   const [paused, setPaused] = useState(false);
 
-  // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam)
+  // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam).
+  // A escala vai numa CSS var p/ o hover poder somar um --lift por cima.
   useEffect(() => {
     const layout = () => {
       const w = wrap.current, tk = track.current, a = cards.current[index], first = cards.current[0];
@@ -27,7 +28,7 @@ export default function ProductShowcase() {
       cards.current.forEach((c, i) => {
         if (!c) return;
         const t = Math.max(0, 1 - Math.abs(i - index) * 0.55);
-        c.style.transform = `scale(${0.84 + 0.26 * t})`;
+        c.style.setProperty("--scale", String(0.84 + 0.26 * t));
         c.style.zIndex = String(100 - Math.abs(i - index));
         c.style.opacity = String(0.82 + 0.18 * t);
         c.style.setProperty("--glow", i === index ? "1" : "0");
@@ -59,8 +60,12 @@ export default function ProductShowcase() {
               ref={(n) => { cards.current[i] = n; }}
               key={p.id}
               href={`/catalogo#${p.id}`}
-              className="cf-card group shrink-0 w-[320px] relative origin-bottom will-change-transform transition-transform duration-500 hover:-translate-y-2"
-              style={{ aspectRatio: "547 / 832", transition: "transform .45s cubic-bezier(.22,1,.36,1), opacity .45s ease" }}
+              className="cf-card group shrink-0 w-[320px] relative origin-bottom will-change-transform hover:[--lift:-14px]"
+              style={{
+                aspectRatio: "547 / 832",
+                transform: "translateY(var(--lift, 0px)) scale(var(--scale, 1))",
+                transition: "transform .45s cubic-bezier(.22,1,.36,1), opacity .45s ease",
+              }}
             >
               {/* glow difuso atrás do card ativo */}
               <span
