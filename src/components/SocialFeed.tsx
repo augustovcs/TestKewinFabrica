@@ -1,13 +1,12 @@
 interface Props {
   handle: string;
   instagram: string;
-  socials: { label: string; href: string; path: string }[];
 }
 
-export default function SocialFeed({
-  handle,
-  socials,
-}: Props) {
+const INSTAGRAM_PATH =
+  "M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.64.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92C2.17 15.58 2.16 15.2 2.16 12s.01-3.58.07-4.85c.15-3.23 1.66-4.77 4.92-4.92C8.42 2.17 8.8 2.16 12 2.16Zm0 3.68a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88Z";
+
+export default function SocialFeed({ handle, instagram }: Props) {
   return (
     <div>
       {/* Título + feed ficam ACIMA da linha divisória */}
@@ -21,6 +20,7 @@ export default function SocialFeed({
             com a gente
           </h2>
         </div>
+
         {/* Feed EmbedSocial — a largura de 900px é o que faz o embed usar o
             layout de 3 cards; abaixo disso ele cai p/ 1 card gigante.
             A altura precisa sobrar em relação ao conteúdo (~530px) senão o
@@ -39,7 +39,7 @@ export default function SocialFeed({
 
       <div className="h-px bg-brand-green/20 mt-8" aria-hidden />
 
-      {/* Texto + redes colados logo abaixo da linha */}
+      {/* Texto + Instagram colados logo abaixo da linha */}
       <div className="mt-5">
         <p className="text-muted leading-relaxed max-w-xl">
           Receitas, bastidores e novidades da Laticínios Conquista. Siga{" "}
@@ -47,22 +47,17 @@ export default function SocialFeed({
           com a gente.
         </p>
 
-        <div className="flex items-center gap-5 mt-3">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener"
-              aria-label={s.label}
-              className="text-brand-green hover:text-brand-pink hover:-translate-y-1 transition-transform"
-            >
-              <svg fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
-                <path d={s.path} />
-              </svg>
-            </a>
-          ))}
-        </div>
+        <a
+          href={instagram}
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram"
+          className="inline-flex mt-3 text-brand-green hover:text-brand-pink hover:-translate-y-1 transition-transform"
+        >
+          <svg fill="currentColor" viewBox="0 0 24 24" className="w-6 h-6">
+            <path d={INSTAGRAM_PATH} />
+          </svg>
+        </a>
       </div>
     </div>
   );
