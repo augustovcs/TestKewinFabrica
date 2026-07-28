@@ -125,7 +125,7 @@ export default function ProductShowcase() {
             <a
               ref={(n) => { cards.current[i] = n; }}
               key={p.id}
-              href={`/catalogo#${p.id}`}
+              href={`/versao2/catalogo#${p.id}`}
               draggable={false}
               onClick={(e) => { if (dragged.current) e.preventDefault(); }}
               className="cf-card group shrink-0 w-[320px] relative origin-bottom will-change-transform hover:[--lift:-14px]"
