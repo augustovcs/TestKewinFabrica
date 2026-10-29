@@ -1,6 +1,6 @@
 ---
 import { site, whatsappLink } from "../data/site";
-import { products } from "../data/products";
+import { products, categories } from "../data/products";
 
 interface Props {
   // Cor da seção logo acima do footer — pinta o fundo da faixa da onda para
@@ -19,10 +19,13 @@ const socials = [
 ];
 
 // Colunas de navegação (conteúdo real Conquista)
-const categorias = ["Leites", "Bebida Láctea", "Iogurtes", "Derivados"];
+const categorias = categories;
 const marcas = [site.brandShort, site.subBrand];
-const tiposA = products.slice(0, 4);
-const tiposB = products.slice(4);
+// Destaques (catálogo completo fica em /catalogo)
+const destaques = ["leite-integral", "bebida-morango", "bebida-graviola", "iogurte-morango-zero", "iogurte-natural", "queijo-mussarela", "requeijao", "manteiga"];
+const tipos = products.filter((p) => destaques.includes(p.id));
+const tiposA = tipos.slice(0, 4);
+const tiposB = tipos.slice(4);
 const navegacao = [
   { label: "Início", href: "/" },
   { label: "A Empresa", href: "/sobre" },
@@ -51,7 +54,7 @@ const institucional = [
         <h3 class="text-sm font-bold text-white/90 mb-5">Categorias</h3>
         <ul class="space-y-3 text-sm">
           {categorias.map((c) => (
-            <li><a href="/catalogo" class="text-white/60 hover:text-brand-lime transition-colors">{c}</a></li>
+            <li><a href={`/catalogo?c=${encodeURIComponent(c)}`} class="text-white/60 hover:text-brand-lime transition-colors">{c}</a></li>
           ))}
         </ul>
       </div>

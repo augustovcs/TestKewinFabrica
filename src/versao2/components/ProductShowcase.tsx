@@ -6,9 +6,6 @@ const EASE = "transform .45s cubic-bezier(.22,1,.36,1)";
 // abaixo desse deslocamento o gesto conta como clique, não como arrasto
 const DRAG_SLOP = 6;
 
-// Cutout transparente (fundo removido) do produto
-const cutout = (img: string) => "/produtos/cutout/" + img.split("/").pop()!.replace(/\.\w+$/, ".png");
-
 // Shape do card (Batavo): rounded-rect com degrau no canto inferior direito
 const CARD_PATH =
   "M547 24C547 10.7452 536.255 0 523 0H24C10.7452 0 0 10.7452 0 24V808C0 821.255 10.7452 832 24 832H376C385.952 832 396 824 398 811C431.142 811 489.5 811 521.5 811C541 811 547 797.5 547 787V24Z";
@@ -157,13 +154,13 @@ export default function ProductShowcase() {
 
               {/* produto flutuando pra fora do topo (sem painel) */}
               <img
-                src={cutout(p.image)}
+                src={p.image}
                 alt={p.name}
                 loading="lazy"
                 draggable={false}
                 width={520}
                 height={650}
-                className="absolute left-1/2 -translate-x-1/2 -top-[15%] w-[86%] h-[62%] object-contain drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]"
+                className="absolute left-1/2 -translate-x-1/2 -top-[15%] w-[86%] h-[62%] object-contain object-bottom drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]"
               />
 
               {/* nome + botão no rodapé do card */}

@@ -17,6 +17,7 @@ const catStyle: Record<Category, { tile: string; tab: string }> = {
   "Leites":        { tile: "from-brand-green-tint to-white", tab: "bg-brand-green text-white" },
   "Bebida Láctea": { tile: "from-brand-pink-tint to-white",  tab: "bg-brand-pink text-white" },
   "Iogurtes":      { tile: "from-brand-lime-tint to-white",  tab: "bg-brand-lime text-brand-green-ink" },
+  "Queijos":       { tile: "from-[#fdf3d7] to-white",        tab: "bg-brand-green-deep text-white" },
   "Derivados":     { tile: "from-line-manteiga/20 to-white", tab: "bg-line-manteiga text-[#5c4708]" },
 };
 
@@ -28,6 +29,12 @@ export default function ProductCatalog() {
     filter === "Todos" ? products : products.filter((p) => p.category === filter);
 
   const close = useCallback(() => setSelected(null), []);
+
+  // Filtro inicial via ?c=Categoria (links do footer)
+  useEffect(() => {
+    const c = new URLSearchParams(window.location.search).get("c") as Category | null;
+    if (c && categories.includes(c)) setFilter(c);
+  }, []);
 
   // Abrir produto a partir do hash (#id), inclusive vindo da home
   useEffect(() => {
@@ -102,7 +109,7 @@ export default function ProductCatalog() {
                     loading="lazy"
                     width={900}
                     height={900}
-                    className="relative z-[1] w-full h-full object-cover group-hover:scale-110 group-hover:-rotate-2 transition-transform duration-500"
+                    className="relative z-[1] w-full h-full object-contain p-8 drop-shadow-[0_14px_18px_rgba(22,50,37,0.18)] group-hover:scale-105 group-hover:-rotate-2 transition-transform duration-500"
                   />
                   <span className={`absolute z-[3] top-3 left-3 text-[11px] font-bold uppercase tracking-wide text-white px-2.5 py-1 rounded-full ${a.bg}`}>
                     {p.category}
@@ -116,6 +123,11 @@ export default function ProductCatalog() {
                     {p.name}
                   </h3>
                   <p className="text-muted text-sm mt-2 leading-relaxed">{p.tagline}</p>
+                  {p.variants && (
+                    <p className="text-xs font-semibold text-ink-soft mt-3">
+                      {p.variants.map((v) => v.label).join(" · ")}
+                    </p>
+                  )}
                   <span className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-green mt-4 group-hover:gap-2.5 transition-all">
                     Ver detalhes
                     <ArrowRight className="w-4 h-4" />
@@ -149,7 +161,7 @@ export default function ProductCatalog() {
               onClick={(e) => e.stopPropagation()}
               className="bg-white w-full sm:max-w-3xl max-h-[92vh] overflow-y-auto rounded-t-[18px] sm:rounded-[18px] shadow-2xl"
             >
-              <ModalContent product={selected} onClose={close} />
+              <ModalContent key={selected.id} product={selected} onClose={close} />
             </motion.div>
           </motion.div>
         )}
@@ -160,11 +172,34 @@ export default function ProductCatalog() {
 
 function ModalContent({ product, onClose }: { product: Product; onClose: () => void }) {
   const a = accentClasses[product.accent];
+  const [variant, setVariant] = useState(0);
+  const v = product.variants?.[variant];
   return (
     <div className="grid md:grid-cols-2">
-      {/* Imagem */}
-      <div className="product-media relative h-56 md:h-full min-h-[240px]">
-        <img src={product.image} alt={product.name} className="relative z-[1] w-full h-full object-cover" />
+      {/* Imagem + troca de embalagem */}
+      <div className="product-media relative flex flex-col justify-center">
+        <img
+          src={v?.image ?? product.image}
+          alt={v ? `${product.name} — ${v.label}` : product.name}
+          className="relative z-[1] w-full h-64 md:h-[420px] object-contain p-8 drop-shadow-[0_18px_22px_rgba(22,50,37,0.22)]"
+        />
+        {product.variants && (
+          <div role="group" aria-label="Embalagens" className="relative z-[3] flex justify-center gap-2 px-4 pb-5">
+            {product.variants.map((opt, i) => (
+              <button
+                key={opt.label}
+                onClick={() => setVariant(i)}
+                aria-pressed={i === variant}
+                className={`flex flex-col items-center gap-1 min-w-16 rounded-[10px] border-2 bg-white/80 p-1.5 transition-colors ${
+                  i === variant ? "border-brand-green" : "border-transparent hover:border-line"
+                }`}
+              >
+                <img src={opt.image} alt="" loading="lazy" className="h-10 w-full object-contain" />
+                <span className="text-[11px] font-bold text-ink">{opt.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
         <button
           onClick={onClose}
           aria-label="Fechar"

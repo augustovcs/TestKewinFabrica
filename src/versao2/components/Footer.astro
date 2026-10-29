@@ -1,6 +1,6 @@
 ---
 import { site, whatsappLink } from "../data/site";
-import { products } from "../data/products";
+import { products, categories } from "../data/products";
 const year = new Date().getFullYear();
 const wa = whatsappLink();
 
@@ -11,10 +11,13 @@ const socials = [
 ];
 
 // Colunas de navegação (conteúdo real Conquista)
-const categorias = ["Leites", "Bebida Láctea", "Iogurtes", "Derivados"];
+const categorias = categories;
 const marcas = [site.brandShort, site.subBrand];
-const tiposA = products.slice(0, 4);
-const tiposB = products.slice(4);
+// Destaques (catálogo completo fica em /catalogo)
+const destaques = ["leite-integral", "bebida-morango", "bebida-graviola", "iogurte-morango-zero", "iogurte-natural", "queijo-mussarela", "requeijao", "manteiga"];
+const tipos = products.filter((p) => destaques.includes(p.id));
+const tiposA = tipos.slice(0, 4);
+const tiposB = tipos.slice(4);
 const navegacao = [
   { label: "Início", href: "/versao2" },
   { label: "A Empresa", href: "/versao2/sobre" },
@@ -60,7 +63,7 @@ const institucional = [
         <h3 class="text-sm font-bold text-white/90 mb-5">Categorias</h3>
         <ul class="space-y-3 text-sm">
           {categorias.map((c) => (
-            <li><a href="/versao2/catalogo" class="inline-block text-white/60 hover:text-brand-lime hover:translate-x-0.5 transition-all duration-200">{c}</a></li>
+            <li><a href={`/versao2/catalogo?c=${encodeURIComponent(c)}`} class="inline-block text-white/60 hover:text-brand-lime hover:translate-x-0.5 transition-all duration-200">{c}</a></li>
           ))}
         </ul>
       </div>
