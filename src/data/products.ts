@@ -42,22 +42,33 @@ const img = (f: string) => `/produtos/studio/${f}.webp`;
 const sizes = (id: string, list: string[]): Variant[] =>
   list.map((s) => ({ label: `${s} g`, image: img(`${id}-${s}`) }));
 
-// Tabelas ilustrativas compartilhadas por linha
-const nutBebida: NutritionRow[] = [
-  { label: "Valor energético", amount: "150 kcal", vd: "8%" },
-  { label: "Carboidratos", amount: "23 g", vd: "8%" },
-  { label: "Açúcares totais", amount: "20 g", vd: "—" },
-  { label: "Proteínas", amount: "4,0 g", vd: "8%" },
-  { label: "Cálcio", amount: "160 mg", vd: "16%" },
+// Tabelas compartilhadas (mesmo rótulo em vários sabores)
+// "Polpa de fruta" 200 g: bebidas ameixa/graviola/coco e iogurte salada de frutas
+const nutPolpa: NutritionRow[] = [
+  { label: "Valor energético", amount: "187 kcal = 785 kJ", vd: "8%" },
+  { label: "Carboidratos", amount: "25 g", vd: "7%" },
+  { label: "Proteínas", amount: "6 g", vd: "10%" },
+  { label: "Gorduras totais", amount: "5 g", vd: "8%" },
+  { label: "Gorduras saturadas", amount: "4 g", vd: "16%" },
+  { label: "Gorduras trans", amount: "0 g", vd: "—" },
+  { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+  { label: "Sódio", amount: "101 mg", vd: "5%" },
 ];
-const nutIogurte: NutritionRow[] = [
-  { label: "Valor energético", amount: "140 kcal", vd: "7%" },
-  { label: "Carboidratos", amount: "21 g", vd: "7%" },
-  { label: "Açúcares totais", amount: "18 g", vd: "—" },
-  { label: "Proteínas", amount: "5,6 g", vd: "11%" },
-  { label: "Gorduras totais", amount: "3,4 g", vd: "5%" },
-  { label: "Cálcio", amount: "190 mg", vd: "19%" },
+// Iogurte integral garrafa 200 g: morango, ameixa e banana/mamão/maçã
+const nutGarrafa: NutritionRow[] = [
+  { label: "Valor energético", amount: "196 kcal", vd: "10%" },
+  { label: "Carboidratos", amount: "30 g", vd: "10%" },
+  { label: "Açúcares totais", amount: "32 g", vd: "—" },
+  { label: "Açúcares adicionados", amount: "22 g", vd: "36%" },
+  { label: "Proteínas", amount: "6 g", vd: "12%" },
+  { label: "Gorduras totais", amount: "6 g", vd: "9%" },
+  { label: "Gorduras saturadas", amount: "2,2 g", vd: "11%" },
+  { label: "Gorduras trans", amount: "0 g", vd: "0%" },
+  { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+  { label: "Sódio", amount: "114 mg", vd: "6%" },
+  { label: "Cálcio", amount: "189 mg", vd: "19%" },
 ];
+// shortcut: Diet ConLeite sem tabela no PDF, valores ilustrativos até chegar o rótulo
 const nutDiet: NutritionRow[] = [
   { label: "Valor energético", amount: "75 kcal", vd: "4%" },
   { label: "Carboidratos", amount: "9,5 g", vd: "3%" },
@@ -139,8 +150,18 @@ export const products: Product[] = [
     accent: "pink",
     badges: ["Inspeção Federal", "950 g · 450 g · 180 g · 110 g", "Agite antes de beber"],
     uses: ["Lancheira escolar", "Lanche da tarde", "Vitamina com banana"],
-    servingSize: "200 g",
-    nutrition: nutBebida,
+    servingSize: "200 g (1 copo)",
+    nutrition: [
+      { label: "Valor energético", amount: "124 kcal = 521 kJ", vd: "6%" },
+      { label: "Carboidratos", amount: "22 g", vd: "7%" },
+      { label: "Proteínas", amount: "3,1 g", vd: "4%" },
+      { label: "Gorduras totais", amount: "2,6 g", vd: "5%" },
+      { label: "Gorduras saturadas", amount: "1,6 g", vd: "7%" },
+      { label: "Gorduras trans", amount: "0 g", vd: "—" },
+      { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+      { label: "Cálcio", amount: "79 mg", vd: "8%" },
+      { label: "Sódio", amount: "99 mg", vd: "4%" },
+    ],
   },
   {
     id: "bebida-ameixa",
@@ -155,8 +176,8 @@ export const products: Product[] = [
     accent: "red",
     badges: ["Inspeção Federal", "950 g · 450 g · 180 g · 110 g", "Agite antes de beber"],
     uses: ["Lanche da tarde", "Com granola", "Geladinha"],
-    servingSize: "200 g",
-    nutrition: nutBebida,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutPolpa,
   },
   {
     id: "bebida-maca-mamao-banana",
@@ -171,8 +192,8 @@ export const products: Product[] = [
     accent: "amber",
     badges: ["Inspeção Federal", "950 g · 450 g · 180 g · 110 g", "Agite antes de beber"],
     uses: ["Café da manhã", "Lancheira", "Com aveia"],
-    servingSize: "200 g",
-    nutrition: nutBebida,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutGarrafa,
   },
   {
     id: "bebida-graviola",
@@ -187,8 +208,8 @@ export const products: Product[] = [
     accent: "green",
     badges: ["Inspeção Federal", "950 g · 450 g · 180 g", "Agite antes de beber"],
     uses: ["Lanche da tarde", "Geladinha", "Sobremesa rápida"],
-    servingSize: "200 g",
-    nutrition: nutBebida,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutPolpa,
   },
   {
     id: "bebida-coco",
@@ -203,8 +224,8 @@ export const products: Product[] = [
     accent: "green",
     badges: ["Inspeção Federal", "450 g · 180 g", "Agite antes de beber"],
     uses: ["Lanche da tarde", "Lancheira", "Sobremesa rápida"],
-    servingSize: "200 g",
-    nutrition: nutBebida,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutPolpa,
   },
   {
     id: "iogurte-morango",
@@ -218,8 +239,8 @@ export const products: Product[] = [
     accent: "red",
     badges: ["Inspeção Federal", "950 g", "Fonte de cálcio"],
     uses: ["Café da manhã", "Com cereais", "Smoothies"],
-    servingSize: "200 g",
-    nutrition: nutIogurte,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutGarrafa,
   },
   {
     id: "iogurte-morango-zero",
@@ -233,8 +254,27 @@ export const products: Product[] = [
     accent: "blue",
     badges: ["Inspeção Federal", "950 g", "Zero lactose", "Sem glúten"],
     uses: ["Dietas com restrição", "Pós-treino", "Com frutas"],
-    servingSize: "200 g",
-    nutrition: nutDiet,
+    servingSize: "200 g (1 copo)",
+    nutrition: [
+      { label: "Valor energético", amount: "52 kcal", vd: "3%" },
+      { label: "Carboidratos", amount: "7,8 g", vd: "3%" },
+      { label: "Açúcares totais", amount: "6 g", vd: "—" },
+      { label: "Açúcares adicionados", amount: "0 g", vd: "0%" },
+      { label: "Lactose", amount: "0 g", vd: "—" },
+      { label: "Galactose", amount: "3 g", vd: "—" },
+      { label: "Glicose", amount: "3 g", vd: "—" },
+      { label: "Frutose", amount: "0 g", vd: "—" },
+      { label: "Proteínas", amount: "5,2 g", vd: "10%" },
+      { label: "Gorduras totais", amount: "0 g", vd: "0%" },
+      { label: "Gorduras saturadas", amount: "0 g", vd: "0%" },
+      { label: "Gorduras trans", amount: "0 g", vd: "0%" },
+      { label: "Gorduras monoinsaturadas", amount: "0 g", vd: "0%" },
+      { label: "Gorduras poli-insaturadas", amount: "0 g", vd: "0%" },
+      { label: "Colesterol", amount: "0 g", vd: "0%" },
+      { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+      { label: "Sódio", amount: "78 mg", vd: "4%" },
+      { label: "Cálcio", amount: "360 mg", vd: "36%" },
+    ],
   },
   {
     id: "iogurte-salada-frutas",
@@ -248,8 +288,8 @@ export const products: Product[] = [
     accent: "amber",
     badges: ["Inspeção Federal", "950 g", "Fonte de cálcio"],
     uses: ["Café da manhã", "Com granola", "Lanche da tarde"],
-    servingSize: "200 g",
-    nutrition: nutIogurte,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutPolpa,
   },
   {
     id: "iogurte-ameixa",
@@ -263,8 +303,8 @@ export const products: Product[] = [
     accent: "red",
     badges: ["Inspeção Federal", "950 g", "Fonte de cálcio"],
     uses: ["Café da manhã", "Com aveia", "Sobremesa"],
-    servingSize: "200 g",
-    nutrition: nutIogurte,
+    servingSize: "200 g (1 copo)",
+    nutrition: nutGarrafa,
   },
   {
     id: "iogurte-natural",
@@ -278,13 +318,16 @@ export const products: Product[] = [
     accent: "blue",
     badges: ["Inspeção Federal", "500 g", "0% gordura", "Sem açúcar adicionado"],
     uses: ["Molhos e cremes", "Com mel e frutas", "Receitas fit"],
-    servingSize: "170 g (1 pote)",
+    servingSize: "200 g (1 copo)",
     nutrition: [
-      { label: "Valor energético", amount: "70 kcal", vd: "4%" },
-      { label: "Carboidratos", amount: "8,0 g", vd: "3%" },
-      { label: "Proteínas", amount: "6,5 g", vd: "13%" },
+      { label: "Valor energético", amount: "80 kcal = 336 kJ", vd: "4%" },
+      { label: "Carboidratos", amount: "10 g", vd: "4%" },
+      { label: "Proteínas", amount: "6 g", vd: "20%" },
       { label: "Gorduras totais", amount: "0 g", vd: "0%" },
-      { label: "Cálcio", amount: "210 mg", vd: "21%" },
+      { label: "Gorduras saturadas", amount: "0 g", vd: "0%" },
+      { label: "Gorduras trans", amount: "0 g", vd: "—" },
+      { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+      { label: "Sódio", amount: "105 mg", vd: "5%" },
     ],
   },
   {
