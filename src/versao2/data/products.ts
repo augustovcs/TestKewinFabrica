@@ -1,7 +1,7 @@
 // === Catálogo Laticínios Conquista ===
 // Produtos e embalagens conferidos nas fotos de estúdio (rótulos reais).
-// A TABELA NUTRICIONAL é ilustrativa e deve ser substituída pelos valores
-// oficiais de cada rótulo.
+// Tabelas nutricionais transcritas do PDF "Tabelas Nutricionais - Conleite"
+// (rótulos oficiais). Exceção: linha Diet ConLeite, ainda ilustrativa.
 
 export type Category = "Leite" | "Bebida Láctea" | "Iogurte" | "Queijo" | "Ricota" | "Derivado";
 
