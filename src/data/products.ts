@@ -1,7 +1,7 @@
 // === Catálogo Laticínios Conquista ===
 // Produtos e embalagens conferidos nas fotos de estúdio (rótulos reais).
 // Tabelas nutricionais transcritas do PDF "Tabelas Nutricionais - Conleite"
-// (rótulos oficiais).
+// (rótulos oficiais). Exceção: linha Diet ConLeite, ainda ilustrativa.
 
 export type Category = "Leite" | "Bebida Láctea" | "Iogurte" | "Queijo" | "Ricota" | "Derivado";
 
@@ -67,6 +67,15 @@ const nutGarrafa: NutritionRow[] = [
   { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
   { label: "Sódio", amount: "114 mg", vd: "6%" },
   { label: "Cálcio", amount: "189 mg", vd: "19%" },
+];
+// shortcut: Diet ConLeite sem tabela no PDF, valores ilustrativos até chegar o rótulo
+const nutDiet: NutritionRow[] = [
+  { label: "Valor energético", amount: "75 kcal", vd: "4%" },
+  { label: "Carboidratos", amount: "9,5 g", vd: "3%" },
+  { label: "Açúcares adicionados", amount: "0 g", vd: "0%" },
+  { label: "Proteínas", amount: "7,0 g", vd: "14%" },
+  { label: "Gorduras totais", amount: "0,8 g", vd: "1%" },
+  { label: "Cálcio", amount: "220 mg", vd: "22%" },
 ];
 
 export const products: Product[] = [
@@ -316,6 +325,36 @@ export const products: Product[] = [
       { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
       { label: "Sódio", amount: "105 mg", vd: "5%" },
     ],
+  },
+  {
+    id: "iogurte-diet-morango",
+    brand: "ConLeite",
+    name: "Iogurte Diet Morango",
+    category: "Iogurte",
+    tagline: "Diet, desnatado e com sabor de morango.",
+    description:
+      "Iogurte diet ConLeite com preparado de fruta desnatado sabor morango. Garrafinha de 180 g, ideal para levar na bolsa.",
+    image: img("iogurte-diet-morango-180"),
+    accent: "pink",
+    badges: ["Inspeção Federal", "180 g", "Diet"],
+    uses: ["Lanche rápido", "Pós-treino", "Dietas"],
+    servingSize: "180 g (1 unidade)",
+    nutrition: nutDiet,
+  },
+  {
+    id: "iogurte-diet-mamao-maca-banana",
+    brand: "ConLeite",
+    name: "Iogurte Diet Mamão, Maçã e Banana",
+    category: "Iogurte",
+    tagline: "Diet com três frutas.",
+    description:
+      "Iogurte diet ConLeite com preparado de mamão, maçã e banana. Garrafinha de 180 g, leve e prática.",
+    image: img("iogurte-diet-mamao-maca-banana-180"),
+    accent: "amber",
+    badges: ["Inspeção Federal", "180 g", "Diet"],
+    uses: ["Lanche rápido", "Café da manhã", "Dietas"],
+    servingSize: "180 g (1 unidade)",
+    nutrition: nutDiet,
   },
   {
     id: "queijo-mussarela",
