@@ -14,11 +14,12 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 // Mundo color-coded — tile por categoria + cor da aba ativa
 const catStyle: Record<Category, { tile: string; tab: string }> = {
-  "Leites":        { tile: "from-brand-green-tint to-white", tab: "bg-brand-green text-white" },
+  "Leite":        { tile: "from-brand-green-tint to-white", tab: "bg-brand-green text-white" },
   "Bebida Láctea": { tile: "from-brand-pink-tint to-white",  tab: "bg-brand-pink text-white" },
-  "Iogurtes":      { tile: "from-brand-lime-tint to-white",  tab: "bg-brand-lime text-brand-green-ink" },
-  "Queijos":       { tile: "from-[#fdf3d7] to-white",        tab: "bg-brand-green-deep text-white" },
-  "Derivados":     { tile: "from-line-manteiga/20 to-white", tab: "bg-line-manteiga text-[#5c4708]" },
+  "Iogurte":      { tile: "from-brand-lime-tint to-white",  tab: "bg-brand-lime text-brand-green-ink" },
+  "Queijo":       { tile: "from-[#fdf3d7] to-white",        tab: "bg-brand-green-deep text-white" },
+  "Ricota":       { tile: "from-brand-green-tint to-white", tab: "bg-brand-green text-white" },
+  "Derivado":     { tile: "from-line-manteiga/20 to-white", tab: "bg-line-manteiga text-[#5c4708]" },
 };
 
 export default function ProductCatalog() {
