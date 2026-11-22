@@ -136,11 +136,15 @@ export const products: Product[] = [
     category: "Bebida Láctea",
     tagline: "A queridinha da lancheira, com sabor de morango.",
     description:
-      "Bebida láctea fermentada com preparado de morango. Cremosa e gostosa, é só agitar antes de beber. Do garrafão da família ao squeeze de 110 g da lancheira.",
+      "Bebida láctea fermentada com preparado de morango. Cremosa e gostosa, é só agitar antes de beber. Do garrafão e do saquinho de 900 g da família ao squeeze de 110 g da lancheira.",
     image: img("bebida-morango-950"),
-    variants: sizes("bebida-morango", ["950", "450", "180", "110"]),
+    variants: [
+      ...sizes("bebida-morango", ["950"]),
+      { label: "900 g saco", image: img("bebida-morango-900") },
+      ...sizes("bebida-morango", ["450", "180", "110"]),
+    ],
     accent: "pink",
-    badges: ["Inspeção Federal", "950 g · 450 g · 180 g · 110 g", "Agite antes de beber"],
+    badges: ["Inspeção Federal", "950 g · 900 g saco · 450 g · 180 g · 110 g", "Agite antes de beber"],
     uses: ["Lancheira escolar", "Lanche da tarde", "Vitamina com banana"],
     servingSize: "200 g (1 copo)",
     nutrition: [
