@@ -324,14 +324,10 @@ export const products: Product[] = [
     category: "Queijo",
     tagline: "Derrete bonito, puxa fio, agrada todo mundo.",
     description:
-      "Queijo mussarela Conquista em barra (para fatiar e ralar) ou no formato redondo. O queijo da pizza, do misto quente e do lanche da família.",
-    image: img("queijo-mussarela-barra"),
-    variants: [
-      { label: "Barra", image: img("queijo-mussarela-barra") },
-      { label: "Redondo", image: img("queijo-mussarela-redondo") },
-    ],
+      "Queijo mussarela Conquista no formato redondo, para fatiar e ralar. O queijo da pizza, do misto quente e do lanche da família.",
+    image: img("queijo-mussarela-redondo"),
     accent: "green",
-    badges: ["Inspeção Federal", "Barra e redondo", "Pesado na hora"],
+    badges: ["Inspeção Federal", "Redondo", "Pesado na hora"],
     uses: ["Pizza e lasanha", "Misto quente", "Tábua de frios"],
     servingSize: "30 g (1 fatia)",
     nutrition: [
@@ -354,12 +350,8 @@ export const products: Product[] = [
     category: "Queijo",
     tagline: "Sabor marcante, textura firme, sem lactose.",
     description:
-      "Queijo Tropical Conquista, curado no ponto, de sabor levemente adocicado e textura firme. Não contém lactose nem glúten. Inteiro ou fracionado, pesado na presença do consumidor.",
-    image: img("queijo-tropical-inteiro"),
-    variants: [
-      { label: "Inteiro", image: img("queijo-tropical-inteiro") },
-      { label: "Fracionado", image: img("queijo-tropical-fracionado") },
-    ],
+      "Queijo Tropical Conquista, curado no ponto, de sabor levemente adocicado e textura firme. Não contém lactose nem glúten. Fracionado e pesado na presença do consumidor.",
+    image: img("queijo-tropical-fracionado"),
     accent: "amber",
     badges: ["Inspeção Federal", "Sem lactose", "Sem glúten"],
     uses: ["Com goiabada", "Tábua de queijos", "Ralado na tapioca"],
