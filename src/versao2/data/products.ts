@@ -77,14 +77,6 @@ const nutDiet: NutritionRow[] = [
   { label: "Gorduras totais", amount: "0,8 g", vd: "1%" },
   { label: "Cálcio", amount: "220 mg", vd: "22%" },
 ];
-const nutQueijo: NutritionRow[] = [
-  { label: "Valor energético", amount: "96 kcal", vd: "5%" },
-  { label: "Carboidratos", amount: "0,8 g", vd: "0%" },
-  { label: "Proteínas", amount: "6,9 g", vd: "14%" },
-  { label: "Gorduras totais", amount: "7,2 g", vd: "11%" },
-  { label: "Gorduras saturadas", amount: "4,5 g", vd: "20%" },
-  { label: "Sódio", amount: "180 mg", vd: "9%" },
-];
 
 export const products: Product[] = [
   {
@@ -376,8 +368,19 @@ export const products: Product[] = [
     accent: "green",
     badges: ["Inspeção Federal", "Barra e redondo", "Pesado na hora"],
     uses: ["Pizza e lasanha", "Misto quente", "Tábua de frios"],
-    servingSize: "30 g (1 ½ fatia)",
-    nutrition: nutQueijo,
+    servingSize: "30 g (1 fatia)",
+    nutrition: [
+      { label: "Valor energético", amount: "115 kcal", vd: "6%" },
+      { label: "Carboidratos", amount: "0 g", vd: "0%" },
+      { label: "Açúcares totais", amount: "0 g", vd: "—" },
+      { label: "Açúcares adicionados", amount: "0 g", vd: "0%" },
+      { label: "Proteínas", amount: "10 g", vd: "20%" },
+      { label: "Gorduras totais", amount: "8,4 g", vd: "13%" },
+      { label: "Gorduras saturadas", amount: "5,5 g", vd: "28%" },
+      { label: "Gorduras trans", amount: "0 g", vd: "0%" },
+      { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+      { label: "Sódio", amount: "129 mg", vd: "6%" },
+    ],
   },
   {
     id: "queijo-tropical",
@@ -396,7 +399,20 @@ export const products: Product[] = [
     badges: ["Inspeção Federal", "Sem lactose", "Sem glúten"],
     uses: ["Com goiabada", "Tábua de queijos", "Ralado na tapioca"],
     servingSize: "30 g (1 fatia)",
-    nutrition: nutQueijo,
+    nutrition: [
+      { label: "Valor energético", amount: "80 kcal", vd: "4%" },
+      { label: "Carboidratos", amount: "1 g", vd: "0%" },
+      { label: "Açúcares totais", amount: "0 g", vd: "—" },
+      { label: "Açúcares adicionados", amount: "0 g", vd: "0%" },
+      { label: "Proteínas", amount: "6 g", vd: "12%" },
+      { label: "Gorduras totais", amount: "6 g", vd: "9%" },
+      { label: "Gorduras saturadas", amount: "4 g", vd: "20%" },
+      { label: "Gorduras trans", amount: "0 g", vd: "0%" },
+      { label: "Fibra alimentar", amount: "0 g", vd: "0%" },
+      // PDF traz 155 mg num rótulo e 115 mg noutro; 383 mg/100 g → 115 mg em 30 g
+      { label: "Sódio", amount: "115 mg", vd: "6%" },
+      { label: "Cálcio", amount: "155 mg", vd: "16%" },
+    ],
   },
   {
     id: "ricota",
