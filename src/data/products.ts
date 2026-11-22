@@ -3,7 +3,7 @@
 // A TABELA NUTRICIONAL é ilustrativa e deve ser substituída pelos valores
 // oficiais de cada rótulo.
 
-export type Category = "Leites" | "Bebida Láctea" | "Iogurtes" | "Queijos" | "Derivados";
+export type Category = "Leite" | "Bebida Láctea" | "Iogurte" | "Queijo" | "Ricota" | "Derivado";
 
 export interface NutritionRow {
   label: string;
@@ -36,7 +36,7 @@ export interface Product {
   nutrition: NutritionRow[];
 }
 
-export const categories: Category[] = ["Leites", "Bebida Láctea", "Iogurtes", "Queijos", "Derivados"];
+export const categories: Category[] = ["Leite", "Bebida Láctea", "Iogurte", "Queijo", "Ricota", "Derivado"];
 
 const img = (f: string) => `/produtos/studio/${f}.webp`;
 const sizes = (id: string, list: string[]): Variant[] =>
@@ -80,7 +80,7 @@ export const products: Product[] = [
     id: "leite-integral",
     brand: "Laticínios Conquista",
     name: "Leite Pasteurizado Integral",
-    category: "Leites",
+    category: "Leite",
     tagline: "O leite de verdade da família conquistense.",
     description:
       "Leite pasteurizado integral Conquista, com o sabor encorpado e cremoso de sempre. Processado na nossa unidade em Vitória da Conquista e distribuído fresquinho para a região.",
@@ -102,7 +102,7 @@ export const products: Product[] = [
     id: "leite-desnatado",
     brand: "Laticínios Conquista",
     name: "Leite Pasteurizado Desnatado",
-    category: "Leites",
+    category: "Leite",
     tagline: "Leveza com todo o cálcio que a família precisa.",
     description:
       "Leite pasteurizado desnatado Conquista: zero gordura, mantendo as proteínas e o cálcio. Sabor suave e equilibrado para quem cuida da alimentação sem abrir mão do leite de verdade.",
@@ -203,7 +203,7 @@ export const products: Product[] = [
     id: "iogurte-morango",
     brand: "Laticínios Conquista",
     name: "Iogurte Morango",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Cremoso, com o sabor de morango que todo mundo ama.",
     description:
       "Iogurte Conquista sabor morango, fonte de cálcio e cremoso de verdade. Garrafa de 950 g para a família toda.",
@@ -218,7 +218,7 @@ export const products: Product[] = [
     id: "iogurte-morango-zero",
     brand: "Laticínios Conquista",
     name: "Iogurte Morango Triplo Zero",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Zero açúcar adicionado, zero lactose, zero gordura.",
     description:
       "Iogurte desnatado com preparado de morango para dietas com restrição de lactose. 0% de adição de açúcares, 0% lactose e 0% gordura, sem glúten. Todo o sabor, sem culpa.",
@@ -233,7 +233,7 @@ export const products: Product[] = [
     id: "iogurte-salada-frutas",
     brand: "Laticínios Conquista",
     name: "Iogurte Salada de Frutas",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Uma salada de frutas cremosa no copo.",
     description:
       "Iogurte Conquista sabor salada de frutas, fonte de cálcio e muito cremoso. Garrafa de 950 g.",
@@ -248,7 +248,7 @@ export const products: Product[] = [
     id: "iogurte-ameixa",
     brand: "Laticínios Conquista",
     name: "Iogurte Ameixa",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "O clássico de ameixa, cremoso e encorpado.",
     description:
       "Iogurte Conquista sabor ameixa, fonte de cálcio, com textura encorpada. Garrafa de 950 g.",
@@ -263,7 +263,7 @@ export const products: Product[] = [
     id: "iogurte-natural",
     brand: "ConLeite",
     name: "Iogurte Natural Desnatado",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Só leite e fermento. Do jeito que deve ser.",
     description:
       "Iogurte natural desnatado ConLeite com apenas 2 ingredientes: leite e fermento lácteo. 0% de adição de açúcares e 0% de gorduras totais. Versátil para receitas doces e salgadas, ou puro com mel e frutas.",
@@ -284,7 +284,7 @@ export const products: Product[] = [
     id: "iogurte-diet-morango",
     brand: "ConLeite",
     name: "Iogurte Diet Morango",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Diet, desnatado e com sabor de morango.",
     description:
       "Iogurte diet ConLeite com preparado de fruta desnatado sabor morango. Garrafinha de 180 g, ideal para levar na bolsa.",
@@ -299,7 +299,7 @@ export const products: Product[] = [
     id: "iogurte-diet-mamao-maca-banana",
     brand: "ConLeite",
     name: "Iogurte Diet Mamão, Maçã e Banana",
-    category: "Iogurtes",
+    category: "Iogurte",
     tagline: "Diet com três frutas.",
     description:
       "Iogurte diet ConLeite com preparado de mamão, maçã e banana. Garrafinha de 180 g, leve e prática.",
@@ -314,7 +314,7 @@ export const products: Product[] = [
     id: "queijo-mussarela",
     brand: "Laticínios Conquista",
     name: "Queijo Mussarela",
-    category: "Queijos",
+    category: "Queijo",
     tagline: "Derrete bonito, puxa fio, agrada todo mundo.",
     description:
       "Queijo mussarela Conquista em barra (para fatiar e ralar) ou no formato redondo. O queijo da pizza, do misto quente e do lanche da família.",
@@ -333,7 +333,7 @@ export const products: Product[] = [
     id: "queijo-tropical",
     brand: "Laticínios Conquista",
     name: "Queijo Tropical",
-    category: "Queijos",
+    category: "Queijo",
     tagline: "Sabor marcante, textura firme, sem lactose.",
     description:
       "Queijo Tropical Conquista, curado no ponto, de sabor levemente adocicado e textura firme. Não contém lactose nem glúten. Inteiro ou fracionado, pesado na presença do consumidor.",
@@ -352,7 +352,7 @@ export const products: Product[] = [
     id: "ricota",
     brand: "Laticínios Conquista",
     name: "Ricota Fresca",
-    category: "Queijos",
+    category: "Ricota",
     tagline: "Leve, macia e cheia de possibilidades.",
     description:
       "Ricota fresca Conquista, de massa leve e sabor suave. Vai bem em recheios, pastas, saladas e receitas doces.",
@@ -373,7 +373,7 @@ export const products: Product[] = [
     id: "requeijao",
     brand: "Laticínios Conquista",
     name: "Requeijão Cremoso Tradicional",
-    category: "Derivados",
+    category: "Derivado",
     tagline: "Cremoso de passar e de rechear.",
     description:
       "Requeijão cremoso tradicional Conquista, no copo de 180 g. Perfeito no pão, na torrada e nas receitas que pedem cremosidade.",
@@ -395,7 +395,7 @@ export const products: Product[] = [
     id: "manteiga",
     brand: "ConLeite",
     name: "Manteiga com Sal",
-    category: "Derivados",
+    category: "Derivado",
     tagline: "Textura e sabor da verdadeira manteiga.",
     description:
       "Manteiga de primeira qualidade com sal ConLeite, produzida a partir do creme do nosso leite. Aquele aroma e sabor que transformam o pão da manhã num momento especial.",
