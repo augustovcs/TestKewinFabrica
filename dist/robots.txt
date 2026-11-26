@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /versao2/
+
+Sitemap: https://laticiniosconquista.com.br/sitemap-index.xml
