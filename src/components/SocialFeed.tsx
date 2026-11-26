@@ -29,7 +29,7 @@ export default function SocialFeed({ handle, instagram }: Props) {
         <div className="min-w-0">
           <iframe
             src="https://embedsocial.com/api/pro_hashtag/739d07504d0162fb98113b435b0e7b755b7a99d6"
-            className="block w-[900px] max-w-[420px] lg:max-w-none h-[740px] lg:h-[600px] border-0"
+            className="block w-full lg:w-[900px] h-[740px] lg:h-[600px] border-0"
             scrolling="no"
             loading="lazy"
             title="Feed do Instagram"

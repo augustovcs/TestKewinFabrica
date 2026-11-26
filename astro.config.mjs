@@ -7,11 +7,11 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://conleite.com.br',
+  site: 'https://laticiniosconquista.com.br',
 
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), sitemap()]
+  integrations: [react(), sitemap({ filter: (page) => !page.includes('/versao2/') })]
 });

@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /versao2/
 
-Sitemap: https://conleite.com.br/sitemap-index.xml
+Sitemap: https://laticiniosconquista.com.br/sitemap-index.xml

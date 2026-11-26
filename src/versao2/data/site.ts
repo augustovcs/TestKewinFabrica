@@ -10,7 +10,7 @@ export const site = {
   tagline: "Do campo para a sua mesa",
   description:
     "Laticínios Conquista — leite, bebida láctea, iogurte e manteiga produzidos em Vitória da Conquista, BA. Qualidade que se põe à mesa da família.",
-  url: "https://conleite.com.br",
+  url: "https://laticiniosconquista.com.br",
   email: "contato@conleite.com.br",
   phones: [
     { label: "(77) 3424-2285", tel: "+557734242285", whatsapp: true },

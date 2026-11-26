@@ -1,10 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { products } from "../data/products";
+import { products as all } from "../data/products";
 
-const EASE = "transform .45s cubic-bezier(.22,1,.36,1)";
+// novidades: iogurtes novos, nessa ordem
+const NEW_IDS = ["iogurte-morango-zero", "iogurte-morango", "iogurte-ameixa", "iogurte-salada-frutas"];
+const products = [
+  ...NEW_IDS.map((id) => all.find((p) => p.id === id)!),
+  ...all.filter((p) => !NEW_IDS.includes(p.id)),
+];
+
 // abaixo desse deslocamento o gesto conta como clique, não como arrasto
 const DRAG_SLOP = 6;
+const SPEED = 70; // esteira: px por segundo no mobile, sem parar
+const SPEED_DESKTOP = 130; // tela larga mostra mais cards, então anda mais rápido
+// 2 cópias da lista → quando a 1ª sai inteira pela esquerda, volta uma volta sem emenda visível
+const loop = [...products, ...products];
 
 // Shape do card (Batavo): rounded-rect com degrau no canto inferior direito
 const CARD_PATH =
@@ -14,74 +24,91 @@ export default function ProductShowcase() {
   const wrap = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const cards = useRef<(HTMLAnchorElement | null)[]>([]);
-  const [index, setIndex] = useState(1); // começa no 2º card
-  const drag = useRef<{ startX: number; base: number; dx: number } | null>(null);
+  const x = useRef<number | null>(null); // posição atual do track (px)
+  const target = useRef<number | null>(null); // destino das setas (anima até lá)
+  const drag = useRef<{ startX: number; base: number } | null>(null);
   const dragged = useRef(false); // arrastou? então o clique no card não navega
+  const hover = useRef(false); // mouse em cima de um card pausa a esteira
 
-  // deslocamento do track que deixa o card `i` centralizado
-  const offsetFor = useCallback((i: number) => {
-    const w = wrap.current, a = cards.current[i];
-    return w && a ? w.clientWidth / 2 - (a.offsetLeft + a.offsetWidth / 2) : 0;
-  }, []);
-
-  // Carrossel por transform (SEM scroll → nada corta os produtos que transbordam).
-  // A escala vai numa CSS var p/ o hover poder somar um --lift por cima.
-  const layout = useCallback(() => {
-    const tk = track.current;
-    if (!tk) return;
-    tk.style.transition = EASE;
-    tk.style.transform = `translateX(${offsetFor(index)}px)`;
-    cards.current.forEach((c, i) => {
-      if (!c) return;
-      const t = Math.max(0, 1 - Math.abs(i - index) * 0.55);
-      c.style.setProperty("--scale", String(0.84 + 0.26 * t));
-      c.style.zIndex = String(100 - Math.abs(i - index));
-      c.style.opacity = String(0.82 + 0.18 * t);
-      c.style.setProperty("--glow", i === index ? "1" : "0");
-    });
-  }, [index, offsetFor]);
+  // medidas: passo entre cards, largura de uma volta e x que centraliza o card 0
+  const metrics = () => {
+    const w = wrap.current, c0 = cards.current[0], c1 = cards.current[1];
+    if (!w || !c0 || !c1) return null;
+    const step = c1.offsetLeft - c0.offsetLeft;
+    return { step, lap: step * products.length, zero: w.clientWidth / 2 - (c0.offsetLeft + c0.offsetWidth / 2) };
+  };
 
   useEffect(() => {
-    layout();
-    window.addEventListener("resize", layout);
-    return () => window.removeEventListener("resize", layout);
-  }, [layout]);
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const wide = matchMedia("(min-width: 1024px)");
+    let raf = 0, last = performance.now();
+    const frame = (now: number) => {
+      const dt = Math.min(now - last, 100) / 1000;
+      last = now;
+      const m = metrics(), tk = track.current;
+      if (m && tk) {
+        if (x.current === null) x.current = m.zero;
+        if (!drag.current) {
+          if (target.current !== null) {
+            x.current += (target.current - x.current) * Math.min(1, dt * 8);
+            if (Math.abs(target.current - x.current) < 0.5) target.current = null;
+          } else if (!hover.current && !still) x.current -= (wide.matches ? SPEED_DESKTOP : SPEED) * dt;
+        }
+        // mantém x dentro de uma volta (o salto é invisível porque a 2ª cópia é idêntica)
+        const shift = x.current > m.zero ? -m.lap : x.current < m.zero - m.lap ? m.lap : 0;
+        if (shift) {
+          x.current += shift;
+          if (target.current !== null) target.current += shift;
+          if (drag.current) drag.current.base += shift;
+        }
+        tk.style.transform = `translateX(${x.current}px)`;
+        // escala/brilho pela distância ao centro, medida em cards
+        const center = wrap.current!.clientWidth / 2 - x.current;
+        cards.current.forEach((c) => {
+          if (!c) return;
+          const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center) / m.step;
+          const t = Math.max(0, 1 - d * 0.55);
+          c.style.setProperty("--scale", String(0.84 + 0.26 * t));
+          c.style.zIndex = String(100 - Math.round(d * 10));
+          c.style.opacity = String(0.82 + 0.18 * t);
+          c.style.setProperty("--glow", String(Math.max(0, 1 - d * 2)));
+        });
+      }
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
-  const go = (d: number) => setIndex((i) => Math.min(products.length - 1, Math.max(0, i + d)));
+  // setas: vai pro card vizinho do que está mais perto do centro
+  const go = (dir: number) => {
+    const m = metrics();
+    if (!m || x.current === null) return;
+    const i = Math.round((m.zero - (target.current ?? x.current)) / m.step) + dir;
+    target.current = m.zero - i * m.step;
+  };
 
   // --- arrastar para o lado (Pointer Events nativos, sem lib de carrossel) ---
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
-    drag.current = { startX: e.clientX, base: offsetFor(index), dx: 0 };
+    target.current = null;
+    drag.current = { startX: e.clientX, base: x.current ?? 0 };
     dragged.current = false;
     e.currentTarget.setPointerCapture(e.pointerId);
-    if (track.current) track.current.style.transition = "none";
   };
 
   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const d = drag.current, tk = track.current;
-    if (!d || !tk) return;
-    d.dx = e.clientX - d.startX;
-    if (Math.abs(d.dx) > DRAG_SLOP) dragged.current = true;
-    tk.style.transform = `translateX(${d.base + d.dx}px)`;
+    const d = drag.current;
+    if (!d) return;
+    const dx = e.clientX - d.startX;
+    if (Math.abs(dx) > DRAG_SLOP) dragged.current = true;
+    x.current = d.base + dx;
   };
 
+  // soltou: a esteira continua dali mesmo
   const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    const d = drag.current, w = wrap.current;
     drag.current = null;
     if (e.currentTarget.hasPointerCapture(e.pointerId)) e.currentTarget.releasePointerCapture(e.pointerId);
-    if (!d || !w) return;
-    // encaixa no card mais próximo do centro na posição em que soltou
-    const center = w.clientWidth / 2 - (d.base + d.dx);
-    let nearest = index, best = Infinity;
-    cards.current.forEach((c, i) => {
-      if (!c) return;
-      const dist = Math.abs(c.offsetLeft + c.offsetWidth / 2 - center);
-      if (dist < best) { best = dist; nearest = i; }
-    });
-    // se o índice não muda o efeito não roda, então recoloca no lugar aqui
-    if (nearest === index) layout();
-    else setIndex(nearest);
   };
 
   return (
@@ -89,25 +116,29 @@ export default function ProductShowcase() {
       {/* wrapper corta só na horizontal; vertical transborda (produtos flutuantes sem corte) */}
       <div
         ref={wrap}
-        className="overflow-x-clip pt-28 pb-6 cursor-grab active:cursor-grabbing select-none touch-pan-y"
+        className="overflow-x-clip pt-12 lg:pt-28 pb-6 cursor-grab active:cursor-grabbing select-none touch-pan-y"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
-        <div ref={track} className="flex gap-4 will-change-transform" style={{ transition: EASE }}>
-          {products.map((p, i) => (
+        <div ref={track} className="flex gap-4 will-change-transform">
+          {loop.map((p, i) => (
             <a
               ref={(n) => { cards.current[i] = n; }}
-              key={p.id}
+              key={`${p.id}-${i}`}
+              aria-hidden={i >= products.length || undefined}
+              tabIndex={i >= products.length ? -1 : undefined}
               href={`/catalogo#${p.id}`}
               draggable={false}
               onClick={(e) => { if (dragged.current) e.preventDefault(); }}
+              onPointerEnter={(e) => { if (e.pointerType === "mouse") hover.current = true; }}
+              onPointerLeave={() => { hover.current = false; }}
               className="cf-card group shrink-0 w-[300px] relative origin-bottom will-change-transform hover:[--lift:-14px]"
               style={{
                 aspectRatio: "547 / 832",
                 transform: "translateY(var(--lift, 0px)) scale(var(--scale, 1))",
-                transition: "transform .45s cubic-bezier(.22,1,.36,1), opacity .45s ease",
+                transition: "transform .15s linear", // curta: a escala muda a cada frame
               }}
             >
               {/* glow difuso atrás do card ativo */}
@@ -136,7 +167,7 @@ export default function ProductShowcase() {
                 draggable={false}
                 width={520}
                 height={650}
-                className="absolute left-1/2 -translate-x-1/2 -top-[15%] w-[86%] h-[62%] object-contain object-bottom drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]"
+                className="absolute left-1/2 -translate-x-1/2 -top-[6%] lg:-top-[15%] w-[86%] h-[62%] object-contain object-bottom drop-shadow-[0_18px_24px_rgba(0,0,0,0.35)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.04]"
               />
 
               {/* nome + botão no rodapé do card */}
@@ -154,7 +185,7 @@ export default function ProductShowcase() {
 
       {/* setas nuas + bicicleta */}
       <div className="flex items-center justify-center gap-8 mt-2">
-        <button onClick={() => go(-1)} aria-label="Anterior" className="text-brand-green hover:text-brand-green-deep transition-transform hover:-translate-x-0.5 disabled:opacity-30" disabled={index === 0}>
+        <button onClick={() => go(-1)} aria-label="Anterior" className="text-brand-green hover:text-brand-green-deep transition-transform hover:-translate-x-0.5">
           <ChevronLeft className="w-7 h-7" strokeWidth={2.5} />
         </button>
         <svg className="wobble w-14 h-10 text-brand-green" viewBox="0 0 64 40" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -165,7 +196,7 @@ export default function ProductShowcase() {
           <path d="M38 14 L41 10 L45 10" />
           <path d="M14 28 L20 14 L26 14" />
         </svg>
-        <button onClick={() => go(1)} aria-label="Próximo" className="text-brand-green hover:text-brand-green-deep transition-transform hover:translate-x-0.5 disabled:opacity-30" disabled={index === products.length - 1}>
+        <button onClick={() => go(1)} aria-label="Próximo" className="text-brand-green hover:text-brand-green-deep transition-transform hover:translate-x-0.5">
           <ChevronRight className="w-7 h-7" strokeWidth={2.5} />
         </button>
       </div>
